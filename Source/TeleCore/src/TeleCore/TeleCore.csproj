@@ -47,6 +47,7 @@
         <None Include="LICENSE.md" Pack="true" PackagePath=""/>
         <None Include="..\..\README.md" Pack="true" PackagePath=""/>
         <None Remove="NodeEditorFramework\**"/>
+        <None Remove="Root\Systems\FlowCore\Containers\**" />
     </ItemGroup>
 
     <!-- DLL References -->
@@ -99,10 +100,12 @@
         <Compile Remove="Data\FlowCore\Containers\Holder\IContainerHolderRoom.cs" />
         <Compile Remove="Data\FlowCore\Containers\Holder\IContainerHolderThing.cs" />
         <Compile Remove="Data\FlowCore\Containers\ValueResult.cs" />
+        <Compile Remove="Root\Systems\FlowCore\Containers\**" />
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Remove="NodeEditorFramework\**" />
+        <EmbeddedResource Remove="Root\Systems\FlowCore\Containers\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -110,12 +113,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TData\Mod\Patches\" />
-      <Folder Include="TData\RimWorld\Hediffs\" />
-      <Folder Include="TData\RimWorld\Map\" />
-      <Folder Include="TData\RimWorld\ThingComps\" />
-      <Folder Include="TData\RimWorld\UI\" />
-      <Folder Include="TData\RimWorld\World\" />
+      <Folder Include="Root\Systems\" />
     </ItemGroup>
     
 </Project>
