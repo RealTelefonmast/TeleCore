@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace TeleCore.Events;
+namespace TeleCore.Systems.Events;
 
 public struct ProjectileLaunchedArgs
 {

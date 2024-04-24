@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -10,17 +10,11 @@ public class TeleTickManager
 {
     private const float _FPSLimiter = 45.4545441f;
     private readonly Stopwatch clock = new();
-    private Action GameTickers;
-    private Action GameUITickers;
-
+    
     private float realTimeToTickThrough;
-
     private int ticksThisFrame;
-
     private int ticksThisFrameNormal;
-
-    private Action UITickers;
-
+    
     public TeleTickManager()
     {
         TLog.Message("Starting TeleTickManager!");
@@ -48,20 +42,20 @@ public class TeleTickManager
 
     public void Update()
     {
-        UpdateTick();
+        GameTick();
 
         //
         if (!GameActive) return;
         for (var i = 0; i < Current.Game.maps.Count; i++)
         {
             var map = Current.Game.maps[i].TeleCore();
-            UpdateMapTick(map);
+            MapTick(map);
             UpdateDrawMap(map);
         }
     }
 
     //TODO: Check why it ticks 4 times
-    private void UpdateMapTick(MapComponent_TeleCore map)
+    private void MapTick(MapComponent_TeleCore map)
     {
         ticksThisFrame = 0;
         if (!Paused)
@@ -88,7 +82,7 @@ public class TeleTickManager
         }
     }
 
-    private void UpdateTick()
+    private void GameTick()
     {
         if (Paused) return;
 
@@ -104,21 +98,20 @@ public class TeleTickManager
         clock.Start();
         while (realTimeToTickThrough > 0f && ticksThisFrameNormal < 2)
         {
-            if (!GamePaused) 
-                GameTickers?.Invoke();
+            if (!GamePaused)
+            {
+                GlobalUpdateEventHandler.OnGameTick();
+            }
 
-            UITickers?.Invoke();
-            GameUITickers?.Invoke();
-
-            //
+            GlobalUpdateEventHandler.OnUITick();
+            
             realTimeToTickThrough -= curTimePerTick;
             ticksThisFrameNormal++;
             CurrentTick++;
 
             if (Paused || clock.ElapsedMilliseconds > _FPSLimiter) break;
         }
-
-        //
+        
         realTimeToTickThrough = 0;
     }
 
@@ -127,30 +120,8 @@ public class TeleTickManager
         map?.TeleMapUpdate();
     }
 
-    public void ClearGameTickers()
-    {
-        GameTickers = null;
-        GameUITickers = null;
-    }
-
     public void TogglePlay()
     {
         Paused = !Paused;
-    }
-
-    //TODO: Switch to using events
-    public void RegisterUITickAction(Action action)
-    {
-        UITickers += action;
-    }
-
-    public void RegisterMapUITickAction(Action action)
-    {
-        GameUITickers += action;
-    }
-
-    public void RegisterMapTickAction(Action action)
-    {
-        GameTickers += action;
     }
 }

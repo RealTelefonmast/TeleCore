@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
-using TeleCore.Data.Events;
-using TeleCore.Events;
 using Verse;
 
 namespace TeleCore;

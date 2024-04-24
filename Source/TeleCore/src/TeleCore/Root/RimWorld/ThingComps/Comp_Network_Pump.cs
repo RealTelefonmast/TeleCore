@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TeleCore.Data.Events;
 using TeleCore.Network;
 using TeleCore.Network.Data;
 using TeleCore.Network.IO;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 

@@ -1,9 +1,8 @@
-﻿using System;
-using Verse;
+﻿using Verse;
 
-namespace TeleCore.Events;
+namespace TeleCore.Systems.Events;
 
-public class RegionStateChangedArgs : EventArgs
+public struct RegionStateChangedArgs
 {
     public Map Map { get; set; }
     public IntVec3 Cell { get; set; }

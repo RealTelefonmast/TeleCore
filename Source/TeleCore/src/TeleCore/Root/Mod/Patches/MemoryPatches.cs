@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using TeleCore.Loading;
+using TeleCore.Systems.Events;
 using Verse;
 using Verse.Profile;
 
@@ -13,7 +14,7 @@ internal static class MemoryPatches
     {
         public static void Postfix()
         {
-            StaticData.Notify_ClearingMapAndWorld();
+            StaticEventHandler.OnClearingMapAndWorld();
 
             //
             UnloadUtility.MemoryUnloadEvent?.Invoke();

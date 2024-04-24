@@ -8,11 +8,10 @@ using HarmonyLib;
 using RimWorld;
 using TeleCore.Gizmos;
 using TeleCore.Network.Bills;
-using TeleCore.Static;
 using UnityEngine;
 using Verse;
 
-namespace TeleCore;
+namespace TeleCore.Mod.Patches;
 
 internal static class UIPatches
 {

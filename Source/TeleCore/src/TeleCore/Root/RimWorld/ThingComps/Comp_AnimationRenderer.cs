@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -391,7 +392,7 @@ public class Comp_AnimationRenderer : ThingComp
         }, () => UsedRotation);
 
         //Set internal ticker for animations
-        TFind.TickManager?.RegisterMapTickAction(Ticker);
+        GlobalUpdateEventHandler.GameTick += Ticker;
 
         //Start default animation
         if (Props.defaultAnimationTag != null) renderer.Start(Props.defaultAnimationTag, true);
@@ -409,13 +410,11 @@ public class Comp_AnimationRenderer : ThingComp
 
     private void Ticker()
     {
-        //
         renderer.TickRenderer();
     }
 
     public override void PostDraw()
     {
-        //
         renderer.DrawAt(UsedDrawPos, UsedDrawSize, UsedRotation, ShouldFlip);
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TeleCore.Rooms.Updates;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -27,8 +28,8 @@ public class MapInformation_Rooms : MapInformation
         AllTrackers = new Dictionary<Room, RoomTracker>();
         allTrackers = new List<RoomTracker>();
         TrackerUpdater = new RoomTrackerUpdater(this);
-
-        TFind.TickManager.RegisterMapUITickAction(() => TrackerUpdater.Update());
+        
+        GlobalUpdateEventHandler.GameUITick += () => TrackerUpdater.Update();
     }
 
     public RoomTrackerUpdater TrackerUpdater { get; }

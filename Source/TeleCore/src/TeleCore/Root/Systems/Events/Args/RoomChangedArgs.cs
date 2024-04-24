@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TeleCore.Events;
+﻿namespace TeleCore.Systems.Events;
 
 public enum RoomChangeType
 {
@@ -9,7 +7,7 @@ public enum RoomChangeType
     Reused
 }
 
-public class RoomChangedArgs : EventArgs
+public struct RoomChangedArgs
 {
     public RoomChangeType ChangeType { get; }
     public RoomTracker RoomTracker { get; }

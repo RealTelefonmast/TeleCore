@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TeleCore.Data.Events;
-using TeleCore.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Rooms.Updates;
@@ -63,7 +62,7 @@ public class RoomTrackerUpdater
             {
                 action.Tracker.Reset();
                 action.Tracker.Notify_Reused();
-                GlobalEventHandler.OnRoomReused(new RoomChangedArgs(RoomChangeType.Reused, action.Tracker));
+                GlobalEventHandler.Rooms.OnRoomReused(new RoomChangedArgs(RoomChangeType.Reused, action.Tracker));
             }
         }
         
@@ -73,7 +72,7 @@ public class RoomTrackerUpdater
             if (action.Type == RoomChangeType.Disbanded)
             {
                 parent.Disband(action.Tracker);
-                GlobalEventHandler.OnRoomDisbanded(new RoomChangedArgs(RoomChangeType.Disbanded, action.Tracker));
+                GlobalEventHandler.Rooms.OnRoomDisbanded(new RoomChangedArgs(RoomChangeType.Disbanded, action.Tracker));
             }
         }
 
@@ -82,7 +81,7 @@ public class RoomTrackerUpdater
             if (action.Type == RoomChangeType.Created)
             {
                 action.Tracker.Init(action.Previous);
-                GlobalEventHandler.OnRoomCreated(new RoomChangedArgs(RoomChangeType.Created, action.Tracker));
+                GlobalEventHandler.Rooms.OnRoomCreated(new RoomChangedArgs(RoomChangeType.Created, action.Tracker));
             }
         }
 
@@ -98,13 +97,13 @@ public class RoomTrackerUpdater
         {
             //Ignore rooms added during delayed update scope
             if(action.Room.Dereferenced) continue;
-            GlobalEventHandler.OnRegionStateGetRoomUpdate(action);
+            GlobalEventHandler.Rooms.OnRegionStateGetRoomUpdate(action);
         }
         
         foreach (var action in _delayedCacheReset)
         {
             _trackerGrid[action.Cell.Index(parent.Map)] = null;
-            GlobalEventHandler.OnRegionStateResetRoomUpdate(action);
+            GlobalEventHandler.Rooms.OnRegionStateResetRoomUpdate(action);
         }
 
         IsWorking = false;
@@ -117,7 +116,7 @@ public class RoomTrackerUpdater
     internal void Notify_CacheDirtyCell(IntVec3 cell, Region region)
     {
         _trackerGrid[parent.Map.cellIndices.CellToIndex(cell)] = parent[region.Room];
-        GlobalEventHandler.OnRegionStateCachedRoomUpdate(new RegionStateChangedArgs
+        GlobalEventHandler.Rooms.OnRegionStateCachedRoomUpdate(new RegionStateChangedArgs
         {
             Map = parent.Map,
             Cell = cell,

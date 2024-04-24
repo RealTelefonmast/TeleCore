@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TeleCore.Systems.Events;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -104,7 +105,7 @@ public unsafe class ComputeGrid<T> : IExposable, IDisposable where T : unmanaged
     private void Constructor(Map map, Func<int, T> factory)
     {
         //Clear buffer on quit
-        ApplicationQuitUtility.RegisterQuitEvent(delegate { DataBuffer.Dispose(); });
+        StaticEventHandler.ApplicationQuitEvent += delegate { DataBuffer.Dispose(); };
 
         //
         this._map = map;

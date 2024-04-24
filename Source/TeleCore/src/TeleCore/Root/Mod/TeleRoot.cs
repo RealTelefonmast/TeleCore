@@ -1,4 +1,5 @@
 ﻿using System;
+using TeleCore.Systems.Events;
 using UnityEngine;
 
 namespace TeleCore;
@@ -36,6 +37,6 @@ public class TeleRoot : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        ApplicationQuitUtility.ApplicationQuitEvent.Invoke();
+        StaticEventHandler.ApplicationQuitEvent.Invoke();
     }
 }

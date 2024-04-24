@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Loading;
@@ -12,7 +12,7 @@ internal static class GridPatches
         private static void Postfix(TerrainGrid __instance, IntVec3 c, TerrainDef newTerr)
         {
             var previous = __instance.topGrid[__instance.map.cellIndices.CellToIndex(c)];
-            GlobalEventHandler.OnTerrainChanged(new TerrainChangedEventArgs(c, false, previous, newTerr));
+            GlobalEventHandler.Terrain.OnTerrainChanged(new TerrainChangedEventArgs(c, false, previous, newTerr));
         }
     }
 
@@ -22,7 +22,7 @@ internal static class GridPatches
         private static void Postfix(TerrainGrid __instance, IntVec3 c, TerrainDef newTerr)
         {
             var previous = __instance.underGrid[__instance.map.cellIndices.CellToIndex(c)];
-            GlobalEventHandler.OnTerrainChanged(new TerrainChangedEventArgs(c, true, previous, newTerr));
+            GlobalEventHandler.Terrain.OnTerrainChanged(new TerrainChangedEventArgs(c, true, previous, newTerr));
         }
     }
 }

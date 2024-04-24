@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore;
@@ -12,8 +12,8 @@ public class ThingGroupCacheInfo : MapInformation
 
     public ThingGroupCacheInfo(Map map) : base(map)
     {
-        GlobalEventHandler.ThingSpawned += OnRegisterPart;
-        GlobalEventHandler.ThingDespawning += OnDeregisterPart;
+        GlobalEventHandler.Things.Spawned += RegisterPart;
+        GlobalEventHandler.Things.Despawned += DeregisterPart;
     }
 
     public List<Thing> ThingsOfGroup(ThingGroupDef group)
@@ -33,7 +33,7 @@ public class ThingGroupCacheInfo : MapInformation
     }
 
     //
-    private void OnRegisterPart(ThingStateChangedEventArgs args)
+    private void RegisterPart(ThingStateChangedEventArgs args)
     {
         var thing = args.Thing;
         if (thing.def.HasTeleExtension(out var extension))
@@ -41,7 +41,7 @@ public class ThingGroupCacheInfo : MapInformation
                 RegisterThingGroup(group, thing);
     }
 
-    private void OnDeregisterPart(ThingStateChangedEventArgs args)
+    private void DeregisterPart(ThingStateChangedEventArgs args)
     {
         var thing = args.Thing;
         if (thing.def.HasTeleExtension(out var extension))

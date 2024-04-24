@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Loading;
@@ -12,7 +12,7 @@ public static class EventInjectPatches
     {
         public static void Postfix(Hediff __instance, DamageInfo? dinfo)
         {
-            GlobalEventHandler.OnPawnHediffChanged(new PawnHediffChangedEventArgs(__instance, dinfo));
+            GlobalEventHandler.Pawns.OnPawnHediffChanged(new PawnHediffChangedEventArgs(__instance, dinfo));
         }
     }
 }

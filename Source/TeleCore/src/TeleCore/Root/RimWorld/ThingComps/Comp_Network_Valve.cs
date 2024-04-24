@@ -1,6 +1,6 @@
 ﻿using RimWorld;
-using TeleCore.Data.Events;
 using TeleCore.Static;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 

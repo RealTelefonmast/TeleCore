@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.PawnData;
@@ -10,8 +10,8 @@ public class PawnInfoData
 
     public PawnInfoData()
     {
-        GlobalEventHandler.ThingSpawned += Notify_RegisterPawn;
-        GlobalEventHandler.ThingDespawned += Notify_DeregisterPawn;
+        GlobalEventHandler.Things.RegisterSpawned(Notify_RegisterPawn, x => x is Pawn);
+        GlobalEventHandler.Things.RegisterDespawned(Notify_DeregisterPawn, x => x is Pawn);
     }
 
     private void Notify_RegisterPawn(ThingStateChangedEventArgs args)

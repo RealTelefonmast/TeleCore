@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -51,7 +52,7 @@ internal class TimeLineControl : UIElement
 
     public TimeLineControl() : base(UIElementMode.Static)
     {
-        TFind.TickManager.RegisterUITickAction(delegate
+        GlobalUpdateEventHandler.UITick += delegate
         {
             if (isPaused || !HasAnimation) return;
             if (CurrentFrame >= ReplayBounds.max)
@@ -59,9 +60,8 @@ internal class TimeLineControl : UIElement
                 CurrentFrame = ReplayBounds.min;
                 return;
             }
-
             CurrentFrame++;
-        });
+        };
     }
 
     //Animation Data

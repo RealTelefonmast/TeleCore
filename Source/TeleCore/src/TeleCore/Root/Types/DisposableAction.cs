@@ -2,7 +2,7 @@
 
 namespace TeleCore;
 
-public class DisposableAction : IDisposable
+public struct DisposableAction : IDisposable
 {
     private Action action;
 

@@ -4,8 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
-using TeleCore.Data.Events;
-using TeleCore.Events;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 

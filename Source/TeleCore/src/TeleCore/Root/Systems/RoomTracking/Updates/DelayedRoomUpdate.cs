@@ -1,5 +1,5 @@
 ﻿using System;
-using TeleCore.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Rooms.Updates;

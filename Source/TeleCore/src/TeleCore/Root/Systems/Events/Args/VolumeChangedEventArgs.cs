@@ -1,9 +1,8 @@
-﻿using System;
-using TeleCore.FlowCore;
+﻿using TeleCore.FlowCore;
 
-namespace TeleCore.Events;
+namespace TeleCore.Systems.Events;
 
-public class VolumeChangedEventArgs<TValue> : EventArgs
+public struct VolumeChangedEventArgs<TValue>
 where TValue : FlowValueDef
 {
     public ChangedAction Action { get; }

@@ -5,6 +5,7 @@ using RimWorld;
 using TeleCore.Network;
 using TeleCore.Network.Data;
 using TeleCore.Network.Utility;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -55,12 +56,17 @@ public class Gizmo_NetworkOverview : Gizmo, IDisposable
         partSelRange = new FloatRange(10, MaxPartSelX());
 
         //
-        TFind.TickManager.RegisterMapUITickAction(Tick);
+        GlobalUpdateEventHandler.UITick += Tick;
+    }
+    
+    ~Gizmo_NetworkOverview()
+    {
+        Dispose();
     }
 
     public void Dispose()
     {
-        //TODO: Deregister Tick
+        GlobalUpdateEventHandler.UITick -= Tick;
     }
 
     public override float GetWidth(float maxWidth)

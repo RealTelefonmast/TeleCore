@@ -1,8 +1,6 @@
-﻿using System;
-using TeleCore.Network;
-using TeleCore.Network.Data;
+﻿using TeleCore.Network;
 
-namespace TeleCore.Events;
+namespace TeleCore.Systems.Events;
 
 public enum NetworkChangeType
 {
@@ -12,7 +10,7 @@ public enum NetworkChangeType
     RemovedPart
 }
 
-public class NetworkChangedEventArgs : EventArgs
+public struct NetworkChangedEventArgs
 {
     public NetworkChangedEventArgs(NetworkChangeType changeType)
     {

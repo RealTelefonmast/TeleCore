@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Data.Logging;
@@ -27,7 +28,7 @@ public static class TLogger
             _Writer = new StreamWriter(_fileStream);
             _Writer.AutoFlush = true;
 
-            ApplicationQuitUtility.ApplicationQuitEvent += delegate
+            StaticEventHandler.ApplicationQuitEvent += delegate
             {
                 _Writer.Close();
                 _Writer.Dispose();

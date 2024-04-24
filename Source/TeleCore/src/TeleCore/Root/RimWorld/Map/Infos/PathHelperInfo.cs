@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -19,7 +19,7 @@ public class PathHelperInfo : MapInformation
     public PathHelperInfo(Map map) : base(map)
     {
         _avoidGrids = new HashSet<AvoidGridWorker>();
-        GlobalEventHandler.CellChanged += Notify_CellChanged;
+        GlobalEventHandler.Terrain.CellChanged += Notify_CellChanged;
     }
 
     public override void InfoInit(bool initAfterReload = false)

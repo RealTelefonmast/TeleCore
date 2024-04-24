@@ -1,5 +1,5 @@
 ﻿using RimWorld;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore;

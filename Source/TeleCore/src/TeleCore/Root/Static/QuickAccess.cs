@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using TeleCore.Data.Events;
-using TeleCore.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore.Static;
 
+//TODO: Is this needed?
 public static class QuickAccess
 {
     private static Dictionary<Thing, RoomTracker> _roomTrackerByThing;
@@ -13,13 +13,13 @@ public static class QuickAccess
     {
         _roomTrackerByThing = new();
 
-        GlobalEventHandler.ThingSpawned += HandleThingSpawn;
-        GlobalEventHandler.ThingDespawned += HandleThingDespawn;
+        GlobalEventHandler.Things.Spawned += HandleThingSpawn;
+        GlobalEventHandler.Things.Despawned += HandleThingDespawn;
         
-        GlobalEventHandler.RoomCreated += HandleRoomCreated;
+        GlobalEventHandler.Rooms.Created += HandleCreated;
     }
 
-    private static void HandleRoomCreated(RoomChangedArgs args)
+    private static void HandleCreated(RoomChangedArgs args)
     {
         args.RoomTracker.Room.Regions[0].ListerThings.AllThings.ForEach(thing =>
         {

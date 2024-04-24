@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using HarmonyLib;
 using RimWorld;
-using TeleCore.Data.Events;
+using TeleCore.Static;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
-namespace TeleCore.Data.Patches.Harmony;
+namespace TeleCore.Mod.Patches;
 
 internal static class ThingPatches
 {
-    internal static class Tools
+    private static class Tools
     {
         internal static bool PipeBlocking(ThingDef constr, ThingDef pipe)
         {
@@ -27,7 +28,6 @@ internal static class ThingPatches
         internal static ThingDef GetThingDef(ThingDef thingDef)
         {
             return thingDef.entityDefToBuild as ThingDef ?? thingDef;
-            ;
         }
 
         internal static ThingDef? GetThingDef(Thing thing)
@@ -83,7 +83,7 @@ internal static class ThingPatches
         public static void Postfix(Thing __instance)
         {
             //Event Handling
-            GlobalEventHandler.OnThingSpawned(new ThingStateChangedEventArgs(ThingChangeFlag.Spawned, __instance));
+            GlobalEventHandler.Things.OnSpawned(new ThingStateChangedEventArgs(ThingChangeFlag.Spawned, __instance));
         }
     }
 
@@ -94,7 +94,7 @@ internal static class ThingPatches
         public static bool Prefix(Thing __instance)
         {
             //Event Handling
-            GlobalEventHandler.OnThingDespawning(new ThingStateChangedEventArgs(ThingChangeFlag.Despawning,
+            GlobalEventHandler.Things.OnDespawning(new ThingStateChangedEventArgs(ThingChangeFlag.Despawning,
                 __instance));
             return true;
         }
@@ -102,7 +102,7 @@ internal static class ThingPatches
         public static void Postfix(Thing __instance)
         {
             //Event Handling
-            GlobalEventHandler.OnThingDespawned(new ThingStateChangedEventArgs(ThingChangeFlag.Despawned, __instance));
+            GlobalEventHandler.Things.OnDespawned(new ThingStateChangedEventArgs(ThingChangeFlag.Despawned, __instance));
         }
     }
 
@@ -113,8 +113,7 @@ internal static class ThingPatches
         public static void Postfix(Thing __instance, string signal)
         {
             //Event Handling
-            GlobalEventHandler.OnThingSentSignal(new ThingStateChangedEventArgs(ThingChangeFlag.SentSignal, __instance,
-                signal));
+            GlobalEventHandler.Things.OnSentSignal(new ThingStateChangedEventArgs(ThingChangeFlag.SentSignal, __instance, signal));
         }
     }
 
@@ -126,8 +125,11 @@ internal static class ThingPatches
         public static void Postfix(Building_Door __instance)
         {
             //Event Handling
-            GlobalEventHandler.OnThingSentSignal(new ThingStateChangedEventArgs(ThingChangeFlag.SentSignal, __instance,
-                __instance.Open ? "DoorOpened" : "DoorClosed"));
+            GlobalEventHandler.Things.OnSentSignal(
+                new ThingStateChangedEventArgs(
+                    ThingChangeFlag.SentSignal,
+                    __instance,
+                    __instance.Open ? KnownCompSignals.DoorOpened : KnownCompSignals.DoorClosed));
         }
     }
 

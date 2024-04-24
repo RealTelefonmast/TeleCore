@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RimWorld;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
@@ -204,7 +204,6 @@ public class CompFX : TeleComp
         // GetShouldThrowEffects += fxHolder.FX_ShouldThrowEffects;
 
         if (fxProvider is IFXEffecterProvider effectProvider)
-            //
             EffectSpawned += effectProvider.FX_OnEffectSpawned;
     }
 

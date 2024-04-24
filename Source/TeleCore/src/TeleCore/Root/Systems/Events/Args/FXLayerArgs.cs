@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TeleCore.Data.Events;
+namespace TeleCore.Systems.Events;
 
 public class FXArgs : EventArgs
 {

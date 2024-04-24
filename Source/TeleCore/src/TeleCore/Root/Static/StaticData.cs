@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore;
 
 public static class StaticData
 {
-    //
     public const float DeltaTime = 1f / 60f;
 
-    //
     internal static Dictionary<BuildableDef, Designator> DESIGNATORS;
     
     //Build Menu
@@ -65,12 +63,6 @@ public static class StaticData
         _playSettings = new List<PlaySettingsWorker>();
         foreach (var type in typeof(PlaySettingsWorker).AllSubclassesNonAbstract())
             _playSettings.Add((PlaySettingsWorker) Activator.CreateInstance(type));
-    }
-
-    internal static void Notify_ClearingMapAndWorld()
-    {
-        TFind.TickManager.ClearGameTickers();
-        GlobalEventHandler.ClearData();
     }
 
     internal static void Notify_NewTeleMapComp(MapComponent_TeleCore mapComp)

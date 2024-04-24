@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using TeleCore.Data.Events;
 using TeleCore.Network.Data;
 using TeleCore.Network.Flow;
 using TeleCore.Network.Graph;

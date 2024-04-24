@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace TeleCore.Data.Events;
+namespace TeleCore.Systems.Events;
 
 public struct FXEffecterSpawnedEventArgs
 {

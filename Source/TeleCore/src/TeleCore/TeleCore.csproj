@@ -111,9 +111,5 @@
     <ItemGroup>
         <Publicize Include="Assembly-CSharp" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Root\Systems\" />
-    </ItemGroup>
     
 </Project>

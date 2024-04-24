@@ -1,39 +1,38 @@
 ﻿using System;
 using HarmonyLib;
 using RimWorld;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 
 namespace TeleCore;
 
-/// <summary>
-///     <para>
-///         Implementing this on a <see cref="ThingComp" /> or <see cref="Thing" /> allows you to affect the layers in a
-///         <see cref="CompFX" /> attached to the same Thing instance.
-///     </para>
-///     <para>
-///         You can implement this interface on multiple parts of a Thing instance, including the base
-///         <see cref="ThingDef.thingClass" /> and the <see cref="ThingDef.comps" />.
-///     </para>
-///     <para>
-///         If multiple implementations are active, the order of priority for selecting an interface for a layer via
-///         <see cref="FX_AffectsLayerAt" /> or for <see cref="IsMain" /> is done by <see cref="Priority" />.
-///     </para>
-/// </summary>
+public struct FXProviderState
+{
+    public bool IsLayerProvider;
+    public CompPowerTrader PowerProvider;
+}
 
-// RenderPriority
-// #0  => Power Glow
-// #8  => Network Glow
-// #16 => Network Container Fill
-// #24 => Network "Lid"
-// #32 => 
+public struct EffecterState
+{
+    public bool ShouldThrowEffects;
+    public TargetInfo TargetA;
+    public TargetInfo TargetB;
+    public Action<FXEffecterSpawnedEventArgs> EffectSpawnedAction;
+}
 
-//TODO: FX RE-STRUCTURE
-//[Base]
-//  []
-//
-//
+public struct FXState
+{
+    public int SelectedGraphicIndex;
+    public bool ShouldDraw;
+    public float Opacity;
+    public float Rotation;
+    public float RotationSpeedOverride;
+    public float AnimationSpeedFactor;
+    public Color Color;
+    public Vector3 DrawPosition;
+    public Func<RoutedDrawArgs, bool> DrawFunc;
+}
 
 //[FXArgs]  -> [FXEffecterArgs] 
 //          -> [FXLayerArgs]

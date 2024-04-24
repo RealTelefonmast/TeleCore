@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using RimWorld;
-using TeleCore.Data.Events;
 using TeleCore.Network;
 using TeleCore.Network.Data;
 using TeleCore.RWExtended;
+using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
 

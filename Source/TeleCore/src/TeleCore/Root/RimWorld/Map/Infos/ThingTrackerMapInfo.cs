@@ -1,5 +1,5 @@
 ﻿using System;
-using TeleCore.Data.Events;
+using TeleCore.Systems.Events;
 using Verse;
 
 namespace TeleCore;
@@ -40,9 +40,9 @@ public abstract class ThingTrackerComp
     protected ThingTrackerComp(ThingTrackerMapInfo parent)
     {
         this.parent = parent;
-        GlobalEventHandler.ThingSpawned += Notify_ThingRegistered;
-        GlobalEventHandler.ThingDespawning += Notify_ThingDeregistered;
-        GlobalEventHandler.ThingSentSignal += Notify_ThingSentSignal;
+        GlobalEventHandler.Things.Spawned += Notify_ThingRegistered;
+        GlobalEventHandler.Things.Despawning += Notify_ThingDeregistered;
+        GlobalEventHandler.Things.SentSignal += Notify_ThingSentSignal;
     }
 
     public abstract void Notify_ThingRegistered(ThingStateChangedEventArgs args);

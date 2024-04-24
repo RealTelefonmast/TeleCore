@@ -1,9 +1,8 @@
-﻿using System;
-using Verse;
+﻿using Verse;
 
-namespace TeleCore.Data.Events;
+namespace TeleCore.Systems.Events;
 
-public class MovedEventArgs : EventArgs
+public struct MovedEventArgs
 {
     public MovedEventArgs(Thing thing, IntVec3 nextCell, float nextCellCostLeft, float nextCellCostTotal)
     {

@@ -1,9 +1,8 @@
-﻿using System;
-using Verse;
+﻿using Verse;
 
-namespace TeleCore.Data.Events;
+namespace TeleCore.Systems.Events;
 
-public class TerrainChangedEventArgs : EventArgs
+public struct TerrainChangedEventArgs
 {
     public TerrainChangedEventArgs(IntVec3 pos, bool isSubTerrain, TerrainDef previous, TerrainDef terrain)
     {
