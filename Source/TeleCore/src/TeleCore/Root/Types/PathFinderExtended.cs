@@ -83,7 +83,7 @@ public class PathFinderExtended
 
     public PawnPath FindPath(IntVec3 start, LocalTargetInfo dest, TraverseParms traverseParms, PathEndMode peMode = PathEndMode.OnCell, PathFinderCostTuning tuning = null)
     {
-        if (DebugSettings.pathThroughWalls) 
+        if (DebugSettings.pathThroughWalls)
             traverseParms.mode = TraverseMode.PassAllDestroyableThings;
 
         var pawn = traverseParms.pawn;
@@ -211,12 +211,12 @@ public class PathFinderExtended
 
             for (var i = 0; i < 8; i++)
             {
-                var num10 = (uint) (x2 + Directions[i]);
-                var num11 = (uint) (z2 + Directions[i + 8]);
+                var num10 = (uint)(x2 + Directions[i]);
+                var num11 = (uint)(z2 + Directions[i + 8]);
                 if (num10 >= mapSizeX || num11 >= mapSizeZ) continue;
 
-                var num12 = (int) num10;
-                var num13 = (int) num11;
+                var num12 = (int)num10;
+                var num13 = (int)num11;
                 var num14 = cellIndices.CellToIndex(num12, num13);
                 if (calcGrid[num14].status == statusClosedValue && !flag8) continue;
 
@@ -233,7 +233,7 @@ public class PathFinderExtended
                     var building = edificeGrid[num14];
                     if (building == null || !IsDestroyable(building)) continue;
 
-                    num15 += (int) (building.HitPoints * costBlockedWallExtraPerHitPoint);
+                    num15 += (int)(building.HitPoints * costBlockedWallExtraPerHitPoint);
                     if (!building.def.IsBuildingArtificial) num15 += costBlockedWallExtraForNaturalWalls;
                 }
 
@@ -352,10 +352,10 @@ public class PathFinderExtended
                 if (status == statusClosedValue || status == statusOpenValue)
                 {
                     var num19 = 0;
-                    if (status == statusClosedValue) 
+                    if (status == statusClosedValue)
                         num19 = Mathf.RoundToInt(num8);
 
-                    if (calcGrid[num14].knownCost <= num18 + num19) 
+                    if (calcGrid[num14].knownCost <= num18 + num19)
                         continue;
                 }
 
@@ -442,7 +442,7 @@ public class PathFinderExtended
 
                     if ((pawn != null && building_Door.CanPhysicallyPass(pawn)) || building_Door.FreePassage) return 0;
 
-                    return costBlockedDoor + (int) (building_Door.HitPoints * costBlockedDoorPerHitPoint);
+                    return costBlockedDoor + (int)(building_Door.HitPoints * costBlockedDoorPerHitPoint);
                 case TraverseMode.PassDoors:
                     if (pawn != null && building_Door.PawnCanOpen(pawn) && !building_Door.IsForbiddenToPass(pawn) &&
                         !building_Door.FreePassage)
@@ -472,7 +472,7 @@ public class PathFinderExtended
                     return int.MaxValue;
                 case TraverseMode.PassAllDestroyableThings:
                 case TraverseMode.PassAllDestroyableThingsNotWater:
-                    return costBlockedDoor + (int) (b.HitPoints * costBlockedDoorPerHitPoint);
+                    return costBlockedDoor + (int)(b.HitPoints * costBlockedDoorPerHitPoint);
                 case TraverseMode.PassDoors:
                 case TraverseMode.NoPassClosedDoors:
                 case TraverseMode.NoPassClosedDoorsOrWater:

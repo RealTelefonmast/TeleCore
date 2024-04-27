@@ -28,7 +28,7 @@ internal static class InjectPatches
             return true;
         }
     }
-    
+
     //This adds gizmos to the pawn
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch("GetGizmos")]
@@ -49,7 +49,7 @@ internal static class InjectPatches
             __result = gizmos;
         }
     }
-    
+
     [HarmonyPatch(typeof(FloatMenuMakerMap))]
     [HarmonyPatch("AddDraftedOrders")]
     public static class Pawn_AddDraftedOrdersPatch
@@ -100,7 +100,7 @@ internal static class InjectPatches
             // yield return AccessTools.Method(typeof(SkillDef), "PostLoad");
             // yield return AccessTools.Method(typeof(AbilityDef), "PostLoad");
             // yield return AccessTools.Method(typeof(MechWorkModeDef), "PostLoad");
-            
+
             foreach (var type in typeof(Def).AllSubclasses().Concat(typeof(Def)))
             {
                 yield return AccessTools.Method(type, nameof(Def.PostLoad));
@@ -112,7 +112,7 @@ internal static class InjectPatches
             DefIDStack.RegisterNew(__instance);
         }
     }
-    
+
     //Patching the vanilla shader def to allow custom shaders
     /*[HarmonyPatch(typeof(ShaderTypeDef))]
     [HarmonyPatch("Shader", MethodType.Getter)]
@@ -130,7 +130,7 @@ internal static class InjectPatches
             return false;
         }
     }*/
-    
+
     [HarmonyPatch(typeof(ModContentLoader<Texture2D>))]
     [HarmonyPatch("LoadTexture")]
     private static class LoadPNGPatch

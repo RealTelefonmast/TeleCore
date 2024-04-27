@@ -4,7 +4,7 @@ namespace TeleCore;
 
 public class DiscoveryProperties : Editable
 {
-    [Unsaved()] 
+    [Unsaved()]
     private TaggedString cachedUnknownLabelCap = null;
 
     public DiscoveryDef discoveryDef;

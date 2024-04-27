@@ -22,9 +22,9 @@ public class FleckMoteBrowser : DataBrowser<Def>
             DataCached ??= new List<Def>();
             DataCached.Clear();
             foreach (var contentPack in AllowedMods)
-            foreach (var def in contentPack.AllDefs)
-                if (def is ThingDef {mote: not null} or FleckDef && filter.Matches(def.defName))
-                    DataCached.Add(def);
+                foreach (var def in contentPack.AllDefs)
+                    if (def is ThingDef { mote: not null } or FleckDef && filter.Matches(def.defName))
+                        DataCached.Add(def);
         }
 
         return DataCached;
@@ -38,7 +38,7 @@ public class FleckMoteBrowser : DataBrowser<Def>
     protected override Texture2D IconFor(Def element)
     {
         if (element is ThingDef moteDef)
-            return (Texture2D) (moteDef.graphicData?.Graphic?.MatSingle?.mainTexture ?? BaseContent.BadTex);
+            return (Texture2D)(moteDef.graphicData?.Graphic?.MatSingle?.mainTexture ?? BaseContent.BadTex);
         if (element is FleckDef fleckDef)
         {
             var texture = TWidgets.TextureForFleckMote(fleckDef);

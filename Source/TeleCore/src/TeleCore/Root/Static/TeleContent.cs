@@ -102,7 +102,7 @@ public static class TeleContent
 
     public static readonly Material IOArrowLogical =
         MaterialPool.MatFrom("Buildings/IO/IOArrowTwoWay", ShaderDatabase.Transparent, Color.red);
-    
+
     public static readonly Material WorldTerrain =
         MaterialPool.MatFrom("World/Tile/Terrain", ShaderDatabase.WorldOverlayCutout, 3500);
 

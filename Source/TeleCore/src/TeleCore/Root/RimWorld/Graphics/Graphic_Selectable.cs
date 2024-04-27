@@ -33,7 +33,7 @@ public class Graphic_Selectable : Graphic_Collection
         else
             graphic = subGraphics[0];
         graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
-        if (ShadowGraphic != null) 
+        if (ShadowGraphic != null)
             ShadowGraphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
     }
 
@@ -45,7 +45,7 @@ public class Graphic_Selectable : Graphic_Collection
         else
             graphic = subGraphics[0];
         graphic.Print(layer, thing, extraRotation);
-        if (ShadowGraphic != null && thing != null) 
+        if (ShadowGraphic != null && thing != null)
             ShadowGraphic.Print(layer, thing, extraRotation);
     }
 

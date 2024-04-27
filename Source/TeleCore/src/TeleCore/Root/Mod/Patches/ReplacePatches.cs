@@ -14,14 +14,14 @@ internal static class ReplacePatches
     {
         public static void Postfix(ref Bill __result)
         {
-            if (__result.recipe is RecipeDef_Network {networkCost.Valid: true } tRecipe)
+            if (__result.recipe is RecipeDef_Network { networkCost.Valid: true } tRecipe)
             {
                 var billProductionNetworkBill = new Bill_Production_Network(tRecipe);
                 __result = billProductionNetworkBill;
             }
         }
     }
-    
+
     //[HarmonyPatch(typeof(GenAttribute))]
     //[HarmonyPatch(nameof(GenAttribute.TryGetAttribute), typeof(MemberInfo), typeof(object))]
     public static class GenAttribute_Patch
@@ -29,7 +29,7 @@ internal static class ReplacePatches
         public static bool Prefix()
         {
             TLog.Debug("Prefix'd");
-            return true; 
+            return true;
         }
     }
 }

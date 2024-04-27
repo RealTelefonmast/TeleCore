@@ -42,7 +42,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
     }
 
     public void Reset()
-    {   
+    {
         _volumes.Clear();
         _interfaces.Clear();
         _relations.Clear();
@@ -50,7 +50,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
         _interfaceLookUp.Clear();
         _totalStack = new DefValueStack<TValueDef, double>();
     }
-    
+
     public void Dispose()
     {
         _volumes.Clear();
@@ -63,7 +63,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
     #region System Data
 
     #region Public Manipulators
-    
+
     protected abstract float GetInterfacePassThrough(TwoWayKey<TAttach> connectors);
     protected abstract TVolume CreateVolume(TAttach part);
 
@@ -74,9 +74,9 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
 
         volume = CreateVolume(part);
         if (volume == null) return null;
-        
+
         volume.FlowEvent += OnFlowBoxEvent;
-        
+
         _volumes.Add(volume);
         AddRelation(part, volume);
         return volume;
@@ -96,7 +96,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
             TLog.Warning($"Tried to remove node {attach} which was not registered.");
         }
     }
-    
+
     public bool AddInterface(TwoWayKey<TAttach> connectors, FlowInterface<TAttach, TVolume, TValueDef> iFace)
     {
         if (_interfaceLookUp.TryAdd(connectors, iFace))
@@ -144,7 +144,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
             }
         }
     }
-    
+
     #endregion
 
     public void RegisterCustomVolume(TVolume volume)
@@ -215,7 +215,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
     #endregion
 
     #region Update
-    
+
     protected virtual void PreTickProcessor(int tick)
     {
     }
@@ -250,7 +250,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
 
     //protected abstract double FlowFunc(FlowInterface<TAttach, TVolume, TValueDef> connection, double previous);
     //protected abstract double ClampFunc(FlowInterface<TAttach, TVolume, TValueDef> connection, double flow, ClampType clampType);
-    
+
     private void UpdateFlow(FlowInterface<TAttach, TVolume, TValueDef> iface)
     {
         if (iface.PassPercent <= 0)
@@ -274,19 +274,19 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
             var from = value > 0 ? conn.From : conn.To;
             var to = value > 0 ? conn.To : conn.From;
             var move = Math.Abs(value.Value);
-            
+
             if (from.TryRemove(value.Def, move, out var result))
             {
                 to.TryAdd(result.Def, result.Actual);
             }
         }
-        
+
         //var result = conn.From.TryTake(conn.Move);
         //conn.To.TryInsert(result.Actual);
-        
+
         //DefValueStack<TValueDef, double> res = conn.From.RemoveContent(conn.Move);
         //conn.To.AddContent(res);
-        
+
         //TODO: Structify for: _connections[fb][i] = conn;
     }
 
@@ -322,7 +322,7 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
         var rem = volumeFrom.RemoveContent(volumeFrom.TotalValue * percent);
         volumeTo.AddContent(rem);
     }
-    
+
     public FlowResult<TValueDef, double> TransferFromTo(TAttach from, TAttach to, TValueDef def, double amount)
     {
         var volumeFrom = Relations[from];
@@ -331,6 +331,6 @@ public abstract class FlowSystem<TAttach, TVolume, TValueDef> : IDisposable
     }
 
     #endregion
-    
+
     #endregion
 }

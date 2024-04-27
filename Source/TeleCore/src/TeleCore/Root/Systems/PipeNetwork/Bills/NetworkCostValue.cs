@@ -19,7 +19,7 @@ public class NetworkCostValue
         else
         {
             DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "valueDef", xmlRoot.Name);
-            value = (float) ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
+            value = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
         }
     }
 }

@@ -39,7 +39,7 @@ public class VerbProperties_Extended : VerbProperties
     public float shootHeightOffset = 0;
     public int shotIntervalTicks = 10;
     public Vector3 shotStartOffset = Vector3.zero;
-    
+
     public void PostLoad()
     {
         beamProps?.SetParent(this);
@@ -54,7 +54,7 @@ public class VerbProperties_Extended : VerbProperties
         if (LaunchesProjectile && defaultProjectile != null && forcedMissRadius > 0f != CausesExplosion)
             yield return
                 "has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled";
-        if(beamMoteDef != null && beamMoteDef.thingClass != typeof(MoteBeam))
+        if (beamMoteDef != null && beamMoteDef.thingClass != typeof(MoteBeam))
             yield return "has beamMoteDef that is not a MoteBeam";
     }
 }

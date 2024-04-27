@@ -254,7 +254,7 @@ public class SimpleWorldCameraDriver : MonoBehaviour
 
     private float CurUITileSize(Camera worldCam, float avarageTileSize)
     {
-        var WorldToUI = delegate(Vector3 worldLoc)
+        var WorldToUI = delegate (Vector3 worldLoc)
         {
             var vector = worldCam.WorldToScreenPoint(worldLoc) / Prefs.UIScale;
             return new Vector2(vector.x, UI.screenHeight - vector.y);

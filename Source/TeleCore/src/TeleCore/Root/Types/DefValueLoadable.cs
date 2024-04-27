@@ -6,30 +6,30 @@ using Verse;
 
 namespace TeleCore;
 
-public class DefValueLoadable<TDef, TValue> : IExposable 
-    where TDef : Def 
+public class DefValueLoadable<TDef, TValue> : IExposable
+    where TDef : Def
     where TValue : unmanaged
 {
     private TDef def;
     private Numeric<TValue> value;
-    
+
     public TDef Def => def;
     public Numeric<TValue> Value => value;
     public bool IsValid => def != null!;
-    
+
     public static implicit operator DefValue<TDef, TValue>(DefValueLoadable<TDef, TValue> refValue) => new(refValue.Def, refValue.Value);
-    public static implicit operator DefValueLoadable<TDef, TValue> (DefValue<TDef, TValue> structValue) => new()
+    public static implicit operator DefValueLoadable<TDef, TValue>(DefValue<TDef, TValue> structValue) => new()
     {
         def = structValue.Def,
         value = structValue.Value
     };
-    
+
     public void ExposeData()
     {
         //Scribe_Defs.Look(ref _def, "def");
         Look(ref def, "def");
         Scribe_Values.Look(ref value, "value");
-        
+
         return;
 
         static void Look<T>(ref T value, string label) where T : Def
@@ -46,7 +46,7 @@ public class DefValueLoadable<TDef, TValue> : IExposable
                 value = ScribeExtractor.DefFromNodeUnsafe<T>(Scribe.loader.curXmlParent[label]);
         }
     }
-    
+
     public void LoadDataFromXmlCustom(XmlNode xmlRoot)
     {
         //Listing

@@ -14,13 +14,13 @@ public class CompProperties_Network : CompProperties
 {
     [Description("Default IO configuration for this structure. Any sub-IOConfigs will override these settings.")]
     public NetIOConfig generalIOConfig = new NetIOConfig();
-    
+
     [Description("Custom individual configurations for how this structure should interact with other networks.")]
     public List<NetworkPartConfig>? networks;
 
     [Description("When set, applies this config for each existing NetworkDef loaded, providing a universal network structure")]
     public DefaultNetworkPartConfig? defaultNetworkPartConfig = null;
-    
+
     public CompProperties_Network()
     {
         compClass = typeof(CompNetwork);
@@ -43,7 +43,7 @@ public class CompProperties_Network : CompProperties
     {
         base.PostLoadSpecial(parent);
         generalIOConfig.PostLoadCustom(parent);
-        
+
         if (defaultNetworkPartConfig != null)
         {
             networks.Clear();
@@ -58,8 +58,8 @@ public class CompProperties_Network : CompProperties
                 networks.Add(networkPartConfig);
             }
         }
-        
-        foreach (var network in networks) 
+
+        foreach (var network in networks)
             network.PostLoadSpecial(parent);
     }
 }

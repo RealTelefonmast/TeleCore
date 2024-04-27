@@ -12,7 +12,7 @@ public class RoomNeighborSet
 {
     private List<RoomTracker> _trueNghb;
     private List<RoomTracker> _attachedNghb;
-    
+
     public IReadOnlyCollection<RoomTracker> TrueNeighbors => _trueNghb;
     public IReadOnlyCollection<RoomTracker> AttachedNeighbors => _attachedNghb;
 
@@ -21,15 +21,15 @@ public class RoomNeighborSet
         _trueNghb = new List<RoomTracker>();
         _attachedNghb = new List<RoomTracker>();
     }
-    
+
     public void Notify_AddNeighbor(RoomTracker neighbor)
     {
         _trueNghb.Add(neighbor);
     }
-    
+
     public void Notify_AddAttachedNeighbor(RoomTracker neighbor)
     {
-        if(_attachedNghb.Contains(neighbor)) return;
+        if (_attachedNghb.Contains(neighbor)) return;
         _attachedNghb.Add(neighbor);
     }
 

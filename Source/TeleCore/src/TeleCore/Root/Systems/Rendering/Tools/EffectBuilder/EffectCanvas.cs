@@ -30,7 +30,7 @@ public class EffectCanvas : UIElement, IDragAndDropReceiver
             return true;
         }
 
-        if (draggedObject is ThingDef {mote: not null} effectDef)
+        if (draggedObject is ThingDef { mote: not null } effectDef)
         {
             var element = new EffectElement(new Rect(pos, new Vector2(20, 20)), effectDef);
             AddElement(element);

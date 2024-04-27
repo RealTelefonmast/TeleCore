@@ -29,11 +29,11 @@ public class Gizmo_NetworkOverview : Gizmo, IDisposable
     private float desiredExtendedPartX;
     private float desiredExtendedY;
     private FloatRange partSelRange;
-    
+
     //
     public NetworkPart SelectedPart { get; private set; }
     public NetworkInfoView SelectedView => _viewByPart[SelectedPart];
-    
+
     public Gizmo_NetworkOverview(CompNetwork compParent)
     {
         order = -250f;
@@ -58,7 +58,7 @@ public class Gizmo_NetworkOverview : Gizmo, IDisposable
         //
         GlobalUpdateEventHandler.UITick += Tick;
     }
-    
+
     ~Gizmo_NetworkOverview()
     {
         Dispose();
@@ -130,7 +130,7 @@ public class Gizmo_NetworkOverview : Gizmo, IDisposable
 
         //Draw Main
         SelectedView.DrawMainContent(mainRect);
-        
+
         //
         var firstEv = Mouse.IsOver(mainRect) ? GizmoState.Mouseover : GizmoState.Clear;
         var eventRes = Event.current.isMouse && firstEv == GizmoState.Mouseover ? GizmoState.Interacted : firstEv;

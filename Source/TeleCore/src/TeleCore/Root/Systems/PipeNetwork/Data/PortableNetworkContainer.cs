@@ -19,7 +19,7 @@ public class PortableNetworkContainer : FXThing
 
     public NetworkVolume NetworkVolume { get; }
 
-    public float EmptyPercent => (float) NetworkVolume.FillPercent - 1f;
+    public float EmptyPercent => (float)NetworkVolume.FillPercent - 1f;
     public bool HasValidTarget { get; set; }
     public LocalTargetInfo TargetToEmptyAt { get; set; }
 

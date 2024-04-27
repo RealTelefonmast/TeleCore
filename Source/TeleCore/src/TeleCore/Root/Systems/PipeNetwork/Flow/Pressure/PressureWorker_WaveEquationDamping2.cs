@@ -16,7 +16,7 @@ public class PressureWorker_WaveEquationDamping2 : PressureWorker
     {
         NetworkVolume from = iface.From;
         NetworkVolume to = iface.To;
-        
+
         var dp = PressureFunction(from) - PressureFunction(to);
         var counterFlow = Math.Sign(f) != Math.Sign(dp);
         f += dp * CSquared;

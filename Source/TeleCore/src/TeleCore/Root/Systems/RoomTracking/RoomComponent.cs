@@ -9,7 +9,7 @@ public abstract class RoomComponent
 {
     //Component specific neighbors
     private RoomCompNeighborSet _compNeighborSet;
-    
+
     public RoomTracker Parent { get; private set; }
 
     public RoomNeighborSet Neighbors => Parent.RoomNeighbors;
@@ -31,17 +31,17 @@ public abstract class RoomComponent
     }
 
     #region Room Linking
-    
+
     public virtual bool IsRelevantLink(Thing thing)
     {
         return false;
     }
-    
+
     public void Notify_AddLink(RoomComponentLink link)
     {
         _compNeighborSet.Notify_AddLink(link);
     }
-    
+
     internal void Notify_AddNeighbor<T>(T neighbor) where T : RoomComponent
     {
         _compNeighborSet.Notify_AddNeighbor(neighbor);
@@ -119,7 +119,7 @@ public abstract class RoomComponent
             Notify_AddNeighbor(roomLink.Opposite(this));
         }
     }
-    
+
     /// <summary>
     ///     Notifies the game when an object has been added to the border of the room.
     /// </summary>
@@ -177,10 +177,10 @@ public abstract class RoomComponent
                 }
             }
         }
-        
+
         Init(previous);
     }
-    
+
     /// <summary>
     ///     Runs once on initialization.
     /// </summary>
@@ -194,7 +194,7 @@ public abstract class RoomComponent
     public virtual void PostInit(RoomTracker?[]? previous = null)
     {
     }
-    
+
     internal void Reset()
     {
         _compNeighborSet.Reset();
@@ -220,16 +220,16 @@ public abstract class RoomComponent
     public virtual void Draw_DebugExtra(Rect inRect)
     {
     }
-    
+
     internal void DrawDebug()
     {
         _compNeighborSet.DrawDebug(this);
     }
-    
+
     public override string ToString()
     {
         return $"{ShortIdentifier}[{Room.ID}][{OutOrInside}]";
     }
-    
+
     private string OutOrInside => Parent.IsOutside ? "Outside" : "Inside";
 }

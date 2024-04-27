@@ -5,7 +5,7 @@ namespace TeleCore;
 
 public class FlowValueCollectionDef : Def
 {
-    [field: Unsaved] 
+    [field: Unsaved]
     public List<FlowValueDef> ValueDefs { get; } = new();
 
     public void Notify_ResolvedFlowValueDef(FlowValueDef def)

@@ -7,7 +7,7 @@ public static class TUnsafeUtility
     public static void CreateOrChangeNativeArr<T>(ref NativeArray<T> arr, T[] values, Allocator allocator)
         where T : struct
     {
-        if (values is {Length: > 0})
+        if (values is { Length: > 0 })
         {
             if (arr.IsCreated) arr.Dispose();
 

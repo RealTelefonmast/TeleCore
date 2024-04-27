@@ -11,7 +11,7 @@ public static class StaticData
     public const float DeltaTime = 1f / 60f;
 
     internal static Dictionary<BuildableDef, Designator> DESIGNATORS;
-    
+
     //Build Menu
     internal static Dictionary<SubBuildMenuDef, SubBuildMenu> BUILDMENU_BY_DEF;
 
@@ -35,12 +35,12 @@ public static class StaticData
     {
         return TELE_MAPCOMPS[mapInt];
     }
-    
+
     public static WorldComp_TeleCore TeleWorldComp(string worldID)
     {
         return TELE_WORLDCOMPS[worldID];
     }
-    
+
     internal static void ExposeStaticData()
     {
         Scribe_Collections.Look(ref BUILDMENU_BY_DEF, "windowsByDef", LookMode.Def, LookMode.Deep);
@@ -50,7 +50,7 @@ public static class StaticData
     {
         TELE_MAPCOMPS = new Dictionary<int, MapComponent_TeleCore>();
         TELE_WORLDCOMPS = new Dictionary<string, WorldComp_TeleCore>();
-        
+
         DESIGNATORS = new Dictionary<BuildableDef, Designator>();
         BUILDMENU_BY_DEF = new Dictionary<SubBuildMenuDef, SubBuildMenu>();
         ActionComposition._ID = 0;
@@ -62,7 +62,7 @@ public static class StaticData
     {
         _playSettings = new List<PlaySettingsWorker>();
         foreach (var type in typeof(PlaySettingsWorker).AllSubclassesNonAbstract())
-            _playSettings.Add((PlaySettingsWorker) Activator.CreateInstance(type));
+            _playSettings.Add((PlaySettingsWorker)Activator.CreateInstance(type));
     }
 
     internal static void Notify_NewTeleMapComp(MapComponent_TeleCore mapComp)
@@ -78,7 +78,7 @@ public static class StaticData
     //
     public static MapComponent_TeleCore TeleCore(this Map? map)
     {
-        if (map != null) 
+        if (map != null)
             return TELE_MAPCOMPS[map.uniqueID];
 
         TLog.Warning("Map is null for TeleCore MapComp getter");

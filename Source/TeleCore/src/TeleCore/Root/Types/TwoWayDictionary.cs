@@ -12,13 +12,13 @@ public interface IReadOnlyTwoWayDictionary<TKey, TValue> : IEnumerable<KeyValueP
     public KeyValuePair<TKey, TValue> this[int index] { get; }
     public TValue this[TKey key] { get; }
     public List<TKey> this[TValue value] { get; }
-    
+
     public bool ContainsKey(TKey key);
     public bool ContainsValue(TValue key);
 
     public bool TryGetKeyFromValue(TValue value, out List<TKey> key);
     public bool TryGetValueFromKey(TKey key, out TValue value);
-    
+
     int IndexOf(TKey value);
     int IndexOf(TValue value);
 }
@@ -37,7 +37,7 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
     public KeyValuePair<TKey, TValue> this[int index] => _keyToValue.ElementAt(index);
     public TValue this[TKey key] => _keyToValue[key];
     public List<TKey> this[TValue value] => _valueToKey[value];
-    
+
     public TwoWayDictionary()
     {
         _keyToValue = new();
@@ -59,7 +59,7 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
         _valueToKey[value].Add(key);
         return true;
     }
-    
+
     public bool Remove(TKey key, out TValue value)
     {
         if (!_keyToValue.ContainsKey(key))
@@ -67,7 +67,7 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
             value = default!;
             return false;
         }
-        
+
         value = _keyToValue[key];
         _keyToValue.Remove(key);
         _valueToKey.Remove(value);
@@ -82,14 +82,14 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
         }
         _keyToValue.Remove(key);
         _valueToKey.Remove(value);
-        return true;   
+        return true;
     }
-    
+
     public bool TryGetKeyFromValue(TValue value, out List<TKey> key)
     {
         return _valueToKey.TryGetValue(value, out key);
     }
-    
+
     public bool TryGetValueFromKey(TKey key, out TValue value)
     {
         return _keyToValue.TryGetValue(key, out value);
@@ -97,19 +97,19 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
 
     public int IndexOf(TKey value)
     {
-        return  _keyToValue.Keys.ToList().IndexOf(value);
+        return _keyToValue.Keys.ToList().IndexOf(value);
     }
 
     public int IndexOf(TValue value)
     {
-        return  _valueToKey.Keys.ToList().IndexOf(value);
+        return _valueToKey.Keys.ToList().IndexOf(value);
     }
 
     public bool ContainsKey(TKey key)
     {
         return _keyToValue.ContainsKey(key);
     }
-    
+
     public bool ContainsValue(TValue key)
     {
         return _valueToKey.ContainsKey(key);
@@ -119,13 +119,13 @@ public class TwoWayDictionary<TKey, TValue> : IReadOnlyTwoWayDictionary<TKey, TV
     {
         return _keyToValue.TryGetValue(key, out value);
     }
-    
+
     //
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
     {
         return _keyToValue.GetEnumerator();
     }
-    
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();

@@ -142,7 +142,7 @@ internal static class CustomNetworkBillUtility
                 List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
                 for (var i = 0; i < list.Count; i++)
                 {
-                    var minifiedThing = (MinifiedThing) list[i];
+                    var minifiedThing = (MinifiedThing)list[i];
                     if (CountValidThing(minifiedThing.InnerThing, bill, thingDef))
                         num += minifiedThing.stackCount * minifiedThing.InnerThing.stackCount;
                 }
@@ -192,7 +192,7 @@ internal static class CustomNetworkBillUtility
     {
         var def2 = thing.def;
         if (def2 != def) return false;
-        if (def2.IsApparel && ((Apparel) thing).WornByCorpse) return false;
+        if (def2.IsApparel && ((Apparel)thing).WornByCorpse) return false;
         var compQuality = thing.TryGetComp<CompQuality>();
         return compQuality == null;
     }

@@ -144,7 +144,7 @@ public class ScribeDelegate<TDelegate> : IExposable where TDelegate : Delegate
                 if (loadReferencable == null)
                 {
                     if (isAnonymousType)
-                        @delegate = (TDelegate) scribeTimeMethod.CreateDelegate(typeof(TDelegate), null);
+                        @delegate = (TDelegate)scribeTimeMethod.CreateDelegate(typeof(TDelegate), null);
                     else
                         TLog.Error(
                             $"Could not load a reference of type {usedDeclaringType} for method {scribeTimeMethod.Name}. Add an {nameof(ILoadReferenceable)} interface.");
@@ -199,14 +199,14 @@ public class ScribeDelegate<TDelegate> : IExposable where TDelegate : Delegate
             case LookMode.Reference:
                 ILoadReferenceable tempRef = null;
                 if (Scribe.mode == LoadSaveMode.Saving)
-                    tempRef = (ILoadReferenceable) val;
+                    tempRef = (ILoadReferenceable)val;
                 Scribe_References.Look(ref tempRef, field.Name);
                 val = tempRef;
                 break;
             case LookMode.Def:
                 Def valDef = null;
                 if (Scribe.mode == LoadSaveMode.Saving)
-                    valDef = (Def) val;
+                    valDef = (Def)val;
 
                 Scribe_Defs.Look(ref valDef, field.Name);
                 val = valDef;
@@ -236,7 +236,7 @@ internal sealed class MethodConstructor
     public static MethodInfo? Deserialize(byte[] data)
     {
         using var stream = new MemoryStream(data);
-        var method = (MethodInfo) new BinaryFormatter().Deserialize(stream);
+        var method = (MethodInfo)new BinaryFormatter().Deserialize(stream);
         return method;
     }
 }

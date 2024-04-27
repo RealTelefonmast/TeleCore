@@ -15,7 +15,7 @@ public class PathHelperInfo : MapInformation
     private readonly HashSet<AvoidGridWorker> _avoidGrids;
 
     public IEnumerable<AvoidGridWorker> AvoidGrids => _avoidGrids;
-        
+
     public PathHelperInfo(Map map) : base(map)
     {
         _avoidGrids = new HashSet<AvoidGridWorker>();
@@ -27,14 +27,14 @@ public class PathHelperInfo : MapInformation
         base.InfoInit(initAfterReload);
         foreach (var def in DefDatabase<AvoidGridDef>.AllDefsListForReading)
         {
-            var worker = (AvoidGridWorker) Activator.CreateInstance(def.avoidGridClass, map, def);
+            var worker = (AvoidGridWorker)Activator.CreateInstance(def.avoidGridClass, map, def);
             _avoidGrids.Add(worker);
         }
     }
 
     private void Notify_CellChanged(CellChangedEventArgs args)
     {
-        foreach (var worker in _avoidGrids) 
+        foreach (var worker in _avoidGrids)
             worker.Notify_CellChanged(args);
     }
 

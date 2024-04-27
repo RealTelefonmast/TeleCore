@@ -58,7 +58,7 @@ internal static class UIPatches
         private static void AdjustList(List<ListableOption> optList)
         {
             if (!TeleCoreMod.Settings.showToolsInMainMenu) return;
-            
+
             try
             {
                 var label = "Options".Translate();
@@ -123,7 +123,7 @@ internal static class UIPatches
             var finalPatched = false;
             foreach (var code in instructions)
             {
-                if (code is {operand: not null})
+                if (code is { operand: not null })
                 {
                     //Finds StringBuilder.ToString
                     var lastOperand = (lastInstruction?.operand as LocalBuilder)?.LocalType == typeof(StringBuilder);
@@ -160,7 +160,7 @@ internal static class UIPatches
 
                 stringBuilder.AppendLine($"BaseShouldBeDone: {tBill.BaseShouldDo}");
                 stringBuilder.AppendLine($"ShouldBeDone: {tBill.ShouldDoNow()}");
-                stringBuilder.AppendLine($"CompTNW: {tBill.CompTNW is {IsPowered: true}}");
+                stringBuilder.AppendLine($"CompTNW: {tBill.CompTNW is { IsPowered: true }}");
                 stringBuilder.AppendLine($"def.CanPay: {tBill.def.networkCost.CanPayWith(tBill.CompTNW)}");
             }
         }
@@ -198,8 +198,8 @@ internal static class UIPatches
             return true;
         }
     }
-    
-    
+
+
     [HarmonyPatch(typeof(DesignatorManager))]
     [HarmonyPatch("Deselect")]
     public static class DeselectPatch

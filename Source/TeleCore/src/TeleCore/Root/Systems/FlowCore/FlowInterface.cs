@@ -7,7 +7,7 @@ namespace TeleCore.FlowCore;
 public enum InterfaceFlowMode
 {
     FromTo,
-    ToFrom, 
+    ToFrom,
     TwoWay
 }
 
@@ -18,17 +18,17 @@ where TVolume : FlowVolumeBase<TValueDef>
     // public double NextFlow { get; set; } = 0;
     // public double PrevFlow { get; set; } = 0;
     // public double Move { get; set; } = 0;
-    
+
     public DefValueStack<TValueDef, double> NextFlow { get; set; }
     public DefValueStack<TValueDef, double> PrevFlow { get; set; }
     public DefValueStack<TValueDef, double> Move { get; set; }
-    
-    
+
+
     public double FlowRate { get; set; }
 
     public TAttach FromPart { get; private set; }
     public TAttach ToPart { get; private set; }
-    
+
     public TVolume From { get; private set; }
     public TVolume To { get; private set; }
     public InterfaceFlowMode Mode { get; private set; }
@@ -41,9 +41,9 @@ where TVolume : FlowVolumeBase<TValueDef>
     public float PullStrength { get; private set; } = 0f;
 
     #endregion
-    
+
     public float PassPercent { get; private set; } = 1f;
-    
+
     public FlowInterface(TAttach fromPart, TAttach toPart, TVolume from, TVolume to)
     {
         FromPart = fromPart;
@@ -80,7 +80,7 @@ where TVolume : FlowVolumeBase<TValueDef>
             _ => false
         };
     }
-    
+
     public TVolume Opposite(TVolume volume)
     {
         return From == volume ? To : From;

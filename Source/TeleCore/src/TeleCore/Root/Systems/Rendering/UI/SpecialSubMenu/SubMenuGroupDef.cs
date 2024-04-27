@@ -13,7 +13,7 @@ public class SubMenuGroupDef : Def
     //Pack Def | BuildMenu | Des | Des_Sel | Tab | Tab_Sel
     public string subPackPath;
 
-    [field: Unsaved] 
+    [field: Unsaved]
     public DesignationTexturePack? TexturePack { get; private set; }
 
     public override void ResolveReferences()
@@ -21,7 +21,7 @@ public class SubMenuGroupDef : Def
         base.ResolveReferences();
         if (parentDef != null)
         {
-            if (parentDef.subMenus.Contains(this)) 
+            if (parentDef.subMenus.Contains(this))
                 return;
             parentDef.subMenus.Add(this);
         }

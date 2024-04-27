@@ -42,7 +42,7 @@ public static class IOUtils
             _ => throw new ArgumentException($"Invalid IO mode character: {c}")
         };
     }
-    
+
     public static char CharFromMode(NetworkIOMode mode)
     {
         return mode switch
@@ -67,7 +67,7 @@ public static class IOUtils
 
         return (innerInput && outerOutput) || (outerInput && innerOutput);
     }
-    
+
     public static List<IOCellPrototype> GenerateFromPattern(string ioPattern, IntVec2 patternSize)
     {
         var size = patternSize;
@@ -75,10 +75,10 @@ public static class IOUtils
         var height = size.z - 2;
         var rect = new CellRect(0 - (width - 1) / 2, 0 - (height - 1) / 2, width, height).ExpandedBy(1);
         var rectList = rect.ToArray();
-        
+
         ioPattern = DefaultFallbackIfNecessary(ioPattern, size);
         var modeGrid = GetIOModeArray(ioPattern);
-        
+
         var result = new List<IOCellPrototype>();
 
         for (var i = 0; i < rect.Area; i++)
@@ -148,19 +148,19 @@ public static class IOUtils
             for (var y = 0; y < heighty; y++)
             {
                 //Corners
-                if ((x < 1 || x >= widthx-1) && (y < 1 || y >= heighty-1))
+                if ((x < 1 || x >= widthx - 1) && (y < 1 || y >= heighty - 1))
                 {
                     charArr[x + y * widthx] = Empty;
                     continue;
                 }
-                
+
                 //Inside
-                if ((x >= 1 && x < widthx-1) && (y >= 1 && y < heighty-1))
+                if ((x >= 1 && x < widthx - 1) && (y >= 1 && y < heighty - 1))
                 {
                     charArr[x + y * widthx] = Visual;
                     continue;
                 }
-                
+
                 //Sides
                 charArr[x + y * widthx] = TwoWay;
             }

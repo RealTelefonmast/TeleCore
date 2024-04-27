@@ -12,15 +12,15 @@ public static class TMath
         var newArr = new T[arr.Length];
 
         for (var x = 0; x < width; x++)
-        for (var y = 0; y < height; y++)
-        {
-            var curIndex = width * y + x;
-            var newX = width - 1 - x;
-            var newY = height - 1 - y;
-            var newIndex = width * newY + newX;
+            for (var y = 0; y < height; y++)
+            {
+                var curIndex = width * y + x;
+                var newX = width - 1 - x;
+                var newY = height - 1 - y;
+                var newIndex = width * newY + newX;
 
-            newArr[newIndex] = arr[curIndex];
-        }
+                newArr[newIndex] = arr[curIndex];
+            }
 
         return newArr;
     }
@@ -30,13 +30,13 @@ public static class TMath
         var newArr = new T[arr.Length];
 
         for (var x = width - 1; x >= 0; x--)
-        for (var y = height - 1; y >= 0; y--)
-        {
-            var curIndex = width * y + x;
-            var newX = width - 1 - x;
-            var transposed = height * newX + y;
-            newArr[transposed] = arr[curIndex];
-        }
+            for (var y = height - 1; y >= 0; y--)
+            {
+                var curIndex = width * y + x;
+                var newX = width - 1 - x;
+                var transposed = height * newX + y;
+                newArr[transposed] = arr[curIndex];
+            }
 
         return newArr;
     }
@@ -46,15 +46,15 @@ public static class TMath
         var newArr = new T[arr.Length];
 
         for (var x = 0; x < width; x++)
-        for (var y = 0; y < height; y++)
-        {
-            var curIndex = width * y + x;
+            for (var y = 0; y < height; y++)
+            {
+                var curIndex = width * y + x;
 
-            //Invert y(as width)
-            var newY = height - 1 - y;
-            var transposed = height * x + newY;
-            newArr[transposed] = arr[curIndex];
-        }
+                //Invert y(as width)
+                var newY = height - 1 - y;
+                var transposed = height * x + newY;
+                newArr[transposed] = arr[curIndex];
+            }
 
         return newArr;
     }
@@ -112,7 +112,7 @@ public static class TMath
         if (n == 2) return true;
         if (n % 2 == 0) return false;
 
-        var boundary = (int) Math.Floor(Math.Sqrt(n));
+        var boundary = (int)Math.Floor(Math.Sqrt(n));
         for (var i = 3; i <= boundary; i += 2)
             if (n % i == 0)
                 return false;

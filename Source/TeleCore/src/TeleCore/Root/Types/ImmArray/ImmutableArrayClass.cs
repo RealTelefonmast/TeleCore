@@ -32,7 +32,7 @@ public static class ImmutableArray
     /// <returns>A 1-element immutable array containing the specified item.</returns>
     public static ImmutableArray<T> Create<T>(T item)
     {
-        return new ImmutableArray<T>(new[] {item});
+        return new ImmutableArray<T>(new[] { item });
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public static class ImmutableArray
     /// <returns>A 2-element immutable array containing the specified items.</returns>
     public static ImmutableArray<T> Create<T>(T item1, T item2)
     {
-        return new ImmutableArray<T>(new[] {item1, item2});
+        return new ImmutableArray<T>(new[] { item1, item2 });
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public static class ImmutableArray
     /// <returns>A 3-element immutable array containing the specified items.</returns>
     public static ImmutableArray<T> Create<T>(T item1, T item2, T item3)
     {
-        return new ImmutableArray<T>(new[] {item1, item2, item3});
+        return new ImmutableArray<T>(new[] { item1, item2, item3 });
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public static class ImmutableArray
     /// <returns>A 4-element immutable array containing the specified items.</returns>
     public static ImmutableArray<T> Create<T>(T item1, T item2, T item3, T item4)
     {
-        return new ImmutableArray<T>(new[] {item1, item2, item3, item4});
+        return new ImmutableArray<T>(new[] { item1, item2, item3, item4 });
     }
 
     /// <summary>
@@ -86,8 +86,8 @@ public static class ImmutableArray
         {
             return ImmutableArray<T>.Empty;
         }
-        
-        return new ImmutableArray<T>( items.ToArray());
+
+        return new ImmutableArray<T>(items.ToArray());
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public static class ImmutableArray
     /// <returns>An immutable array containing the specified items.</returns>
     public static ImmutableArray<T> Create<T>(Span<T> items)
     {
-        return Create((ReadOnlySpan<T>) items);
+        return Create((ReadOnlySpan<T>)items);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public static class ImmutableArray
     /// <returns>An immutable array containing the specified items.</returns>
     public static ImmutableArray<T> ToImmutableArray<T>(this Span<T> items)
     {
-        return Create((ReadOnlySpan<T>) items);
+        return Create((ReadOnlySpan<T>)items);
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public static class ImmutableArray
             // the only types that could be both IEnumerable<T> and IImmutableArray.
             // As such, we know that items is either an ImmutableArray<T> or
             // ImmutableArray<TypeDerivedFromT>, and we can cast the array to T[].
-            return new ImmutableArray<T>((T[]) array);
+            return new ImmutableArray<T>((T[])array);
         }
 
         // We don't recognize the source as an array that is safe to use.
@@ -414,7 +414,7 @@ public static class ImmutableArray
     {
         if (items is ImmutableArray<TSource>)
         {
-            return (ImmutableArray<TSource>) items;
+            return (ImmutableArray<TSource>)items;
         }
 
         return CreateRange(items);

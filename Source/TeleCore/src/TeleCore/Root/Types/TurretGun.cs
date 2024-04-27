@@ -15,25 +15,25 @@ public class TurretGun : IAttackTargetSearcher
     private int _turretIndex;
     private Effecter? _progressBar;
     private Thing? _gun;
-    
+
     //Turret Data
     private TurretGunTop _top;
     private int maxShotRotations;
     private int _curShotIndex;
     private int _lastShotIndex;
-    
+
     //Local state
-    private bool _holdFire; 
+    private bool _holdFire;
     private bool _burstActivated;
     private int _burstWarmupTicksLeft;
     private int _burstCooldownTicksLeft;
-    
+
     private LocalTargetInfo _forcedTarget = LocalTargetInfo.Invalid;
     private LocalTargetInfo _currentTargetInt;
-    
+
     private int _lastAttackTargetTick;
     private LocalTargetInfo _lastAttackedTarget;
-    
+
     public int BurstCoolDownTicksLeft => _burstCooldownTicksLeft;
     public bool HoldFire => _holdFire; //Also considers parent override
     public LocalTargetInfo ForcedTarget => _forcedTarget;
@@ -43,11 +43,11 @@ public class TurretGun : IAttackTargetSearcher
     public Thing Gun => _gun;
     public TurretGunTop Top => _top;
     public CompEquippable GunCompEq => _gun.TryGetComp<CompEquippable>();
-    
+
     public Vector3 DrawPos => ParentThing.DrawPos + _props.turretOffset;
     public float TurretRotation => _top?.CurRotation ?? 0;
     public int ShotIndex => _curShotIndex;
-    
+
     public bool UsesTurretGunTop => _props.turretTop != null;
     public bool NeedsRoofless => IsMortar;
     public bool CanToggleHoldFire => Parent.PlayerControlled;
@@ -59,21 +59,21 @@ public class TurretGun : IAttackTargetSearcher
             if (!Parent.PlayerControlled)
                 return false;
             var compChangeableProjectile = Gun.TryGetComp<CompChangeableProjectile>();
-            return compChangeableProjectile is {Loaded: true};
+            return compChangeableProjectile is { Loaded: true };
         }
     }
-    
+
     //Verb
     public Verb AttackVerb => GunCompEq.PrimaryVerb;
     public Verb_Tele? TeleVerb => AttackVerb as Verb_Tele;
     public VerbProperties_Extended? VerbPropsExtended => TeleVerb?.Props;
-    
+
     //State
     public LocalTargetInfo CurrentTarget => _currentTargetInt.IsValid ? _currentTargetInt : _forcedTarget;
     public bool WarmingUp => _burstWarmupTicksLeft > 0;
     public bool IsStunned => Parent.IsStunned; //TODO: Individual turrets can be stunned
-    
-    public float BurstCooldownTime 
+
+    public float BurstCooldownTime
     {
         get
         {
@@ -81,13 +81,13 @@ public class TurretGun : IAttackTargetSearcher
             return AttackVerb.verbProps.defaultCooldownTime;
         }
     }
-    
+
     //IAttackTargetSearcher
     public Thing Thing => ParentThing;
     public Verb CurrentEffectiveVerb => AttackVerb;
     public LocalTargetInfo LastAttackedTarget => _lastAttackedTarget;
     public int LastAttackTargetTick => _lastAttackTargetTick;
-    
+
     #region Parent Data
 
     public ITurretHolder Parent { get; private set; }
@@ -95,7 +95,7 @@ public class TurretGun : IAttackTargetSearcher
     private bool IsMortar => ParentThing.def.building.IsMortar || AttackVerb is Verb_Tele { IsMortar: true } || AttackVerb.ProjectileFliesOverhead();
 
     #endregion
-    
+
     #region Ticking and Updating
 
     public void TickGun()
@@ -107,7 +107,7 @@ public class TurretGun : IAttackTargetSearcher
                 ExtractShell();
         }
 
-        if (_forcedTarget.IsValid && !CanSetForcedTarget) 
+        if (_forcedTarget.IsValid && !CanSetForcedTarget)
             ResetForcedTarget();
 
         //Hnadled by parent
@@ -116,7 +116,7 @@ public class TurretGun : IAttackTargetSearcher
         //     this.holdFire = false;
         // }
 
-        if (_forcedTarget.ThingDestroyed) 
+        if (_forcedTarget.ThingDestroyed)
             ResetForcedTarget();
 
         var mannedIfRequired = Parent.MannableComp == null || Parent.MannableComp.MannedNow;
@@ -130,7 +130,7 @@ public class TurretGun : IAttackTargetSearcher
                 if (WarmingUp)
                 {
                     _burstWarmupTicksLeft--;
-                    if (_burstWarmupTicksLeft == 0) 
+                    if (_burstWarmupTicksLeft == 0)
                         BeginBurst();
                 }
                 else
@@ -158,13 +158,13 @@ public class TurretGun : IAttackTargetSearcher
             ResetCurrentTarget();
         }
     }
-    
+
     private void BeginBurst()
     {
         AttackVerb.TryStartCastOn(CurrentTarget);
         OnAttackedTarget(CurrentTarget);
     }
-    
+
     private void TryStartShootSomething(bool canBeginBurstImmediately)
     {
         if (_progressBar != null)
@@ -196,7 +196,7 @@ public class TurretGun : IAttackTargetSearcher
             ResetCurrentTarget();
         }
     }
-    
+
     public void Draw(Vector3 drawLoc)
     {
         //drawLoc += _props.turretOffset;
@@ -212,7 +212,7 @@ public class TurretGun : IAttackTargetSearcher
         if (range < 90f) GenDraw.DrawRadiusRing(ParentThing.Position, range);
         var num = AttackVerb.verbProps.EffectiveMinRange(true);
         if (num is < 90f and > 0.1f) GenDraw.DrawRadiusRing(ParentThing.Position, num);
-        
+
         if (WarmingUp)
         {
             var degreesWide = (int)(_burstWarmupTicksLeft * 0.5f);
@@ -245,17 +245,17 @@ public class TurretGun : IAttackTargetSearcher
     public void Notify_FiredSingleProjectile()
     {
         _top?.Notify_TurretShot(ShotIndex);
-        
+
         _lastShotIndex = ShotIndex;
         _curShotIndex++;
         if (ShotIndex > maxShotRotations - 1)
             _curShotIndex = 0;
-        
+
         Parent.Notify_OnProjectileFired();
     }
 
     #endregion
-    
+
     #region Turret Helper Actions
 
     internal void Setup(TurretProperties props, int index, TurretGunSet set, ITurretHolder parent)
@@ -263,10 +263,10 @@ public class TurretGun : IAttackTargetSearcher
         _props = props;
         _turretIndex = index;
         Parent = parent;
-        
+
         //
         _burstCooldownTicksLeft = props.turretInitialCooldownTime.SecondsToTicks();
-        
+
         _gun = ThingMaker.MakeThing(props.turretGunDef);
         List<Verb> allVerbs = Gun.TryGetComp<CompEquippable>().AllVerbs;
         foreach (var verb in allVerbs)
@@ -294,7 +294,7 @@ public class TurretGun : IAttackTargetSearcher
             maxShotRotations = Math.Max(max1, max2);
         }
     }
-    
+
     private LocalTargetInfo TryFindNewTarget()
     {
         var attackTargetSearcher = TargSearcher();
@@ -302,7 +302,7 @@ public class TurretGun : IAttackTargetSearcher
         var range = AttackVerb.verbProps.range;
         Building t;
         if (Rand.Value < 0.5f && this.AttackVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer) && ParentThing.Map.listerBuildings
-                .allBuildingsColonist.Where(delegate(Building x)
+                .allBuildingsColonist.Where(delegate (Building x)
                 {
                     var num = AttackVerb.verbProps.EffectiveMinRange(x, ParentThing);
                     float num2 = x.Position.DistanceToSquared(ParentThing.Position);
@@ -319,13 +319,13 @@ public class TurretGun : IAttackTargetSearcher
         {
             targetScanFlags |= TargetScanFlags.NeedNonBurning;
         }
-        
+
         if (NeedsRoofless)
         {
             targetScanFlags |= TargetScanFlags.NeedNotUnderThickRoof;
         }
-        
-        return (Thing) AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, IsValidTarget);
+
+        return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, IsValidTarget);
     }
 
     private bool IsValidTarget(Thing t)
@@ -345,18 +345,18 @@ public class TurretGun : IAttackTargetSearcher
 
         return true;
     }
-    
+
     private void StartTargeting(LocalTargetInfo newTarget)
     {
         Parent.Notify_NewTarget(CurrentTarget);
     }
-    
+
     private void ExtractShell()
     {
         var shell = Gun.TryGetComp<CompChangeableProjectile>().RemoveShell();
         GenPlace.TryPlaceThing(shell, ParentThing.Position, ParentThing.Map, ThingPlaceMode.Near);
     }
-    
+
     internal void ResetForcedTarget()
     {
         Parent.Notify_LostTarget(_forcedTarget);
@@ -372,13 +372,13 @@ public class TurretGun : IAttackTargetSearcher
         _currentTargetInt = LocalTargetInfo.Invalid;
         _burstWarmupTicksLeft = 0;
     }
-    
+
     private void OnAttackedTarget(LocalTargetInfo target)
     {
         this._lastAttackTargetTick = Find.TickManager.TicksGame;
         this._lastAttackedTarget = target;
     }
-    
+
     private IAttackTargetSearcher TargSearcher()
     {
         if (Parent.MannableComp is { MannedNow: true })
@@ -387,7 +387,7 @@ public class TurretGun : IAttackTargetSearcher
         }
         return this;
     }
-    
+
     private void BurstComplete()
     {
         _burstCooldownTicksLeft = BurstCooldownTime.SecondsToTicks();
@@ -397,7 +397,7 @@ public class TurretGun : IAttackTargetSearcher
     {
         if (!targ.IsValid)
         {
-            if (_forcedTarget.IsValid) 
+            if (_forcedTarget.IsValid)
                 ResetForcedTarget();
             return;
         }
@@ -437,16 +437,16 @@ public class TurretGun : IAttackTargetSearcher
             ResetForcedTarget();
         }
     }
-    
+
     public void ForceOrderAttack(LocalTargetInfo targ)
     {
         if (!targ.IsValid)
         {
-            if (_forcedTarget.IsValid) 
+            if (_forcedTarget.IsValid)
                 ResetForcedTarget();
             return;
         }
-        
+
         if ((targ.Cell - ParentThing.Position).LengthHorizontal < AttackVerb.verbProps.EffectiveMinRange(targ, Parent.Caster))
         {
             Messages.Message("MessageTargetBelowMinimumRange".Translate(), null, MessageTypeDefOf.RejectInput, false);
@@ -462,7 +462,7 @@ public class TurretGun : IAttackTargetSearcher
         _currentTargetInt = targ;
         AttackVerb.TryStartCastOn(targ);
         OnAttackedTarget(targ);
-        
+
         if (HoldFire)
         {
             Messages.Message("MessageTurretWontFireBecauseHoldFire".Translate(ParentThing.def.label), ParentThing,
@@ -470,7 +470,7 @@ public class TurretGun : IAttackTargetSearcher
             ResetForcedTarget();
         }
     }
-    
+
     #endregion
 }
 

@@ -11,7 +11,7 @@ public class BeamProperties
     //
     public DamageDef damageDef;
     public FloatRange visWidth = FloatRange.One;
-    
+
     //
     public EffecterDef impactEffecter;
     public ExplosionProperties impactExplosion;

@@ -98,7 +98,7 @@ public static class UIDragNDropper
             float width = 150;
             float size = 25;
 
-            var height = (float) Math.Round(sheet.Tiles.Count / 4f, 0, MidpointRounding.AwayFromZero) * 25;
+            var height = (float)Math.Round(sheet.Tiles.Count / 4f, 0, MidpointRounding.AwayFromZero) * 25;
             width = Math.Min(sheet.Tiles.Count * size, width);
             var rect = new Rect(pos, new Vector2(width, height));
             Widgets.DrawBox(rect);

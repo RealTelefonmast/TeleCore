@@ -44,7 +44,7 @@ public class SimpleWorldGrid
     {
         get
         {
-            if ((ulong) tileID >= (ulong) TilesCount) return null;
+            if ((ulong)tileID >= (ulong)TilesCount) return null;
             return tiles[tileID];
         }
     }
@@ -78,7 +78,7 @@ public class SimpleWorldGrid
             }
         }
 
-        averageTileSize = (float) (num / num2);
+        averageTileSize = (float)(num / num2);
     }
 
     public Vector3 GetTileCenter(int tileID)
@@ -97,7 +97,7 @@ public class SimpleWorldGrid
 
     public bool InBounds(int tileID)
     {
-        return (ulong) tileID < (ulong) TilesCount;
+        return (ulong)tileID < (ulong)TilesCount;
     }
 
     public Vector2 LongLatOf(int tileID)

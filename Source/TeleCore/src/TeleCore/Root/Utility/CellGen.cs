@@ -90,8 +90,8 @@ public static class CellGen
         var maxX = minX + 1 + 1;
         var maxZ = minZ + 1 + 1;
         for (var i = minX; i <= maxX; i++)
-        for (var j = minZ; j <= maxZ; j++)
-            yield return new IntVec3(i, 0, j);
+            for (var j = minZ; j <= maxZ; j++)
+                yield return new IntVec3(i, 0, j);
     }
 
     /// <summary>
@@ -176,8 +176,8 @@ public static class CellGen
         var c = default(IntVec3);
         while (i > 1)
         {
-            c.x = (int) x;
-            c.z = (int) z;
+            c.x = (int)x;
+            c.z = (int)z;
 
             var curY = Mathf.Lerp(startY, endY, (c.x - start.x) * 2 / dx);
 
@@ -195,7 +195,7 @@ public static class CellGen
                 error += dx;
             }
 
-            var num = (int) (i - 1);
+            var num = (int)(i - 1);
             i = num;
         }
     }

@@ -12,9 +12,9 @@ namespace TeleCore.Network;
 public class PipeNetworkMapInfo : MapInformation
 {
     private readonly Dictionary<NetworkDef, DynamicNetworkGraph>? _managers;
-    
+
     public DynamicNetworkGraph this[NetworkDef def] => _managers.TryGetValue(def, out var value) ? value : null;
-    
+
     public PipeNetworkMapInfo(Map map) : base(map)
     {
         //GlobalEventHandler.ThingSpawned += Notify_NewNetworkStructureSpawned;
@@ -85,7 +85,7 @@ public class PipeNetworkMapInfo : MapInformation
 
     public override void UpdateOnGUI()
     {
-        foreach (var system in _managers) 
+        foreach (var system in _managers)
             system.Value.DrawOnGUI();
     }
 }

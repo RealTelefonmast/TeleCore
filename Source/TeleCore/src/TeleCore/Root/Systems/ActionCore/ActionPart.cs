@@ -97,7 +97,7 @@ public class ActionPart : IExposable
         if (Completed || !CanBeDoneNow(compositionTick)) return;
 
         //Play Sound Once - Always
-        if (CurrentTick == 0) 
+        if (CurrentTick == 0)
             sound.PlaySound();
 
         action?.Invoke(this);

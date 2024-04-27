@@ -20,9 +20,9 @@ internal static class ThingPatches
             if (networkConstr == null || networkPipe == null) return false;
 
             return (from network in networkConstr.networks
-                from pipeNetwork in networkPipe.networks
-                where network.networkDef == pipeNetwork.networkDef
-                select network).Any();
+                    from pipeNetwork in networkPipe.networks
+                    where network.networkDef == pipeNetwork.networkDef
+                    select network).Any();
         }
 
         internal static ThingDef GetThingDef(ThingDef thingDef)
@@ -220,8 +220,8 @@ internal static class ThingPatches
             Map = null;
         }
     }
-    
-    [HarmonyPatch(typeof(BuildCopyCommandUtility), nameof(BuildCopyCommandUtility.FindAllowedDesignator))] 
+
+    [HarmonyPatch(typeof(BuildCopyCommandUtility), nameof(BuildCopyCommandUtility.FindAllowedDesignator))]
     private static class BuildCopyCommandUtility_FindAllowedDesignator_Patch
     {
         private static bool Prefix(BuildableDef buildable, bool mustBeVisible, ref Designator_Build __result)

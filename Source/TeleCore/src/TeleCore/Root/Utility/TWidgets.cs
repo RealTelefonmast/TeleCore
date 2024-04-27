@@ -18,9 +18,9 @@ public static class TWidgets
         Vector3 point1_screen = Find.Camera.WorldToScreenPoint(point1) / Prefs.UIScale;
         Vector3 point2_screen = Find.Camera.WorldToScreenPoint(point2) / Prefs.UIScale;
         float pixelWidth = (point1_screen - point2_screen).magnitude;
-        return pixelWidth; 
+        return pixelWidth;
     }
-    
+
     //World To ScreenSpace
     public static void DrawBoxOnThing(Thing thing)
     {
@@ -33,7 +33,7 @@ public static class TWidgets
         var rect = new Rect(v.x - sizeHalf, v.y - sizeHalf, size, size);
         DrawColoredBox(rect, new Color(1, 1, 1, 0.1f), Color.white, 1);
 
-        if(UI.MousePositionOnUIInverted.DistanceToRect(rect) < 40)
+        if (UI.MousePositionOnUIInverted.DistanceToRect(rect) < 40)
             GenMapUI.DrawThingLabel(rect.position + (rect.size / 2), thing.ToString(), Color.white);
     }
 
@@ -414,7 +414,7 @@ public static class TWidgets
         Widgets.DrawHighlightIfMouseover(rect);
         return Widgets.ButtonInvisible(rect, mouseOverSound);
     }
-    
+
     //WidgetRow Extensions
     public static void Checkbox(this WidgetRow row, ref bool checkOn, bool active, float width = 24)
     {
@@ -657,13 +657,13 @@ public static class TWidgets
     internal static Texture2D TextureForFleck(FleckDef fleck)
     {
         Texture2D texture = null;
-        if (fleck.graphicData is {Graphic: not null})
-            texture = (Texture2D) fleck.graphicData.Graphic.MatSingle.mainTexture;
+        if (fleck.graphicData is { Graphic: not null })
+            texture = (Texture2D)fleck.graphicData.Graphic.MatSingle.mainTexture;
         if (texture == null && fleck.randomGraphics != null)
         {
             var randomGraphic = fleck.randomGraphics.FirstOrFallback(c => GetPathOf(c) != null);
             if (randomGraphic != null)
-                texture = (Texture2D) randomGraphic.Graphic.MatSingle.mainTexture;
+                texture = (Texture2D)randomGraphic.Graphic.MatSingle.mainTexture;
         }
 
         return texture ?? BaseContent.BadTex;
@@ -672,13 +672,13 @@ public static class TWidgets
     internal static Texture2D TextureForThingDef(ThingDef def)
     {
         Texture2D texture = null;
-        if (def.graphicData is {Graphic: not null})
-            texture = (Texture2D) def.graphicData.Graphic.MatSingle.mainTexture;
+        if (def.graphicData is { Graphic: not null })
+            texture = (Texture2D)def.graphicData.Graphic.MatSingle.mainTexture;
         if (texture == null && def.graphicData.Graphic is Graphic_Random random)
         {
             var randomGraphic = random.subGraphics.FirstOrDefault();
             if (randomGraphic != null)
-                texture = (Texture2D) randomGraphic.MatSingle.mainTexture;
+                texture = (Texture2D)randomGraphic.MatSingle.mainTexture;
         }
 
         return texture ?? BaseContent.BadTex;
@@ -695,13 +695,13 @@ public static class TWidgets
 
         if (def is FleckDef fleck)
         {
-            if (fleck.graphicData is {Graphic: not null})
-                texture = (Texture2D) fleck.graphicData.Graphic.MatSingle.mainTexture;
+            if (fleck.graphicData is { Graphic: not null })
+                texture = (Texture2D)fleck.graphicData.Graphic.MatSingle.mainTexture;
             if (texture == null && fleck.randomGraphics != null)
             {
                 var randomGraphic = fleck.randomGraphics.FirstOrFallback(c => GetPathOf(c) != null);
                 if (randomGraphic != null)
-                    texture = (Texture2D) randomGraphic.Graphic.MatSingle.mainTexture;
+                    texture = (Texture2D)randomGraphic.Graphic.MatSingle.mainTexture;
             }
         }
 

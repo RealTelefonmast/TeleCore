@@ -20,7 +20,7 @@ public abstract class Verb_Tele : Verb
     public TurretGun turretGun;
 
     //
-    public VerbProperties_Extended Props => (VerbProperties_Extended) verbProps;
+    public VerbProperties_Extended Props => (VerbProperties_Extended)verbProps;
     public CompNetwork NetworkComp => caster.TryGetComp<CompNetwork>();
     public CompPowerTrader PowerComp => caster.TryGetComp<CompPowerTrader>();
 
@@ -259,7 +259,7 @@ public abstract class Verb_Tele : Verb
             // if (comp2 != null) comp2.UsedOnce();
         }
 
-        if (verbProps.consumeFuelPerShot > 0f) 
+        if (verbProps.consumeFuelPerShot > 0f)
             turretGun?.Parent.RefuelComp?.ConsumeFuel(verbProps.consumeFuelPerShot);
 
         //TODO: Add power consumption

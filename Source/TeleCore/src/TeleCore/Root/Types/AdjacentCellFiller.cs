@@ -25,7 +25,7 @@ public static class AdjacentCellFiller
             new FastPriorityQueue<IntVec3>(new RandomAdjacentCellComparer(root, map, cellToSkipValidator));
 
         //Sellect all cells
-        map.floodFiller.FloodFill(root, cellToSkipValidator, delegate(IntVec3 x) { tempFilledCells.Add(x); });
+        map.floodFiller.FloodFill(root, cellToSkipValidator, delegate (IntVec3 x) { tempFilledCells.Add(x); });
 
         if (tempFilledCells.Count == 0) return;
 

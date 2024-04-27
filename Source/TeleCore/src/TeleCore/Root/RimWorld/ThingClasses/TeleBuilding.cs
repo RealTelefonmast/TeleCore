@@ -28,7 +28,7 @@ public class TeleBuilding : FXBuilding, IDiscoverable
         if (def.HasTeleExtension(out var textension))
         {
             TeleExtension = textension;
-            if (TeleExtension.addCustomTick) 
+            if (TeleExtension.addCustomTick)
                 TeleEventHandler.EntityTicked += TeleTickInternal;
         }
     }
@@ -46,11 +46,11 @@ public class TeleBuilding : FXBuilding, IDiscoverable
         foreach (var comp in AllComps)
             if (comp is TeleComp teleComp)
                 teleComp.TeleTick();
-        
+
         //
         TeleTick();
     }
-    
+
     /// <summary>
     /// Ticks after all comps have ticked.
     /// </summary>

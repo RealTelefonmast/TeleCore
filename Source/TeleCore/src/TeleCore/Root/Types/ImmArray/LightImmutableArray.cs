@@ -59,8 +59,8 @@ public partial struct LightImmutableArray<T>
             return ++_index < _array.Length;
         }
     }
-    
-        /// <summary>
+
+    /// <summary>
     /// An array enumerator that implements <see cref="IEnumerator{T}"/> pattern (including <see cref="IDisposable"/>).
     /// </summary>
     private sealed class ImmutableArrayEnumeratorObject : IEnumerator<T>
@@ -102,7 +102,7 @@ public partial struct LightImmutableArray<T>
             {
                 // this.index >= 0 && this.index < this.array.Length
                 // unsigned compare performs the range check above in one compare
-                if (unchecked((uint) _index) < (uint) _array.Length)
+                if (unchecked((uint)_index) < (uint)_array.Length)
                 {
                     return _array[_index];
                 }
@@ -130,10 +130,10 @@ public partial struct LightImmutableArray<T>
             int length = _array.Length;
 
             // unsigned math is used to prevent false positive if index + 1 overflows.
-            if ((uint) newIndex <= (uint) length)
+            if ((uint)newIndex <= (uint)length)
             {
                 _index = newIndex;
-                return (uint) newIndex < (uint) length;
+                return (uint)newIndex < (uint)length;
             }
 
             return false;
@@ -177,7 +177,7 @@ public partial struct LightImmutableArray<T>
 }
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
-public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T>, IEnumerable<T>,IStructuralComparable, IStructuralEquatable
+public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T>, IEnumerable<T>, IStructuralComparable, IStructuralEquatable
 {
     //TODO: STRUCT NEEDS TO BE READONLY
     //MANAGE NULL ARR BY GUARD - FU
@@ -200,13 +200,13 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
     }
 
     public int Length => Array.Length;
-    
+
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool IsEmpty => Array.Length == 0;
-    
+
     public bool IsNull => _arr == null;
     public bool IsNullOrEmpty => _arr == null || _arr.Length == 0;
-    
+
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
     {
@@ -216,7 +216,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
             return self.IsNullOrEmpty ? "Uninitialized" : $"Length = {self.Length}";
         }
     }
-    
+
     public T this[int i]
     {
         get
@@ -232,15 +232,15 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
             TLog.Error($"Cannot set ImmutableArray directly, use {nameof(SetAt)} instead!");
         }
     }
-    
+
     public static readonly LightImmutableArray<T> Empty = new LightImmutableArray<T>(System.Array.Empty<T>());
-    
+
     public LightImmutableArray(T item)
     {
         _arr = new T[1];
         _arr[0] = item;
     }
-    
+
     public LightImmutableArray(T[] array)
     {
         _arr = array;
@@ -278,9 +278,9 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
 
     public LightImmutableArray<T> Clear()
     {
-        return Empty;       
+        return Empty;
     }
-    
+
     public LightImmutableArray<T> Replace(T oldValue, T newValue)
     {
         return this.Replace(oldValue, newValue, EqualityComparer<T>.Default);
@@ -295,7 +295,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
         tmp[index] = item;
         return new LightImmutableArray<T>(tmp);
     }
-    
+
     public LightImmutableArray<T> Replace(T oldValue, T newValue, IEqualityComparer<T>? equalityComparer)
     {
         var self = this;
@@ -307,8 +307,8 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
 
         return self.SetAt(index, newValue);
     }
-    
-    
+
+
     public LightImmutableArray<T> Add(T item)
     {
         var self = this;
@@ -348,7 +348,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
 
     public int IndexOf(T item, int startIndex, int count, IEqualityComparer<T>? equalityComparer)
     {
-        if (count == 0 && startIndex == 0)return -1;
+        if (count == 0 && startIndex == 0) return -1;
 
         Requires.Range(startIndex >= 0 && startIndex < Length, nameof(startIndex));
         Requires.Range(count >= 0 && startIndex + count <= Length, nameof(count));
@@ -364,7 +364,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
 
         return -1;
     }
-    
+
     private void AsserIllegalState()
     {
         if (IsNullOrEmpty)
@@ -375,7 +375,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
     }
 
     #region Operators
-    
+
     #region Equality
 
     public static bool operator !=(LightImmutableArray<T> arr, Array? obj)
@@ -396,18 +396,18 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
     {
         return ImmutableArrayEnumeratorObject.Create(Array);
     }
-    
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return ImmutableArrayEnumeratorObject.Create(Array);
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ImmutableArrayEnumerator GetEnumerator()
     {
         return new ImmutableArrayEnumerator(Array);
     }
-    
+
     //
     public int CompareTo(object other, IComparer comparer)
     {
@@ -422,7 +422,7 @@ public partial struct LightImmutableArray<T> : IImmutableArray<T>, ICollection<T
                 {
                     return 0;
                 }
-                
+
                 if (Array == null ^ otherArray == null)
                 {
                     throw new ArgumentException("SR.ArrayInitializedStateNotEqual", nameof(other));

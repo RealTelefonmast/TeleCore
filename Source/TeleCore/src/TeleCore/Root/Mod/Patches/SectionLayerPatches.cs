@@ -27,7 +27,7 @@ public static class SectionLayerPatches
             subMesh.verts.Add(new Vector3(0.5f * size.x, 0f, -0.5f * size.y));
             if (rot != 0f)
             {
-                var num = rot * ((float) Math.PI / 180f);
+                var num = rot * ((float)Math.PI / 180f);
                 num *= -1f;
                 for (var i = 0; i < 4; i++)
                 {

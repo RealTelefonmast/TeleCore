@@ -7,7 +7,7 @@ public class TeleCoreSettings : ModSettings
 {
     public bool enableProjectileGraphicRandomFix;
     public bool showToolsInMainMenu;
-    
+
     //
     private List<string> keyList;
 

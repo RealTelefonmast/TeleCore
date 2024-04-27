@@ -14,7 +14,7 @@ public class ClampWorker_Overcommit : ClampWorker
     public override bool MaintainFlowSpeed => false;
     public override double MinDivider => 4;
     public override double MaxDivider => 1;
-    
+
     public override DefValueStack<NetworkValueDef, double> ClampFunction(FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef> iface, DefValueStack<NetworkValueDef, double> f, ClampType type)
     {
         var from = iface.From;
@@ -66,7 +66,7 @@ public class ClampWorker_Overcommit : ClampWorker
     {
         NetworkVolume t0 = iface.From;
         NetworkVolume t1 = iface.To;
-        
+
         double d, c, r;
         if (EnforceMinPipe)
         {

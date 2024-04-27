@@ -37,9 +37,9 @@ public class DefBrowser : DataBrowser<Def>
         {
             _cachedData.Clear();
             foreach (var contentPack in AllowedMods)
-            foreach (var def in contentPack.AllDefs)
-                if (_settings.filter(def) && filter.Matches(def.defName))
-                    _cachedData.Add(def);
+                foreach (var def in contentPack.AllDefs)
+                    if (_settings.filter(def) && filter.Matches(def.defName))
+                        _cachedData.Add(def);
         }
 
         return _cachedData;
@@ -53,7 +53,7 @@ public class DefBrowser : DataBrowser<Def>
     protected override Texture2D IconFor(Def element)
     {
         if (element is ThingDef thingDef)
-            return (Texture2D) (thingDef.graphicData?.Graphic?.MatSingle?.mainTexture ?? BaseContent.BadTex);
+            return (Texture2D)(thingDef.graphicData?.Graphic?.MatSingle?.mainTexture ?? BaseContent.BadTex);
         if (element is FleckDef fleckDef)
         {
             var texture = TWidgets.TextureForFleckMote(fleckDef);

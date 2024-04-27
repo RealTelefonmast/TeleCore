@@ -23,7 +23,7 @@ public class EffectElement : UIElement
     public bool IsMote => def is ThingDef;
     public bool IsFleck => def is FleckDef;
 
-    public EffectCanvas ParentCanvas => (EffectCanvas) _parent;
+    public EffectCanvas ParentCanvas => (EffectCanvas)_parent;
 
     //EffectData
     public Vector2 EffectOffset => Position - Parent.InRect.center;

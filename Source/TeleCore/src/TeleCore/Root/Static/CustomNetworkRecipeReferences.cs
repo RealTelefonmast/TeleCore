@@ -24,24 +24,24 @@ internal static class CustomNetworkRecipeReferences
 
     public static void TryRegister(Def def)
     {
-        if (def is CustomRecipeRatioDef {tags: not null} ratioDef)
+        if (def is CustomRecipeRatioDef { tags: not null } ratioDef)
             foreach (var ratioDefTag in ratioDef.tags)
             {
                 if (!_ratiosByTag.ContainsKey(ratioDefTag))
                 {
-                    _ratiosByTag.Add(ratioDefTag, new List<CustomRecipeRatioDef> {ratioDef});
+                    _ratiosByTag.Add(ratioDefTag, new List<CustomRecipeRatioDef> { ratioDef });
                     return;
                 }
 
                 _ratiosByTag[ratioDefTag].Add(ratioDef);
             }
 
-        if (def is CustomRecipePresetDef {tags: not null} presetDef)
+        if (def is CustomRecipePresetDef { tags: not null } presetDef)
             foreach (var presetDefTag in presetDef.tags)
             {
                 if (!_presetsByTag.ContainsKey(presetDefTag))
                 {
-                    _presetsByTag.Add(presetDefTag, new List<CustomRecipePresetDef> {presetDef});
+                    _presetsByTag.Add(presetDefTag, new List<CustomRecipePresetDef> { presetDef });
                     return;
                 }
 

@@ -12,10 +12,10 @@ public class SubBuildMenuDef : Def
     public Type visWorker = typeof(SubMenuVisibilityWorker);
 
     //
-    [field: Unsaved] 
+    [field: Unsaved]
     public DesignationTexturePack TexturePack { get; private set; }
 
-    [field: Unsaved] 
+    [field: Unsaved]
     public SubMenuVisibilityWorker VisWorker { get; private set; }
 
     public override void ResolveReferences()
@@ -38,7 +38,7 @@ public class SubBuildMenuDef : Def
         LongEventHandler.ExecuteWhenFinished(delegate
         {
             TexturePack ??= new DesignationTexturePack(superPackPath, this);
-            VisWorker = (SubMenuVisibilityWorker) Activator.CreateInstance(visWorker);
+            VisWorker = (SubMenuVisibilityWorker)Activator.CreateInstance(visWorker);
         });
     }
 }

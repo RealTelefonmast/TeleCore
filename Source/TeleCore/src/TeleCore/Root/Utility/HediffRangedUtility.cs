@@ -27,7 +27,7 @@ public static class HediffRangedUtility
                     targetScanFlags |= TargetScanFlags.NeedNonBurning;
 
                 var bestTarget =
-                    (Thing) AttackTargetFinder.BestShootTargetFromCurrentPosition(driver.pawn, targetScanFlags);
+                    (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(driver.pawn, targetScanFlags);
                 if (bestTarget == null) continue;
                 //rangedHediff;
                 verb.verbProps.warmupTime = 0;

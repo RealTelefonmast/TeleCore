@@ -47,10 +47,10 @@ public abstract class ClampWorker
     protected double ClampFlow(double content, double flow, double limit)
     {
         // 'content' can be available fluid or remaining space
-        if (content <= 0) 
+        if (content <= 0)
             return 0;
 
-        if (flow >= 0) 
+        if (flow >= 0)
             return flow <= limit ? flow : limit;
         return flow >= -limit ? flow : -limit;
     }

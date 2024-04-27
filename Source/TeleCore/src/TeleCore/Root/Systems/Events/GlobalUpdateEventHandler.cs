@@ -9,7 +9,7 @@ public static class GlobalUpdateEventHandler
     public static event Action GameTick;
     public static event Action GameUITick;
     public static event Action UITick;
-    
+
     public static void ClearData()
     {
         StaticEventHandler.CheckEventHandler(ref GameTick, true);

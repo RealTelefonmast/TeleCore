@@ -10,7 +10,7 @@ public class DevToolDef : Def
     public Type windowClass;
     private Window windowInt;
 
-    public Window GetWindow => windowInt ??= (Window) Activator.CreateInstance(windowClass);
+    public Window GetWindow => windowInt ??= (Window)Activator.CreateInstance(windowClass);
 }
 
 public class Dialog_ToolSelection : Window

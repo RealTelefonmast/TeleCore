@@ -76,7 +76,7 @@ public class FlowValueFilterSettingsTemplate<TValue> : IExposable where TValue :
         }
         else
         {
-            filterSettings.Add(value, new FlowValueFilterSettings {canReceive = canReceive});
+            filterSettings.Add(value, new FlowValueFilterSettings { canReceive = canReceive });
         }
     }
 
@@ -89,7 +89,7 @@ public class FlowValueFilterSettingsTemplate<TValue> : IExposable where TValue :
         }
         else
         {
-            filterSettings.Add(value, new FlowValueFilterSettings {canStore = canStore});
+            filterSettings.Add(value, new FlowValueFilterSettings { canStore = canStore });
         }
     }
 
@@ -102,7 +102,7 @@ public class FlowValueFilterSettingsTemplate<TValue> : IExposable where TValue :
         }
         else
         {
-            filterSettings.Add(value, new FlowValueFilterSettings {canTransfer = canTransfer});
+            filterSettings.Add(value, new FlowValueFilterSettings { canTransfer = canTransfer });
         }
     }
 

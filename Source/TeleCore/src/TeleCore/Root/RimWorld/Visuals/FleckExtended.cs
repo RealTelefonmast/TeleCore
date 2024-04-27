@@ -9,14 +9,14 @@ public struct FleckMuzzleFlash : IFleck
     public FleckDrawPosition position;
     public int setupTick;
     public Vector3 spawnPosition;
-    
+
     public void Setup(FleckCreationData creationData)
     {
     }
 
     public FleckMuzzleFlash(Graphic graphic)
     {
-        
+
     }
 
     public bool TimeInterval(float deltaTime, Map map)

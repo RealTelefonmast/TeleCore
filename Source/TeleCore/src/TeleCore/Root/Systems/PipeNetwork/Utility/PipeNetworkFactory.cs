@@ -12,7 +12,7 @@ namespace TeleCore.Network.Utility;
 public static class PipeNetworkFactory
 {
     internal static int MasterNetworkID = 0;
-    
+
     /// <summary>
     /// Checks whether or not a thing is part of a specific network.
     /// </summary>

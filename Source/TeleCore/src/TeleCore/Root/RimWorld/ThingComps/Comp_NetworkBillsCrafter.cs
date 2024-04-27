@@ -15,7 +15,7 @@ public class Comp_NetworkBillsCrafter : CompNetwork
     public Color CurColor => Color.clear;
 
     //Crafter Code
-    public new CompProperties_NetworkBillsCrafter Props => (CompProperties_NetworkBillsCrafter) base.Props;
+    public new CompProperties_NetworkBillsCrafter Props => (CompProperties_NetworkBillsCrafter)base.Props;
 
     public bool IsWorkedOn => BillStack.CurrentBill != null;
     public NetworkBillStack BillStack => billStack;

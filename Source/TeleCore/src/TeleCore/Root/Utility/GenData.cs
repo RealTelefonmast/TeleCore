@@ -126,7 +126,7 @@ public static class GenData
     public static Room? GetRoomFast(this IntVec3 pos, Map map)
     {
         var validRegion = map.regionGrid.GetValidRegionAt_NoRebuild(pos);
-        if (validRegion != null && validRegion.type.Passable()) 
+        if (validRegion != null && validRegion.type.Passable())
             return validRegion.Room;
         return null;
     }
@@ -182,12 +182,12 @@ public static class GenData
     /// </summary>
     public static T GetDesignatorFor<T>(BuildableDef def) where T : Designator
     {
-        if (StaticData.DESIGNATORS.TryGetValue(def, out var des)) return (T) des;
+        if (StaticData.DESIGNATORS.TryGetValue(def, out var des)) return (T)des;
 
-        des = (Designator) Activator.CreateInstance(typeof(T), def);
+        des = (Designator)Activator.CreateInstance(typeof(T), def);
         des.icon = def.uiIcon;
         StaticData.DESIGNATORS.Add(def, des);
-        return (T) des;
+        return (T)des;
     }
 
     //Room Tracking
@@ -204,7 +204,7 @@ public static class GenData
     {
         return room.RoomTracker()?.GetRoomComp<T>();
     }
-    
+
     public static RoomComponent GetRoomComp(this Room room, Type type)
     {
         return room.RoomTracker().GetRoomComp(type);
@@ -244,7 +244,7 @@ public static class GenData
     {
         return def.passability == Traversability.Impassable && def.Fillage == FillCategory.Full;
     }
-    
+
     public static bool IsWall(this ThingDef def)
     {
         if (def.category != ThingCategory.Building) return false;
@@ -277,7 +277,7 @@ public static class GenData
     //
     public static List<T> ToSingleItemList<T>(this T item)
     {
-        return new List<T> {item};
+        return new List<T> { item };
     }
 
     //

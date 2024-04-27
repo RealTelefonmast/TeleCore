@@ -11,7 +11,7 @@ public struct RoomChangedArgs
 {
     public RoomChangeType ChangeType { get; }
     public RoomTracker RoomTracker { get; }
-    
+
     public RoomChangedArgs(RoomChangeType created, RoomTracker actionTracker)
     {
         ChangeType = created;

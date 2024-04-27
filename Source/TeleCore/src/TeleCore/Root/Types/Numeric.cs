@@ -10,7 +10,7 @@ namespace TeleCore.Primitive;
 public struct Numeric<TValue> : IComparable<TValue> where TValue : unmanaged
 {
     private TValue _number;
-    
+
     public bool IsZero => this == NumericLibrary<TValue>.ZeroGetter()!;
     public TValue Value => _number;
 
@@ -19,7 +19,7 @@ public struct Numeric<TValue> : IComparable<TValue> where TValue : unmanaged
     public static Numeric<TValue> One => new(NumericLibrary<TValue>.OneGetter());
     public static Numeric<TValue> NegativeOne => new(NumericLibrary<TValue>.NegativeOneGetter());
     public static Numeric<TValue> NaN => new(NumericLibrary<TValue>.NaNGetter());
-    
+
     public bool IsNaN
     {
         get
@@ -36,7 +36,7 @@ public struct Numeric<TValue> : IComparable<TValue> where TValue : unmanaged
     public float AsPercent => _number switch
     {
         float f => f,
-        double d => (float) d,
+        double d => (float)d,
         _ => 0f
     };
 
@@ -90,22 +90,22 @@ public struct Numeric<TValue> : IComparable<TValue> where TValue : unmanaged
     {
         return NumericLibrary<TValue>.GreaterThan(value, num);
     }
-    
+
     public static bool operator <(Numeric<TValue> value, Numeric<TValue> num)
     {
         return NumericLibrary<TValue>.LessThan(value, num);
     }
-    
+
     public static bool operator >(TValue value, Numeric<TValue> num)
     {
         return NumericLibrary<TValue>.GreaterThan(value, num.Value);
     }
-    
+
     public static bool operator <(TValue value, Numeric<TValue> num)
     {
         return NumericLibrary<TValue>.LessThan(value, num.Value);
     }
-    
+
     public static bool operator >(Numeric<TValue> num, TValue value)
     {
         return NumericLibrary<TValue>.GreaterThan(num.Value, value);
@@ -154,12 +154,12 @@ public struct Numeric<TValue> : IComparable<TValue> where TValue : unmanaged
     {
         return obj is Numeric<TValue> other && Equals(other);
     }
-    
+
     public override string ToString()
     {
         return _number.ToString();
     }
-    
+
     public override int GetHashCode()
     {
         return _number.GetHashCode();

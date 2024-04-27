@@ -19,7 +19,7 @@ public class ThingTrackerMapInfo : MapInformation
             var type = compTypes[i];
             try
             {
-                trackerComps[i] = (ThingTrackerComp) Activator.CreateInstance(type, this);
+                trackerComps[i] = (ThingTrackerComp)Activator.CreateInstance(type, this);
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ public class ThingTrackerMapInfo : MapInformation
 public abstract class ThingTrackerComp
 {
     protected ThingTrackerMapInfo parent;
-    
+
     protected ThingTrackerComp(ThingTrackerMapInfo parent)
     {
         this.parent = parent;

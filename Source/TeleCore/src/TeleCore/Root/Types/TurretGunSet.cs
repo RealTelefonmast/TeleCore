@@ -20,7 +20,7 @@ public class TurretGunSet : IExposable
         for (var i = 0; i < holderProps.turrets.Count; i++)
         {
             var props = holderProps.turrets[i];
-            var turret = (TurretGun) Activator.CreateInstance(props.turretGunClass);
+            var turret = (TurretGun)Activator.CreateInstance(props.turretGunClass);
             turret.Setup(props, i, this, parent);
             Turrets.Add(turret);
             MainGun ??= turret;
@@ -35,7 +35,7 @@ public class TurretGunSet : IExposable
         for (var i = 0; i < turretProps.Count; i++)
         {
             var props = turretProps[i];
-            var turret = (TurretGun) Activator.CreateInstance(props.turretGunClass, new {props, i, set, parent});
+            var turret = (TurretGun)Activator.CreateInstance(props.turretGunClass, new { props, i, set, parent });
             Turrets.Add(turret);
             MainGun ??= turret;
         }
@@ -68,7 +68,7 @@ public class TurretGunSet : IExposable
     //
     public void TryOrderAttack(LocalTargetInfo targ)
     {
-        foreach (var turretGun in Turrets) 
+        foreach (var turretGun in Turrets)
             turretGun.TryOrderAttack(targ);
     }
 
@@ -104,7 +104,7 @@ public class TurretGunSet : IExposable
     //Drawing
     public void Draw(Vector3 drawLoc)
     {
-        foreach (var gun in Turrets) 
+        foreach (var gun in Turrets)
             gun.Draw(drawLoc);
     }
 
@@ -157,13 +157,13 @@ public class TurretGunSet : IExposable
 
     public void DoAttackNow(LocalTargetInfo targ, int turretIndex)
     {
-        if(turretIndex >= Turrets.Count) return;
+        if (turretIndex >= Turrets.Count) return;
         if (turretIndex >= 0)
         {
             Turrets[turretIndex].ForceOrderAttack(targ);
             return;
         }
-        
+
         foreach (var turret in Turrets)
         {
             turret.ForceOrderAttack(targ);

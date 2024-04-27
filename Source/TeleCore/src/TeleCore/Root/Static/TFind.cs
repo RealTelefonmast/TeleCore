@@ -17,14 +17,14 @@ public static class TFind
         TeleRootHolder.AddComponent<TeleRoot>();
         MainRoot = TeleRootHolder.GetComponent<TeleRoot>();
         TickingRoot = TeleRootHolder.AddComponent<TeleRoot_Ticking>();
-        
+
         TLog.Message("TFind Ready!", TColor.Green);
     }
 
     public static TeleRoot TeleRoot => MainRoot;
     public static TeleTickManager TickManager => TeleRoot.TickManager;
     public static DiscoveryTable Discoveries => StaticData.TeleWorldComp(Find.World.GetUniqueLoadID()).discoveries;
-    
+
     public static GameComponent_CameraPanAndLock CameraPanNLock()
     {
         return Current.Game.GetComponent<GameComponent_CameraPanAndLock>();

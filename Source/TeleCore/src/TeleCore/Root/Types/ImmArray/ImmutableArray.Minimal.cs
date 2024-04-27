@@ -14,16 +14,16 @@ public partial struct ImmutableArray<T> : IEquatable<ImmutableArray<T>>, IImmuta
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
     internal readonly T[]? array;
-    
+
     /// <summary>
     /// An empty (initialized) instance of <see cref="ImmutableArray{T}"/>.
     /// </summary>
     // ReSharper disable once UseArrayEmptyMethod
     public static readonly ImmutableArray<T> Empty = new ImmutableArray<T>(new T[0]);
-    public static ImmutableArray<T> DefaultInit => new ImmutableArray<T>( new T[1] );
+    public static ImmutableArray<T> DefaultInit => new ImmutableArray<T>(new T[1]);
 
     #region Constructors
-    
+
     public ImmutableArray()
     {
         // ReSharper disable once UseArrayEmptyMethod
@@ -306,7 +306,7 @@ public partial struct ImmutableArray<T> : IEquatable<ImmutableArray<T>>, IImmuta
 #nullable restore
     > CastArray<TOther>() where TOther : class?
     {
-        return new ImmutableArray<TOther>((TOther[]) (object) array!);
+        return new ImmutableArray<TOther>((TOther[])(object)array!);
     }
 
     /// <summary>
@@ -353,7 +353,7 @@ public partial struct ImmutableArray<T> : IEquatable<ImmutableArray<T>>, IImmuta
     IEnumerator IEnumerable.GetEnumerator()
     {
         var self = this;
-        
+
         self.ThrowInvalidOperationIfNotInitialized();
         return EnumeratorObject.Create(self.array!);
     }
@@ -373,7 +373,7 @@ public partial struct ImmutableArray<T> : IEquatable<ImmutableArray<T>>, IImmuta
         // extra expense.
         _ = this.array!.Length;
     }
-    
+
     private bool AssertArrayNotDefault()
     {
         if (IsDefault)
@@ -383,7 +383,7 @@ public partial struct ImmutableArray<T> : IEquatable<ImmutableArray<T>>, IImmuta
         }
         return true;
     }
-    
+
     /// <summary>
     /// Throws an <see cref="InvalidOperationException"/> if the <see cref="array"/> field is null, i.e. the
     /// <see cref="IsDefault"/> property returns true.  The

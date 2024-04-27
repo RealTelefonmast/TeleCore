@@ -79,7 +79,7 @@ public class SubBuildMenu : Window, IExposable
     }
 
     private SubMenuCategoryDef SelectedCategoryDef => cachedSelection[SelectedGroup];
-    private Designator CurrentDesignator => (Designator) (mouseOverGizmo ?? Find.DesignatorManager.SelectedDesignator);
+    private Designator CurrentDesignator => (Designator)(mouseOverGizmo ?? Find.DesignatorManager.SelectedDesignator);
 
 
     public DesignationTexturePack CurrentTexturePack => SelectedGroup.TexturePack ?? _menuDef.TexturePack;
@@ -109,7 +109,7 @@ public class SubBuildMenu : Window, IExposable
         Scribe_Collections.Look(ref favoriteOptions, "favoriteOptions");
         Scribe_Collections.Look(ref optionStates, "optionStates", LookMode.Deep, LookMode.Deep);
 
-        if (Scribe.mode == LoadSaveMode.PostLoadInit) 
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
             Setup(_menuDef, true);
     }
 
@@ -147,11 +147,11 @@ public class SubBuildMenu : Window, IExposable
             Close();
             return;
         }
-        
+
         DoSearchBar(searchBar);
 
         //Favorited
-        if (Widgets.ButtonImage(favoritesRect, TeleContent.Favorite_Filled)) 
+        if (Widgets.ButtonImage(favoritesRect, TeleContent.Favorite_Filled))
             favoriteMenuActive = !favoriteMenuActive;
 
         //SetupBG
@@ -186,7 +186,7 @@ public class SubBuildMenu : Window, IExposable
                     var main = new Rect(0f, curXY.y, DesignatorRect.width, DesignatorRect.height - curXY.y);
                     for (var i = favoriteOptions.Count - 1; i >= 0; i--)
                     {
-                        var def = (BuildableDef) favoriteOptions[i];
+                        var def = (BuildableDef)favoriteOptions[i];
                         if (!DebugSettings.godMode &&
                             def.HasSubMenuExtension(out var subMenu) && subMenu.isDevOption) continue;
                         if (SubMenuThingDefList.IsActive(_menuDef, def))
@@ -202,8 +202,8 @@ public class SubBuildMenu : Window, IExposable
                     foreach (var cat in subCats)
                     {
                         if (cat.isDevCategory && !DebugSettings.godMode) continue;
-                        if(SubMenuThingDefList.Categorized[SelectedGroup][cat].Count == 0) continue;
-                        
+                        if (SubMenuThingDefList.Categorized[SelectedGroup][cat].Count == 0) continue;
+
                         var tabRect = new Rect(curXY, Tab_Size);
                         var clickRect = new Rect(tabRect.x + 5, tabRect.y, tabRect.width - 10, tabRect.height);
                         var tex = cat == SelectedCategoryDef || Mouse.IsOver(clickRect)
@@ -217,7 +217,7 @@ public class SubBuildMenu : Window, IExposable
                         Text.Anchor = TextAnchor.MiddleCenter;
                         Text.Font = GameFont.Small;
                         string catLabel = cat.LabelCap;
-                        if (Text.CalcSize(catLabel).y > tabRect.width) 
+                        if (Text.CalcSize(catLabel).y > tabRect.width)
                             Text.Font = GameFont.Tiny;
 
                         Widgets.Label(tabRect, catLabel);
@@ -255,7 +255,7 @@ public class SubBuildMenu : Window, IExposable
                     ? SubMenuThingDefList.Categorized[groupDef][categoryDef]
                     : ItemsBySearch(searchText);
                 var viewRect = new Rect(0f, 0f, main.width,
-                    10 + (float) (Math.Round((decimal) (things.Count / 4), 0, MidpointRounding.AwayFromZero) + 1) *
+                    10 + (float)(Math.Round((decimal)(things.Count / 4), 0, MidpointRounding.AwayFromZero) + 1) *
                     size.x);
                 var scrollerRect = new Rect(0f, 0f, main.width, main.height + 5);
                 Widgets.BeginScrollView(scrollerRect, ref scroller, viewRect, false);
@@ -380,17 +380,17 @@ public class SubBuildMenu : Window, IExposable
         {
             if (group.isDevGroup && !DebugSettings.godMode) continue;
             var grActv = SubMenuThingDefList.IsActive(group);
-            
+
             var partRect = new Rect(0f, curY, Icon_Size, Icon_Size);
             var sel = Mouse.IsOver(partRect) || SelectedGroup == group;
 
             var white = grActv ? Color.white : new Color(1f, 1f, 1f, 0.2f);
             var mouseOver = grActv ? new Color(1f, 1f, 1f, 0.4f) : new Color(1f, 1f, 1f, 0.2f);
-            
+
             GUI.color = sel ? white : mouseOver;
             Widgets.DrawTextureFitted(partRect, IconForGroup(group), 1f);
             GUI.color = white;
-            
+
             if (HasUnDiscovered(_menuDef, group))
                 TWidgets.DrawTextureInCorner(partRect, TeleContent.Undiscovered, 8, TextAnchor.UpperRight);
             //DrawUndiscovered(partRect);

@@ -12,23 +12,23 @@ public record struct IOConnection
 {
     public NetworkPart From { get; private set; }
     public NetworkPart To { get; private set; }
-    
+
     public NetworkIOMode FromMode { get; set; }
     public NetworkIOMode ToMode { get; set; }
-    
+
     public IntVec3Rot FromPos { get; set; }
     public IntVec3Rot ToPos { get; set; }
-    
+
     public IOCell FromIOCell { get; set; }
     public IOCell ToIOCell { get; set; }
-    
-    public bool IsValid => FromPos.Pos.IsValid && ToPos.Pos.IsValid && FromMode != NetworkIOMode.None && ToMode != NetworkIOMode.None;    
-   
+
+    public bool IsValid => FromPos.Pos.IsValid && ToPos.Pos.IsValid && FromMode != NetworkIOMode.None && ToMode != NetworkIOMode.None;
+
     public static implicit operator bool(IOConnection result)
     {
         return result.IsValid;
     }
-    
+
     public static IOConnection TryCreate(NetworkPart from, NetworkPart to)
     {
         var ioFrom = from.PartIO;
@@ -41,7 +41,7 @@ public record struct IOConnection
                 //If these cannot interact, skip
                 if (fromConn.Pos != toConn.Interface) continue;
                 if (fromConn.Interface != toConn.Pos) continue;
-                
+
                 if (fromConn.Mode.MatchesIO(toConn.Mode))
                 {
                     return new IOConnection
@@ -107,7 +107,7 @@ public record struct IOConnection
             var hashFrom = From.GetHashCode();
             var hashTo = To.GetHashCode();
             var compare = hashFrom.CompareTo(hashTo);
-            
+
             var hash = 17;
             if (compare > 0)
             {
@@ -119,7 +119,7 @@ public record struct IOConnection
                 hash = hash * 31 + (To == null ? 0 : hashTo);
                 hash = hash * 31 + (From == null ? 0 : hashFrom);
             }
-            
+
             return hash;
         }
     }
@@ -132,7 +132,7 @@ public record struct IOConnection
             return To == other.From;
         return false;
     }
-    
+
     public override string ToString()
     {
         return GetHashCode().ToString();

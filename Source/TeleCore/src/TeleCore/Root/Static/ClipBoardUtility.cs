@@ -26,8 +26,8 @@ public static class ClipBoardUtility
 
     public static T TryGetClipBoard<T>(string tag)
     {
-        if (Clipboard.TryGetValue(tag, out var value)) return (T) value;
-        return (T) (object) null;
+        if (Clipboard.TryGetValue(tag, out var value)) return (T)value;
+        return (T)(object)null;
     }
 
     public static void TrySetClipBoard<T>(string tag, T value)

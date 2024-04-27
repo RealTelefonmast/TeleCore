@@ -28,7 +28,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     }
 
     public FlowVolumeConfig<TValue> Config => _config;
-    
+
     public TValue MainValueDef => _mainStack.Values.MaxBy(c => (double)c.Value).Def;
     public IReadOnlyCollection<TValue> AllowedValues => _config.AllowedValues;
 
@@ -45,7 +45,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     public virtual double CapacityPerType => _config.Volume;
 
     #endregion
-    
+
     public ContainerFillState FillState
     {
         get
@@ -60,11 +60,11 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     }
 
     public event FlowEventHandler? FlowEvent;
-    
+
     public FlowVolumeBase()
     {
     }
-    
+
     public FlowVolumeBase(FlowVolumeConfig<TValue> config)
     {
         _config = config;
@@ -75,7 +75,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         Scribe_Deep.Look(ref _prevStack, "previousStack");
         Scribe_Deep.Look(ref _mainStack, "mainStack");
     }
-    
+
     public void PostLoadInit(FlowVolumeConfig<TValue> config)
     {
         _config = config;
@@ -116,7 +116,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public float StoredPercentOf(TValue def)
     {
-        return (float) (StoredValueOf(def) / Math.Ceiling(CapacityOf(def)));
+        return (float)(StoredValueOf(def) / Math.Ceiling(CapacityOf(def)));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -124,7 +124,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     {
         return FillState == ContainerFillState.Full;
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected virtual double ExcessFor(TValue def, double amount)
     {
@@ -154,7 +154,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         var newColor = Color.clear;
         foreach (var value in _mainStack)
         {
-            newColor += (float) (value.Value.Value / MaxCapacity) * value.Def.valueColor;
+            newColor += (float)(value.Value.Value / MaxCapacity) * value.Def.valueColor;
         }
 
         //Note: Instead of dividing by the count of values here, could accumulate percentages
@@ -174,16 +174,16 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
 
         //Resolve Action
         VolumeChangedEventArgs<TValue>.ChangedAction action = VolumeChangedEventArgs<TValue>.ChangedAction.Invalid;
-        if(delta > 0)
+        if (delta > 0)
             action = VolumeChangedEventArgs<TValue>.ChangedAction.AddedValue;
-        else if(delta < 0)
+        else if (delta < 0)
             action = VolumeChangedEventArgs<TValue>.ChangedAction.RemovedValue;
-        
+
         if (Empty && delta < 0)
             action = VolumeChangedEventArgs<TValue>.ChangedAction.Emptied;
         if (Full && delta > 0)
             action = VolumeChangedEventArgs<TValue>.ChangedAction.Filled;
-        
+
         GlobalEventHandler.NetworkEvents<TValue>.OnVolumeStateChange(this, action);
     }
 
@@ -197,13 +197,13 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         {
             return new Color(color.r / max, color.g / max, color.b / max);
         }
-        
+
         var k = min != 0 ? avg / min : 0;
         return new Color(color.r + ((color.r - avg) * k),
             color.g + ((color.g - avg) * k),
             color.b + ((color.b - avg) * k));
     }
-    
+
     #endregion
 
     #region Manipulation Helpers
@@ -223,7 +223,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         }
         return result;
     }
-    
+
     public FlowResultStack<TValue> TryInsert(DefValueStack<TValue, double> stack)
     {
         var result = FlowResultStack<TValue>.Init(stack, FlowOperation.Add);
@@ -237,7 +237,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         }
         return result;
     }
-    
+
     //This stack stuff is tricky and mainly just for the FlowSystem
     public DefValueStack<TValue, double> RemoveContent(double moveAmount)
     {
@@ -256,7 +256,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
 
         return finalStack;
     }
-    
+
     public void AddContent(DefValueStack<TValue, double> fullDiff)
     {
         foreach (var value in fullDiff)
@@ -272,7 +272,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         _mainStack = stack;
         RegenColorState();
     }
-    
+
     public void LoadFromStack(DefValueStack<TValue, double> stack)
     {
         Clear();
@@ -312,17 +312,17 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         return AllowedValues.Contains(def);
         //return filter.CanReceive(valueType);
     }
-    
+
     private bool ValueOperationCheck(FlowOperation operation, DefValue<TValue, double> value, out FlowFailureReason reason)
     {
         reason = FlowFailureReason.None;
-        
+
         if (!AllowedByFilter(value))
         {
             reason = FlowFailureReason.UsedForbiddenValueDef;
             return false;
         }
-        
+
         if (operation == FlowOperation.Add)
         {
             if (IsFull(value))
@@ -367,26 +367,26 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         flowFailureReason = FlowFailureReason.UsedForbiddenValueDef;
         return false;
     }
-    
+
     public FlowResult<TValue, double> TryAdd(FlowResult<TValue, double> prevResult)
     {
         return TryAdd(prevResult.Def, prevResult.Actual);
     }
-    
+
     public bool TryAdd(TValue def, double value, out FlowResult<TValue, double> result)
     {
         result = TryAdd(def, value);
         return result;
     }
-    
+
     /// <summary>
     /// Tries to add as much as possible from a value.
     /// </summary>
     public FlowResult<TValue, double> TryAdd(TValue def, double amount)
     {
-        if(_config.infiniteSource) 
+        if (_config.infiniteSource)
             return new FlowResult<TValue, double>(def, amount, amount);
-        
+
         //Lazy sanity checks for failure
         if (!ValueOperationCheck(FlowOperation.Add, (def, amount), out var reason))
             return FlowResult<TValue, double>.InitFailed(def, amount, reason);
@@ -394,7 +394,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         var actual = amount - ExcessFor(def, amount);
 
         //Note: Technically never possible as this implies a full container
-        if (actual <= 0) 
+        if (actual <= 0)
             return FlowResult<TValue, double>.InitFailed(def, amount, FlowFailureReason.IllegalState);
 
         //Otherwise continue to add the value
@@ -407,18 +407,18 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     }
 
     //##################################################################################################################
-    
+
     public bool TryRemove(TValue def, double value, out FlowResult<TValue, double> result)
     {
         result = TryRemove(def, value);
         return result;
     }
-    
+
     public FlowResult<TValue, double> TryRemove(TValue def, double amount) //TValue valueDef, int value
     {
-        if(_config.infiniteSource) 
+        if (_config.infiniteSource)
             return new FlowResult<TValue, double>(def, amount, Math.Min(amount, StoredValueOf(def)));
-        
+
         //Lazy sanity checks for failure
         if (!ValueOperationCheck(FlowOperation.Remove, (def, amount), out var reason))
             return FlowResult<TValue, double>.InitFailed(def, amount, reason);
@@ -427,7 +427,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         var available = _mainStack[def];
         //Calculate the actual removeable value
         var actual = Math.Min(available.Value, amount);
-        
+
         //Remove the value from the dictionary or update the value if there is still some left
         _mainStack -= (def, actual);
 
@@ -475,11 +475,11 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     /// </summary>
     public FlowResult<TValue, double> TryConsumeOrFail(TValue def, double amount) //ALL OR NOTHING
     {
-        if (StoredValueOf(def) >= amount) 
+        if (StoredValueOf(def) >= amount)
             return TryRemove(def, amount);
         return FlowResult<TValue, double>.InitFailed(def, amount, FlowFailureReason.TriedToConsumeMoreThanExists); //value.Value
     }
-    
+
     /// <summary>
     /// Tries to consume as much as possible of the required amount.
     /// </summary>
@@ -487,7 +487,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
     {
         return TryRemove(def, amount);
     }
-    
+
     #endregion
 
     public string AsStringUnits(TValue def)
@@ -495,7 +495,7 @@ public abstract class FlowVolumeBase<TValue> : IExposable, INotifyFlowEvent wher
         var value = Math.Round(StoredValueOf(def), 2);
         return $"{value}{def.valueUnit}";
     }
-    
+
     public override string ToString()
     {
         return $"[{TotalValue}/{MaxCapacity}][{Stack.Values.Count}/{AllowedValues.Count}]";
@@ -507,7 +507,7 @@ public class FlowVolume<T> : FlowVolumeBase<T> where T : FlowValueDef
     public FlowVolume() : base()
     {
     }
-    
+
     public FlowVolume(FlowVolumeConfig<T> config) : base(config)
     {
     }
@@ -516,12 +516,12 @@ public class FlowVolume<T> : FlowVolumeBase<T> where T : FlowValueDef
 public class FlowVolumeShared<T> : FlowVolumeBase<T> where T : FlowValueDef
 {
     public override double MaxCapacity => _config.capacity * AllowedValues.Count;
-    
+
     public override double CapacityOf(T? def)
     {
         return _config.capacity;
     }
-    
+
     public override bool IsFull(T def)
     {
         return StoredValueOf(def) >= CapacityOf(def);
@@ -529,7 +529,7 @@ public class FlowVolumeShared<T> : FlowVolumeBase<T> where T : FlowValueDef
 
     protected override double ExcessFor(T def, double amount)
     {
-        return Math.Max(StoredValueOf(def) + amount - CapacityOf(def), 0);;
+        return Math.Max(StoredValueOf(def) + amount - CapacityOf(def), 0); ;
     }
 
     public FlowVolumeShared(FlowVolumeConfig<T> config) : base(config)

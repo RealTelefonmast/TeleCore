@@ -8,12 +8,12 @@ namespace TeleCore.Rooms.Updates;
 public class RoomTrackerUpdater
 {
     private readonly RoomTracker?[] _trackerGrid;
-    
+
     private readonly List<DelayedRoomUpdate> delayedActions = new();
     private readonly List<RegionStateChangedArgs> _delayedCacheReset = new();
     private readonly List<RegionStateChangedArgs> _delayedCacheGet = new();
     private readonly MapInformation_Rooms parent;
-    
+
     private readonly List<Room> tempNewRooms = new();
     private readonly List<Room> tempReusedRooms = new();
     private int lastGameTick;
@@ -30,15 +30,15 @@ public class RoomTrackerUpdater
     {
         //Synchronize with game tick
         if ((!IsWorking || Find.TickManager.TicksGame <= lastGameTick) && !isManual) return;
-        
+
         for (var i = delayedActions.Count - 1; i >= 0; i--)
         {
             var action = delayedActions[i];
             if (action.Room == null || (action.Room.Dereferenced && action.Type != RoomChangeType.Disbanded))
             {
                 delayedActions.Remove(action);
-            } 
-            
+            }
+
             switch (action.Type)
             {
                 case RoomChangeType.Created:
@@ -65,7 +65,7 @@ public class RoomTrackerUpdater
                 GlobalEventHandler.Rooms.OnRoomReused(new RoomChangedArgs(RoomChangeType.Reused, action.Tracker));
             }
         }
-        
+
         //Disbanded
         foreach (var action in delayedActions)
         {
@@ -96,10 +96,10 @@ public class RoomTrackerUpdater
         foreach (var action in _delayedCacheGet)
         {
             //Ignore rooms added during delayed update scope
-            if(action.Room.Dereferenced) continue;
+            if (action.Room.Dereferenced) continue;
             GlobalEventHandler.Rooms.OnRegionStateGetRoomUpdate(action);
         }
-        
+
         foreach (var action in _delayedCacheReset)
         {
             _trackerGrid[action.Cell.Index(parent.Map)] = null;
@@ -179,13 +179,13 @@ public class RoomTrackerUpdater
             if (tracker.Room.Dereferenced)
                 delayedActions.Add(new DelayedRoomUpdate(RoomChangeType.Disbanded, tracker));
         }
-        
+
         lastGameTick = Find.TickManager.TicksGame;
         tempNewRooms.Clear();
         tempReusedRooms.Clear();
 
         //During map generation, update immediately
-        if (Current.ProgramState != ProgramState.Playing) 
+        if (Current.ProgramState != ProgramState.Playing)
             Update(true);
     }
 }

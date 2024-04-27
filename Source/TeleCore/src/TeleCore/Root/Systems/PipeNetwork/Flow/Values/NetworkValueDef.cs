@@ -19,7 +19,7 @@ public class NetworkValueDef : FlowValueDef
         ThingDroppedFromContainer = thingDroppedFromContainer;
     }
 
-    public NetworkDef NetworkDef => (NetworkDef) collectionDef;
+    public NetworkDef NetworkDef => (NetworkDef)collectionDef;
 
     public override IEnumerable<string> ConfigErrors()
     {

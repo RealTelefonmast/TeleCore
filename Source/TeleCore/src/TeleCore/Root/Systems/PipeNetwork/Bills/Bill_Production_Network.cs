@@ -19,7 +19,7 @@ public class Bill_Production_Network : Bill_Production
     {
     }
 
-    public Comp_NetworkBillsCrafter CompTNW => ((Building) billStack.billGiver).GetComp<Comp_NetworkBillsCrafter>();
+    public Comp_NetworkBillsCrafter CompTNW => ((Building)billStack.billGiver).GetComp<Comp_NetworkBillsCrafter>();
 
     public bool BaseShouldDo => base.ShouldDoNow();
 
@@ -58,7 +58,7 @@ public class Bill_Production_Network : Bill_Production
     public override bool ShouldDoNow()
     {
         if (base.ShouldDoNow())
-            if (CompTNW is {IsPowered: true})
+            if (CompTNW is { IsPowered: true })
                 return def.networkCost.CanPayWith(CompTNW);
         //if (Network != null && Network.IsWorking)
         return false;

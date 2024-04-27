@@ -11,21 +11,21 @@ public class RoomCompNeighborSet : IEnumerable<RoomComponent>
 {
     private readonly List<RoomComponent> _neighbors;
     private readonly Dictionary<TwoWayKey<RoomComponent>, RoomComponentLink> _links;
-    
+
     public IReadOnlyCollection<RoomComponent> Neighbors => _neighbors;
     public IReadOnlyCollection<RoomComponentLink> Links => _links.Values;
-    
+
     public RoomComponentLink LinkFor(TwoWayKey<RoomComponent> key)
     {
         return _links!.TryGetValue(key)!;
     }
-    
+
     public RoomCompNeighborSet()
     {
         _neighbors = new List<RoomComponent>();
         _links = new();
     }
-    
+
     public void Notify_AddNeighbor<T>(T neighbor) where T : RoomComponent
     {
         _neighbors.Add(neighbor);
@@ -36,7 +36,7 @@ public class RoomCompNeighborSet : IEnumerable<RoomComponent>
         var key = (link.A, link.B);
         _links.TryAdd(key, link);
     }
-    
+
     public void Reset()
     {
         _neighbors.Clear();
@@ -47,7 +47,7 @@ public class RoomCompNeighborSet : IEnumerable<RoomComponent>
     {
         return _neighbors.Contains(comp);
     }
-    
+
     internal void DrawDebug(RoomComponent comp)
     {
         foreach (var portal in Links)
@@ -56,7 +56,7 @@ public class RoomCompNeighborSet : IEnumerable<RoomComponent>
             GenDraw.DrawFieldEdges(portal.Opposite(comp).Room.Cells.ToList(), Color.green);
         }
     }
-    
+
     public IEnumerator<RoomComponent> GetEnumerator()
     {
         return _neighbors.GetEnumerator();

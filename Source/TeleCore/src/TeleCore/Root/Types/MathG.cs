@@ -10,12 +10,12 @@ public static class MathG
     {
         return NumericLibrary<T>.Clamp(value, min, max);
     }
-    
+
     public static T Min<T>(T a, T b) where T : unmanaged
     {
         return NumericLibrary<T>.Min(a, b);
     }
-    
+
     public static T Max<T>(T a, T b) where T : unmanaged
     {
         return NumericLibrary<T>.Max(a, b);
@@ -30,10 +30,10 @@ public static class MathG
     {
         return NumericLibrary<T>.Abs(value);
     }
-    
+
     public static T Round<T>(Numeric<T> value, int decimals) where T : unmanaged
     {
         return NumericLibrary<T>.Round(value, decimals);
     }
-    
+
 }

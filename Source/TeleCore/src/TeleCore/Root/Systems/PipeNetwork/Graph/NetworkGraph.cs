@@ -29,7 +29,7 @@ public class NetworkGraph : IDisposable
     public Dictionary<TwoWayKey<IOConnection>, NetEdge> UniqueEdges { get; private set; }
     public Dictionary<(NetworkPart, IOCell), NetEdge> EdgesByIO { get; private set; }
     public Dictionary<TwoWayKey<NetworkPart>, List<NetEdge>> EdgesByNodes { get; set; }
-    
+
     private bool RegisterEdge(NetEdge edge)
     {
         var edgeKey = (edge.FromAnchor, edge.ToAnchor);
@@ -37,22 +37,22 @@ public class NetworkGraph : IDisposable
         {
             if (EdgesByIO.TryAdd((edge.From, edge.FromIOCell), edge))
             {
-                EdgesByIO.TryAdd((edge.To, edge.ToIOCell), edge);   
+                EdgesByIO.TryAdd((edge.To, edge.ToIOCell), edge);
             }
             else
             {
                 TLog.Warning($"Edge with key already exists: {(edge.From, edge.FromIOCell)}");
             }
-            
+
             var nodeKey = new TwoWayKey<NetworkPart>(edge.From, edge.To);
-            
+
             //GetOrMakeEdgeBag
             if (!EdgesByNodes.TryGetValue(nodeKey, out var edges))
             {
                 edges = new List<NetEdge>();
                 EdgesByNodes.Add(nodeKey, edges);
             }
-            
+
             edges.Add(edge);
             return true;
         }
@@ -105,21 +105,21 @@ public class NetworkGraph : IDisposable
         var edgeKey = (edge.FromAnchor, edge.ToAnchor);
         if (UniqueEdges.ContainsKey(edgeKey) || UniqueEdges.ContainsValue(edge))
             throw new Exception("Edge was not removed from UniqueEdges.");
-        
+
         if (EdgesByIO.TryGetValue((edge.From, edge.FromIOCell), out var edgeFromIOCell) && edgeFromIOCell.Equals(edge))
             throw new Exception("Edge was not removed from EdgesByIO from side");
 
         if (EdgesByIO.TryGetValue((edge.To, edge.ToIOCell), out var edgeToIOCell) && !edgeToIOCell.Equals(edge))
             throw new Exception("Edge was not removed from to side");
-        
+
         var nodeKey = new TwoWayKey<NetworkPart>(edge.From, edge.To);
-        if(EdgesByNodes.ContainsKey(nodeKey) || EdgesByNodes.Values.Any(x => x.Contains(edge)))
+        if (EdgesByNodes.ContainsKey(nodeKey) || EdgesByNodes.Values.Any(x => x.Contains(edge)))
             throw new Exception("Edge was not removed from EdgesByNodes.");
-        
-        if(AdjacencyList.TryGetValue(edge.From, out var list) && list.Exists(e => e.Item2.Value == edge.To))
+
+        if (AdjacencyList.TryGetValue(edge.From, out var list) && list.Exists(e => e.Item2.Value == edge.To))
             throw new Exception("Nodes between edge still exist in AdjacencyList. (From-To)");
-        
-        if(AdjacencyList.TryGetValue(edge.To, out list) && list.Exists(e => e.Item2.Value == edge.From))
+
+        if (AdjacencyList.TryGetValue(edge.To, out list) && list.Exists(e => e.Item2.Value == edge.From))
             throw new Exception("Nodes between edge still exist in AdjacencyList. (To-From)");
     }
 
@@ -156,7 +156,7 @@ public class NetworkGraph : IDisposable
         var preResult2 = from.Equals(toAnchor) && to.Equals(fromAnchor);
         return preResult1 || preResult2;
     }
-    
+
     public void TryDissolveEdge(IOConnection fromAnchor, IOConnection toAnchor)
     {
         var key = new TwoWayKey<IOConnection>(fromAnchor, toAnchor);
@@ -174,13 +174,13 @@ public class NetworkGraph : IDisposable
                 {
                     toList.RemoveAll(e => e.Item2.Value == edge.From);
                 }
-                
+
                 //
                 ValidateRemoved(edge);
             }
         }
     }
-    
+
     public void TryDissolveEdge(NetworkPart from, NetworkPart to)
     {
         var key = new TwoWayKey<NetworkPart>(from, to);
@@ -208,7 +208,7 @@ public class NetworkGraph : IDisposable
     public bool TryDissolveNode(NetworkPart node)
     {
         if (!Nodes.Contains(node)) return false;
-        
+
         Nodes.Remove(node);
         if (AdjacencyList.TryGetValue(node, out var list))
         {
@@ -237,7 +237,7 @@ public class NetworkGraph : IDisposable
         }
         return false;
     }
-    
+
     internal void AddCells(INetworkPart netPart)
     {
         foreach (var cell in netPart.Thing.OccupiedRect())
@@ -245,7 +245,7 @@ public class NetworkGraph : IDisposable
             //Cells.Add(cell);
         }
     }
-    
+
     internal bool AddEdge(NetEdge edge)
     {
         //Ignore invalid edges
@@ -258,7 +258,7 @@ public class NetworkGraph : IDisposable
 
             TryAddAdjacency(edge.From, edge.To, edge);
             TryAddAdjacency(edge.To, edge.From, edge);
-            
+
             //
             ValidateAdded(edge);
         }

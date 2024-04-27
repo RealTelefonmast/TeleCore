@@ -28,7 +28,7 @@ public class MapInformation_Rooms : MapInformation
         AllTrackers = new Dictionary<Room, RoomTracker>();
         allTrackers = new List<RoomTracker>();
         TrackerUpdater = new RoomTrackerUpdater(this);
-        
+
         GlobalUpdateEventHandler.GameUITick += () => TrackerUpdater.Update();
     }
 
@@ -155,19 +155,19 @@ public class MapInformation_Rooms : MapInformation
     }
 
     #region Rendering
-    
+
     public override void UpdateOnGUI()
     {
-        if (Find.CurrentMap != Map) 
+        if (Find.CurrentMap != Map)
             return;
-        foreach (var tracker in allTrackers) 
+        foreach (var tracker in allTrackers)
             tracker.RoomOnGUI();
 
         if (TeleCoreDebugViewSettings.DrawRoomLabels)
         {
             foreach (var tracker in allTrackers)
             {
-                GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(tracker.MinVec), $"[{tracker?.Room?.ID}]", Color.white);   
+                GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(tracker.MinVec), $"[{tracker?.Room?.ID}]", Color.white);
             }
         }
     }
@@ -175,7 +175,7 @@ public class MapInformation_Rooms : MapInformation
     public override void Update()
     {
         if (Find.CurrentMap != Map) return;
-        
+
         foreach (var tracker in allTrackers)
             tracker.RoomDraw();
 
@@ -202,7 +202,7 @@ public class MapInformation_Rooms : MapInformation
     }
 
     #endregion
-    
+
     public void VerifyState()
     {
         var allRooms = Map.regionGrid.allRooms;
@@ -216,14 +216,14 @@ public class MapInformation_Rooms : MapInformation
             else
                 failedTrackers.Add(tracker);
 
-        var ratio = Math.Round(roomCount / (float) trackerCount, 1);
+        var ratio = Math.Round(roomCount / (float)trackerCount, 1);
         var ratioBool = ratio == 1;
         var ratioString =
             $"[{roomCount}/{trackerCount}][{ratio}]{(ratioBool ? check : fail)}".Colorize(ratioBool
                 ? Color.green
                 : Color.red);
 
-        var hitCountRatio = Math.Round(hitCount / (float) roomCount, 1);
+        var hitCountRatio = Math.Round(hitCount / (float)roomCount, 1);
         var hitBool = hitCountRatio == 1;
         var hitCountRatioString =
             $"[{hitCount}/{roomCount}][{hitCountRatio}]{(hitBool ? check : fail)}".Colorize(

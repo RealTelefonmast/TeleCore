@@ -9,7 +9,7 @@ public class FlowVolumeConfig<T> where T : FlowValueDef
 {
     private readonly List<T> _values = new();
     private bool isReady;
-    
+
     public Values values;
     public int capacity;
     public int area = 1;
@@ -21,13 +21,13 @@ public class FlowVolumeConfig<T> where T : FlowValueDef
     public bool storeEvenly;
     public bool leaveContainer;
     public bool dropContents;
-    
+
     public class Values
     {
         public List<T> allowedValues;
         public FlowValueCollectionDef fromCollection;
     }
-    
+
     public double Volume => capacity;
 
     public IReadOnlyCollection<T> AllowedValues

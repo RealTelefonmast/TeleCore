@@ -20,7 +20,7 @@ public class MoteBeam : TeleMote
         link2 = new MoteAttachLink(b, offsetB);
     }
 
-    
+
     public void UpdateWidth(float width)
     {
         this.width = width;
@@ -62,8 +62,8 @@ public class MoteBeam : TeleMote
 
         exactPosition.y = def.altitudeLayer.AltitudeFor();
     }
-    
-    
+
+
     private Vector3 end;
     private Vector3 start;
     public void Draw2()

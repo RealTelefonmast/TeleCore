@@ -20,7 +20,7 @@ public struct IOCellPrototype
 public readonly struct IOCell : IEquatable<IOCell>
 {
     public IntVec3Rot Pos { get; }
-    public NetworkIOMode Mode { get;  }
+    public NetworkIOMode Mode { get; }
 
     public static implicit operator IntVec3(IOCell cell)
     {
@@ -32,7 +32,7 @@ public readonly struct IOCell : IEquatable<IOCell>
         Pos = pos;
         Mode = mode;
     }
-    
+
     /// <summary>
     /// The position INSIDE of the IO-Holder of the IO-Cell
     /// </summary>

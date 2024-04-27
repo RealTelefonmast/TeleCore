@@ -106,7 +106,7 @@ public partial struct ImmutableArray<T>
             {
                 // this.index >= 0 && this.index < this.array.Length
                 // unsigned compare performs the range check above in one compare
-                if (unchecked((uint) _index) < (uint) _array.Length)
+                if (unchecked((uint)_index) < (uint)_array.Length)
                 {
                     return _array[_index];
                 }
@@ -134,10 +134,10 @@ public partial struct ImmutableArray<T>
             int length = _array.Length;
 
             // unsigned math is used to prevent false positive if index + 1 overflows.
-            if ((uint) newIndex <= (uint) length)
+            if ((uint)newIndex <= (uint)length)
             {
                 _index = newIndex;
-                return (uint) newIndex < (uint) length;
+                return (uint)newIndex < (uint)length;
             }
 
             return false;
