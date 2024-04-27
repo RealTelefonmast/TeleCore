@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using TeleCore.Radiation;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Verse;

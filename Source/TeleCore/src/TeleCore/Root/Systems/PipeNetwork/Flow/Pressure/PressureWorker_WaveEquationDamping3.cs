@@ -1,8 +1,6 @@
 ﻿using System;
 using TeleCore.FlowCore;
-using TeleCore.Network.Data;
 using TeleCore.Primitive;
-using Verse;
 
 namespace TeleCore.Network.Flow.Pressure;
 
