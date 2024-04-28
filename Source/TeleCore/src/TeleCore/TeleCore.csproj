@@ -4,7 +4,7 @@
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <LangVersion>preview</LangVersion>
-        <OutputPath>..\..\Assemblies</OutputPath>
+        <OutputPath>..\..\..\..\Assemblies</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>Telefonmast (aka Maxim)</Authors>
@@ -38,16 +38,25 @@
         <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Content Include="..\..\..\..\LICENSE.md" Pack="True" PackagePath="">
+            <Link>LICENSE.md</Link>
+        </Content>
+        <Content Include="..\..\..\..\README.md" Pack="True" PackagePath="">
+            <Link>README.md</Link>
+        </Content>
+    </ItemGroup>
+    
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="LICENSE.md" Pack="true" PackagePath=""/>
-        <None Include="..\..\..\..\README.md" Pack="true" PackagePath=""/>
         <None Remove="NodeEditorFramework\**"/>
         <None Remove="Root\Systems\FlowCore\Containers\**" />
+        <Compile Remove="Root\Systems\FlowCore\Containers\**" />
+        <EmbeddedResource Remove="Root\Systems\FlowCore\Containers\**" />
     </ItemGroup>
 
     <!-- DLL References -->
@@ -86,26 +95,6 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Remove="NodeEditorFramework\**" />
-        <Compile Remove="Data\FlowCore\Containers\ContainerConfig.cs" />
-        <Compile Remove="Data\FlowCore\Containers\Gizmo_ContainerStorage.cs" />
-        <Compile Remove="Data\FlowCore\Containers\IContainerHolderInterfaces.cs" />
-        <Compile Remove="Data\FlowCore\Containers\ValueContainerBase.cs" />
-        <Compile Remove="Data\FlowCore\Containers\ValueContainerWithHolder.cs" />
-        <Compile Remove="Data\FlowCore\Containers\ValueContainerWithHolderThing.cs" />
-        <Compile Remove="Data\FlowCore\Containers\Holder\IContainerHolderBase.cs" />
-        <Compile Remove="Data\FlowCore\Containers\Holder\IContainerHolderRoom.cs" />
-        <Compile Remove="Data\FlowCore\Containers\Holder\IContainerHolderThing.cs" />
-        <Compile Remove="Data\FlowCore\Containers\ValueResult.cs" />
-        <Compile Remove="Root\Systems\FlowCore\Containers\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="NodeEditorFramework\**" />
-        <EmbeddedResource Remove="Root\Systems\FlowCore\Containers\**" />
     </ItemGroup>
 
     <ItemGroup>
