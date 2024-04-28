@@ -12,7 +12,7 @@ public class NetworkCost
     public NetworkCostSet Cost => costSet;
 
     public bool Valid => costSet is { Valid: true };
-    
+
     //Validation
     public bool CanPayWith(CompNetwork networkComp)
     {
@@ -88,7 +88,7 @@ public class NetworkCost
             var part = structure[type.NetworkDef];
 
             var result = part.Volume.TryRemove(type, totalCost);
-            if (result) 
+            if (result)
                 totalCost -= result.Actual;
         }
 
@@ -114,7 +114,7 @@ public class NetworkCost
             foreach (var type in Cost.AcceptedValueTypes)
             {
                 var result = storage.Volume.TryRemove(type, totalCost);
-                if (result) 
+                if (result)
                     totalCost -= result.Actual;
             }
         }

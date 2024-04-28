@@ -64,7 +64,7 @@ public class TurretGunTop
     //
     public void Notify_TurretShot(int index)
     {
-        if (HasBarrels && Barrels.Count > index) 
+        if (HasBarrels && Barrels.Count > index)
             Barrels[index].Notify_TurretShot();
     }
 

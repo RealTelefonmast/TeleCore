@@ -3,7 +3,6 @@ using System.Text;
 using RimWorld;
 using TeleCore.Generics.Container;
 using TeleCore.Network;
-using TeleCore.Network.Data;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +15,7 @@ public class CompPowerPlant_Network : CompPowerPlant
     private float internalPowerOutput;
     private int powerTicksRemaining;
 
-    public new CompProperties_NetworkPowerPlant Props => (CompProperties_NetworkPowerPlant) base.Props;
+    public new CompProperties_NetworkPowerPlant Props => (CompProperties_NetworkPowerPlant)base.Props;
 
     public bool GeneratesPowerNow => powerTicksRemaining > 0;
     public override float DesiredPowerOutput => internalPowerOutput;

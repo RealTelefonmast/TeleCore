@@ -32,7 +32,7 @@ internal static class PathFinderPatches
     {
         var extraVal = 0;
         if (_customAvoidGrids.Count == 0) return 0;
-        foreach (var avoidGrid in _customAvoidGrids) 
+        foreach (var avoidGrid in _customAvoidGrids)
             extraVal += avoidGrid.Grid[index];
         return extraVal;
     }
@@ -86,7 +86,7 @@ internal static class PathFinderPatches
             CodeInstruction previous = null;
             foreach (var instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder {LocalIndex: 13})
+                if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder { LocalIndex: 13 })
                 {
                     failSafe = false;
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
@@ -99,7 +99,7 @@ internal static class PathFinderPatches
 
                 //
                 if (previous != null && previous.opcode == OpCodes.Stloc_S &&
-                    previous.operand is LocalBuilder {LocalIndex: 49})
+                    previous.operand is LocalBuilder { LocalIndex: 49 })
                 {
                     failSafe2 = false;
                     yield return new CodeInstruction(OpCodes.Ldloc_S, 45);

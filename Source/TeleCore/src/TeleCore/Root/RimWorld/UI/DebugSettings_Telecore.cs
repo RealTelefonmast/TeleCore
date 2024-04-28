@@ -8,7 +8,7 @@ namespace TeleCore;
 public static class TeleCoreDebugViewSettings
 {
     public static bool DrawAvoidGrid = false;
-    
+
     public static bool DrawNetwork = false;
     public static bool ShowNetworks = false;
     public static bool ShowNetworkParts = false;
@@ -32,27 +32,27 @@ public class DebugSettings_Telecore : DebugTabMenu
     {
         myRoot = new DebugActionNode("TeleCore");
         absRoot.AddChild(myRoot);
-        
+
         foreach (var fi in typeof(TeleCoreDebugSettings).GetFields())
         {
             AddNode(fi, "General");
         }
-        
+
         foreach (var fi in typeof(TeleCoreDebugViewSettings).GetFields())
         {
             AddNode(fi, "View");
         }
-        
+
         return myRoot;
     }
-    
+
     private void AddNode(FieldInfo fi, string categoryLabel)
     {
         if (fi.IsLiteral)
         {
             return;
         }
-        DebugActionNode debugActionNode = new DebugActionNode(this.LegibleFieldName(fi), DebugActionType.Action, delegate()
+        DebugActionNode debugActionNode = new DebugActionNode(this.LegibleFieldName(fi), DebugActionType.Action, delegate ()
         {
             bool flag = (bool)fi.GetValue(null);
             fi.SetValue(null, !flag);
@@ -66,7 +66,7 @@ public class DebugSettings_Telecore : DebugTabMenu
         debugActionNode.settingsField = fi;
         this.myRoot.AddChild(debugActionNode);
     }
-    
+
     private string LegibleFieldName(FieldInfo fi)
     {
         return GenText.SplitCamelCase(fi.Name).CapitalizeFirst();

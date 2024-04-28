@@ -6,9 +6,7 @@ using TeleCore.Network.Data;
 using TeleCore.Network.Flow;
 using TeleCore.Network.Graph;
 using TeleCore.Network.IO;
-using TeleCore.Network.Utility;
 using TeleCore.Static;
-using UnityEngine;
 using Verse;
 
 namespace TeleCore.Network;
@@ -18,11 +16,11 @@ public class DataGraph<TNode, TEdge> : IDisposable where TEdge : IEdge<TNode>
     public List<TNode> Nodes { get; private set; }
 
     public List<TEdge> Edges { get; private set; }
-    
+
     public Dictionary<TNode, List<(TEdge, TNode)>> AdjacencyList { get; private set; }
 
     public Dictionary<(TNode, TNode), TEdge> EdgeLookUp { get; private set; }
-    
+
     public void Dispose()
     {
         // TODO release managed resources here
@@ -40,7 +38,7 @@ public class DynamicNetworkGraph
     public NetworkGraph Graph => _network.Graph;
     public NetworkFlowSystem FlowSystem => _network.System;
     public NetworkPartSet TotalPartSet => _totalPartSet;
-    
+
     public DynamicNetworkGraph(NetworkDef def, Map map)
     {
         _map = map;
@@ -69,7 +67,7 @@ public class DynamicNetworkGraph
     }
 
     #endregion
-    
+
     #region TickUpdates
 
     public void Tick(bool shouldTick, int tick)
@@ -84,7 +82,7 @@ public class DynamicNetworkGraph
     public void Draw()
     {
         _network.Draw();
-        
+
         //Debug
         if (!TeleCoreDebugViewSettings.DrawNetwork) return;
         foreach (var cell in _ioConnGrid.ActiveCells)
@@ -103,18 +101,18 @@ public class DynamicNetworkGraph
     //  Search in all connected direction for next best node
     //Edge Spawned
     //  Search for next best node, then do as above
-    
+
     //Case: Graph already has nodes and edges
     //  Search hits junction
     //  
-    
+
     #endregion
 
     public void Notify_PartBecameJunction(NetworkPart part)
     {
         TLog.Debug($"Part became junction: {part} | Edge: {part.IsEdge} | Junction: {part.IsJunction} | Node: {part.IsNode}");
     }
-    
+
     public void Notify_PartSpawned(NetworkPart part)
     {
         //Basic data setup for each spawned part
@@ -122,7 +120,7 @@ public class DynamicNetworkGraph
         {
             FlowSystem.Notify_NewNode(part);
         }
-        
+
         part.Network = _network;
         Graph.AddCells(part);
 
@@ -135,17 +133,17 @@ public class DynamicNetworkGraph
         {
             _ioConnGrid.Set(visualCell, true);
         }
-        
+
         //Graph Gen
         var isEdge = part.IsEdge; //When node, search all connections to other nodes
         var isNode = part.IsNode; //When edge, seek in two directions to find connected nodes, an edge can ALWAYS only find two connecting nodes
         var isJunction = part.IsJunction;   //Junctions are a special case that act like nodes when spawned as one (spawned inbetween 3 different edges)
                                             //Or are created when an edge is spawned next to another edge with two other previously existing edge neighbors
-        // 'S' = Spawned Part
-        // '|' = Array split
-        // '=' = Edge
-        // 'N' = Node
-        
+                                            // 'S' = Spawned Part
+                                            // '|' = Array split
+                                            // '=' = Edge
+                                            // 'N' = Node
+
         //Edge Creation/Detection
         var newEdges = new List<NetEdge>();
         if (isNode)
@@ -161,20 +159,19 @@ public class DynamicNetworkGraph
             {
                 TLog.Warning("A pure edge cannot have more than 2 connections!");
             }
-            
+
             //Junctions are a special case, they are created when an edge is spawned next to another edge with two other previously existing edge neighbors
             foreach (var conn in part.AdjacentSet.Connections)
             {
                 var netPart = conn.Key;
                 if (netPart.IsJunction && netPart.AdjacentSet.Size == 3)
                 {
-                    var allEdges = GetAllEdgesFor((NetworkPart) netPart);
+                    var allEdges = GetAllEdgesFor((NetworkPart)netPart);
                     newEdges.AddRange(allEdges);
                 }
             }
 
             INetworkPart firstNode;
-            INetworkPart secondNode;
             //Directly adjacent
             //For a single edge connecting two direct nodes there is a bit of trickery involved with the cached I/O data of the network structures
             //We need to know the I/O of both nodes to determine whether the edge is valid or not, and to ensure flow is correct between both nodes
@@ -230,7 +227,7 @@ public class DynamicNetworkGraph
         {
             var junction = edge.From.IsJunction ? edge.From : (edge.To.IsJunction ? edge.To : null);
             if (junction == null) continue;
-            var edges = newEdges.Where(e => !e.Equals(edge) && (e.From == junction || e.To == junction));;
+            var edges = newEdges.Where(e => !e.Equals(edge) && (e.From == junction || e.To == junction)); ;
             foreach (var otherEdge in edges)
             {
                 if (otherEdge.IsValid)
@@ -243,7 +240,7 @@ public class DynamicNetworkGraph
                 }
             }
         }
-        
+
         foreach (var edge in newEdges)
         {
             if (!edge.IsValid)
@@ -254,12 +251,12 @@ public class DynamicNetworkGraph
             Graph.AddEdge(edge);
             FlowSystem.Notify_Populate(edge);
         }
-        
+
         // //Note: Hacky quickfix
         // FlowSystem.Reset();
         // FlowSystem.Notify_Populate(Graph);
     }
-    
+
     private static IEnumerable<NetEdge> GetAllEdgesFor(NetworkPart rootNode)
     {
         //Directly adjacent - [S|N]
@@ -273,7 +270,7 @@ public class DynamicNetworkGraph
                 {
                     TLog.Warning("Connected to direct junction");
                 }
-                
+
                 //TODO: Anomalies with mono-directional connections (ie. Output to Input)
                 var connResult = rootNode.IOConnectionTo(directPart);
                 if (connResult)
@@ -285,7 +282,7 @@ public class DynamicNetworkGraph
             else if (directPart.IsEdge)
             {
                 var nextNode = FindNextNode(directPart, rootNode, conn.Value); //rootNode.PartIO.IOModeAt(directPos)
-                if(!nextNode.IsValid) continue;
+                if (!nextNode.IsValid) continue;
                 yield return nextNode;
             }
         }
@@ -304,8 +301,8 @@ public class DynamicNetworkGraph
                 {
                     var begin1 = part.AdjacentSet.FullSet.First();
                     var begin2 = part.AdjacentSet.FullSet.Last();
-                    var from = (NetworkPart) FindNextNode(part, begin1).node;
-                    var to = (NetworkPart) FindNextNode(part, begin2).node;
+                    var from = (NetworkPart)FindNextNode(part, begin1).node;
+                    var to = (NetworkPart)FindNextNode(part, begin2).node;
                     Graph.TryDissolveEdge(from, to);
                 }
             }
@@ -399,25 +396,25 @@ public class DynamicNetworkGraph
         if (!firstNode.IsNode)
         {
             TLog.Error($"Trying to search new node with firstNode not being a node: {firstNode}");
-            if(firstNode.IsJunction)
+            if (firstNode.IsJunction)
                 TLog.Warning(" ^ This error should not have happened!");
             return NetEdge.Invalid;
         }
-        
+
         var currentSet = StaticListHolder<INetworkPart>.RequestSet($"CurrentSubSet_{edgePart}", true);
         var openSet = StaticListHolder<INetworkPart>.RequestSet($"OpenSubSet_{edgePart}", true);
         var closedSet = StaticListHolder<INetworkPart>.RequestSet($"ClosedSubSet_{edgePart}", true);
-        
+
         var curLength = 1;
         openSet.Add(edgePart);
-        
+
         do
         {
             foreach (var item in openSet)
             {
                 closedSet.Add(item);
             }
-            
+
             (currentSet, openSet) = (openSet, currentSet);
             openSet.Clear();
 
@@ -428,7 +425,7 @@ public class DynamicNetworkGraph
                     var newPart = connPair.Key;
                     var io = connPair.Value;
                     if (closedSet.Contains(newPart) || newPart == firstNode) continue;
-                    
+
                     //Make Edge When Node Found
                     if (newPart.IsNode)
                     {
@@ -441,10 +438,10 @@ public class DynamicNetworkGraph
                     break;
                 }
             }
-        } 
+        }
         while (openSet.Count > 0);
 
         return NetEdge.Invalid;
-        
+
     }
 }

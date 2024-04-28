@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +12,7 @@ public static class TeleContentDB
     private static Dictionary<string, ComputeShader> lookupComputeShades;
     private static Dictionary<string, Material> lookupMats;
     private static Dictionary<string, Texture2D> lookupTextures;
-    
+
     // public static readonly Shader TextureBlend = LoadShader("TextureBlend");
     // public static readonly Shader FlowMapShader = LoadShader("FlowMapShader");
     // public static readonly Shader FlowMapOnBlend = LoadShader("FlowMapOnBlend");
@@ -25,13 +21,13 @@ public static class TeleContentDB
 
     internal static readonly Texture2D CustomCursor_Drag = LoadTexture("CursorCustom_Drag");
     internal static readonly Texture2D CustomCursor_Rotate = LoadTexture("CursorCustom_Rotate");
-    
+
     static TeleContentDB()
     {
         assetBundles = new List<AssetBundle>();
         foreach (var pack in LoadedModManager.RunningModsListForReading)
         {
-            if(pack.IsOfficialMod || pack.IsCoreMod) continue;
+            if (pack.IsOfficialMod || pack.IsCoreMod) continue;
             if (pack.assetBundles == null || pack.assetBundles.loadedAssetBundles.Count <= 0) continue;
             foreach (var assetBundle in pack.assetBundles.loadedAssetBundles)
             {
@@ -54,27 +50,27 @@ public static class TeleContentDB
             }
         }
     }
-    
+
     public static ComputeShader LoadComputeShader(string shaderName)
     {
         return LoadAsset<ComputeShader>(shaderName, lookupComputeShades)!;
     }
-    
+
     public static Shader LoadShader(string shaderName)
     {
         return LoadAsset<Shader>(shaderName, lookupShades)!;
     }
-    
+
     public static Material LoadMaterial(string materialName)
     {
         return LoadAsset<Material>(materialName, lookupMats)!;
     }
-    
+
     public static Texture2D LoadTexture(string textureName)
     {
         return LoadAsset<Texture2D>(textureName, lookupTextures)!;
     }
-    
+
     private static T? LoadAsset<T>(string name, IDictionary<string, T> lookup) where T : Object
     {
         lookup ??= new Dictionary<string, T>();
@@ -83,7 +79,7 @@ public static class TeleContentDB
             TLog.Error("Trying to load asset on other thread than main.");
             return null;
         }
-        if(assetBundles.NullOrEmpty()) return null;
+        if (assetBundles.NullOrEmpty()) return null;
 
         T asset = null;
         foreach (var assetBundle in assetBundles)
@@ -94,7 +90,7 @@ public static class TeleContentDB
                 lookup[name] = asset = assetBundle.LoadAsset<T>(name);
                 break;
             }
-            
+
         }
 
         if (asset == null)

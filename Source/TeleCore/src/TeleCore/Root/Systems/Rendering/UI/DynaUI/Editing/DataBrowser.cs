@@ -151,8 +151,8 @@ public class DataBrowser<T> : UIElement
         float curY = 0;
         Widgets.BeginScrollView(ScrollRect, ref scrollPos, ScrollRectInner, false);
         {
-            startIndex = (int) (scrollPos.y / _OptionSize);
-            indexRange = Math.Min((int) (ScrollRect.height / _OptionSize) + 1, dataList.Count);
+            startIndex = (int)(scrollPos.y / _OptionSize);
+            indexRange = Math.Min((int)(ScrollRect.height / _OptionSize) + 1, dataList.Count);
             endIndex = startIndex + indexRange;
             if (startIndex >= 0 && endIndex <= dataList.Count)
                 for (var i = startIndex; i < endIndex; i++)

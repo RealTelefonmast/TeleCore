@@ -1,5 +1,4 @@
 ﻿using TeleCore.Network;
-using TeleCore.Network.Data;
 using UnityEngine;
 using Verse;
 
@@ -39,8 +38,8 @@ public class Graphic_LinkedNetworkStructure : Graphic_Linked
         if (comp == null) return;
 
         foreach (var subPart in comp.NetworkParts)
-        foreach (var pos in subPart.PartIO.VisualCells)
-            Printer_Plane.PrintPlane(layer, pos.Pos.Pos.ToVector3ShiftedWithAltitude(AltitudeLayer.FloorEmplacement),
-                Vector2.one, LinkedDrawMatFrom(thing, pos));
+            foreach (var pos in subPart.PartIO.VisualCells)
+                Printer_Plane.PrintPlane(layer, pos.Pos.Pos.ToVector3ShiftedWithAltitude(AltitudeLayer.FloorEmplacement),
+                    Vector2.one, LinkedDrawMatFrom(thing, pos));
     }
 }

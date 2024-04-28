@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
 using TeleCore.Network;
-using TeleCore.Network.Data;
 using TeleCore.Network.IO;
 using UnityEngine;
 using Verse;
@@ -71,7 +69,7 @@ internal static class RenderPatches
         }
     }
     */
-    
+
     [HarmonyPatch(typeof(Designator_Build), MethodType.Constructor)]
     [HarmonyPatch(new Type[] { typeof(BuildableDef) })]
     internal static class Designator_Build_IconPatch
@@ -81,15 +79,15 @@ internal static class RenderPatches
             var extension = entDef.GetModExtension<GraphicDataExtension>();
             if (extension != null)
             {
-                if(extension.iconProportions.HasValue)
+                if (extension.iconProportions.HasValue)
                     __instance.iconProportions = extension.iconProportions.Value;
-                
-                if(extension.iconDrawScale.HasValue)
+
+                if (extension.iconDrawScale.HasValue)
                     __instance.iconDrawScale = extension.iconDrawScale.Value;
             }
         }
     }
-    
+
     [HarmonyPatch(typeof(Graphic_Random), nameof(Graphic_Random.SubGraphicFor))]
     public static class SubGraphcForPatch
     {
@@ -143,7 +141,7 @@ internal static class RenderPatches
             {
                 if (b.def.entityDefToBuild is TerrainDef)
                     return true;
-                def = (ThingDef) b.def.entityDefToBuild;
+                def = (ThingDef)b.def.entityDefToBuild;
             }
 
             if (def.HasFXExtension(out var extension))
@@ -161,7 +159,7 @@ internal static class RenderPatches
     internal static class Designator_PlaceDrawMouseAttachmentsPatch
     {
         internal static readonly Dictionary<ThingDef, int> _indexes = new Dictionary<ThingDef, int>();
-        
+
         public static void Postfix(Designator_Place __instance)
         {
             if (__instance.PlacingDef is ThingDef tDef)
@@ -206,8 +204,8 @@ internal static class RenderPatches
         private static void DrawNetworkPartOption(Rect rect, ThingDef def, NetworkPartConfig config, int index)
         {
             var isSelected = GetIndex(def) == index;
-            
-            if(isSelected)
+
+            if (isSelected)
                 Widgets.DrawHighlight(rect);
 
             Text.Anchor = TextAnchor.MiddleCenter;
@@ -228,7 +226,7 @@ internal static class RenderPatches
             }
         }
     }
-    
+
     [HarmonyPatch(typeof(GenDraw))]
     [HarmonyPatch(nameof(GenDraw.DrawInteractionCells))]
     internal static class GenDrawDrawInteractionCellsPatch
@@ -253,7 +251,7 @@ internal static class RenderPatches
                 }
                 return;
             }
-            
+
             //Draw Network IO
             var network = tDef.GetCompProperties<CompProperties_Network>();
             if (network != null)
@@ -263,7 +261,7 @@ internal static class RenderPatches
                 DrawNetIOConfig(ioConfig, center, tDef, placingRot);
             }
         }
-        
+
         private static void DrawNetIOConfig(NetIOConfig config, IntVec3 center, ThingDef def, Rot4 rot)
         {
             var cells = config.GetCellsFor(rot);
@@ -281,16 +279,16 @@ internal static class RenderPatches
             switch (ioMode)
             {
                 case NetworkIOMode.Input:
-                    Graphics.DrawMesh(MeshPool.plane10, drawPos, (dir.AsAngle - 180).ToQuat(),TeleContent.IOArrow, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, drawPos, (dir.AsAngle - 180).ToQuat(), TeleContent.IOArrow, 0);
                     break;
                 case NetworkIOMode.Output:
-                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat, TeleContent.IOArrow,0);
+                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat, TeleContent.IOArrow, 0);
                     break;
                 case NetworkIOMode.TwoWay:
-                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat,TeleContent.IOArrowTwoWay, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat, TeleContent.IOArrowTwoWay, 0);
                     break;
                 case NetworkIOMode.Logical:
-                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat,TeleContent.IOArrowLogical, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, drawPos, dir.AsQuat, TeleContent.IOArrowLogical, 0);
                     break;
             }
         }
@@ -310,7 +308,7 @@ internal static class RenderPatches
             var loc = GenThing.TrueCenter(center, rot, thingDef.Size, drawAltitude.AltitudeFor());
             TDrawing.Draw(graphic, loc, rot, null, thingDef, null, extension);
 
-            foreach (var t in thingDef.comps) 
+            foreach (var t in thingDef.comps)
                 t.DrawGhost(center, rot, thingDef, ghostCol, drawAltitude);
             if (thingDef.PlaceWorkers != null)
                 foreach (var p in thingDef.PlaceWorkers)

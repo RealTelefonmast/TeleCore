@@ -14,7 +14,7 @@ public static class TeleExposeUtility
     public static void LoadUInt(byte[] arr, Map map, Action<IntVec3, uint> intWriter)
     {
         TeleSerializeUtility.LoadUInt(arr, map.info.NumCells,
-            delegate(int idx, uint data) { intWriter(map.cellIndices.IndexToCell(idx), data); });
+            delegate (int idx, uint data) { intWriter(map.cellIndices.IndexToCell(idx), data); });
     }
 
     public static void ExposeUInt(Map map, Func<IntVec3, uint> uintReader, Action<IntVec3, uint> uintWriter,

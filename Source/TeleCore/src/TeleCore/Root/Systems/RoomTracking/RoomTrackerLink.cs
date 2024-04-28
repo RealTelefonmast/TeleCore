@@ -9,7 +9,7 @@ namespace TeleCore;
 public abstract class RoomPortalWorker
 {
     protected RoomTrackerLink parent;
-    
+
     public RoomPortalWorker(RoomTrackerLink parent)
     {
         this.parent = parent;
@@ -30,12 +30,12 @@ public class RoomTrackerLink
         _connector = connector;
         _room = portalRoom;
     }
-    
+
     public RoomTrackerLink(Building connector, RoomTracker roomA, RoomTracker roomB, RoomTracker portalRoom)
     {
         _connector = connector;
         _room = portalRoom;
-        _connections = new[] {roomA, roomB};
+        _connections = new[] { roomA, roomB };
         _connectionDirections = new Rot4[2];
 
         //Get Directions
@@ -52,8 +52,8 @@ public class RoomTrackerLink
 
         //Generate Workers
         var subclasses = typeof(RoomPortalWorker).AllSubclassesNonAbstract();
-        if (subclasses is not {Count: > 0}) return; // Early exit if "subclasses" is null or empty.
-        _workers = subclasses.Select(type => (RoomPortalWorker) Activator.CreateInstance(type, this)).ToList();
+        if (subclasses is not { Count: > 0 }) return; // Early exit if "subclasses" is null or empty.
+        _workers = subclasses.Select(type => (RoomPortalWorker)Activator.CreateInstance(type, this)).ToList();
     }
 
     public bool ConnectsToOutside => _connections[0].IsOutside || _connections[1].IsOutside;

@@ -25,11 +25,11 @@ public class NetworkInfoView
 
     public string CurrentTab { get; private set; }
     public FloatRange ExtendableRange { get; private set; }
-    
+
     public NetworkInfoView(INetworkPart part)
     {
         _part = part;
-        
+
         SetExtensions();
         ExtendableRange = new FloatRange(10, Gizmo_NetworkOverview.selSettingHeight * Tabs.Count);
     }
@@ -132,7 +132,7 @@ public class NetworkInfoView
         TWidgets.DrawBoxHighlight(buildOptionsRect);
         if (_part.Config.networkDef.controllerDef != null)
         {
-            var controllDesignator = GenData.GetDesignatorFor<Designator_Build>(_part.Config.networkDef.controllerDef);  
+            var controllDesignator = GenData.GetDesignatorFor<Designator_Build>(_part.Config.networkDef.controllerDef);
             if (Widgets.ButtonImage(controllerRect, controllDesignator.icon as Texture2D))
                 controllDesignator.ProcessInput(Event.current);
         }
@@ -140,8 +140,8 @@ public class NetworkInfoView
         if (_part.Config.networkDef.transmitterDef != null)
         {
             var pipeDesignator = GenData.GetDesignatorFor<Designator_Build>(_part.Config.networkDef.transmitterDef);
-            if (Widgets.ButtonImage(pipeRect, pipeDesignator.icon as Texture2D)) 
-                pipeDesignator.ProcessInput(Event.current);   
+            if (Widgets.ButtonImage(pipeRect, pipeDesignator.icon as Texture2D))
+                pipeDesignator.ProcessInput(Event.current);
         }
     }
 
@@ -195,7 +195,7 @@ public class NetworkInfoView
 
         if (_part.Config.volumeConfig != null)
         {
-            Tabs.Add("Container Settings", delegate(Rect rect)
+            Tabs.Add("Container Settings", delegate (Rect rect)
             {
                 Widgets.DrawWindowBackground(rect);
                 if (!_part.HasContainer)
@@ -211,7 +211,7 @@ public class NetworkInfoView
 
             if (_part.Config.roles.HasFlag(NetworkRole.Storage))
             {
-                Tabs.Add("Filter Settings", delegate(Rect rect)
+                Tabs.Add("Filter Settings", delegate (Rect rect)
                 {
                     var readoutRect = rect.LeftPart(0.75f).ContractedBy(5).Rounded();
                     var clipboardRect = new Rect(readoutRect.xMax + 5, readoutRect.y, 22f, 22f);

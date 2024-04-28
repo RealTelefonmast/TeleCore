@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -196,12 +195,12 @@ public static class NumericLibrary<T> where T : unmanaged
         {
             constant = Expression.Constant(0); // For integer types just use 0
         }
-        
+
         var nan = Expression.Convert(constant, typeof(T));
         var lambda = Expression.Lambda<Func<T>>(nan);
         return lambda.Compile();
     }
-    
+
     private static Func<IEnumerable<T>, T> CreateSumFunc()
     {
         var itemsExpr = Expression.Parameter(typeof(IEnumerable<T>), "items");
@@ -214,10 +213,10 @@ public static class NumericLibrary<T> where T : unmanaged
         var methods = typeof(Enumerable).GetMethods(BindingFlags.Public | BindingFlags.Static);
         var methods2 = methods.Where(m => m.Name == "Sum");
         var methods3 = methods2.Where(m => m.ReturnType == typeof(T));
-        sumMethod = methods3.FirstOrDefault(m => 
+        sumMethod = methods3.FirstOrDefault(m =>
                                     m.GetParameters().Length == 1
                                  && m.GetParameters()[0].ParameterType == enumItemType)!;
-    
+
 
         if (sumMethod == null)
         {
@@ -228,7 +227,7 @@ public static class NumericLibrary<T> where T : unmanaged
         var sumFunc = Expression.Lambda<Func<IEnumerable<T>, T>>(body, itemsExpr);
         return sumFunc.Compile();
     }
-    
+
     private static Func<T, T, T, T> CreateClampFunc()
     {
         var value = Expression.Parameter(typeof(T), "value");
@@ -236,15 +235,15 @@ public static class NumericLibrary<T> where T : unmanaged
         var max = Expression.Parameter(typeof(T), "max");
 
         var body = Expression.Condition(
-            Expression.LessThan(value, min),min,
+            Expression.LessThan(value, min), min,
             Expression.Condition(
-                Expression.GreaterThan(value, max),max,value));
+                Expression.GreaterThan(value, max), max, value));
 
         var clamp = Expression.Lambda<Func<T, T, T, T>>(body, value, min, max);
 
         return clamp.Compile();
     }
-    
+
     private static Func<T, int, T> CreateRoundFunc()
     {
         if (typeof(T) != typeof(double) && typeof(T) != typeof(float) && typeof(T) != typeof(decimal))
@@ -258,7 +257,7 @@ public static class NumericLibrary<T> where T : unmanaged
         if (typeof(T) == typeof(float))
         {
             var converted = Expression.Convert(value, typeof(double));
-            var roundMethod = typeof(Math).GetMethod("Round", new[] { typeof(double), typeof(int)});
+            var roundMethod = typeof(Math).GetMethod("Round", new[] { typeof(double), typeof(int) });
             var body = Expression.Call(roundMethod, converted, decimals);
             var roundConvert = Expression.Convert(body, typeof(float));
             var round = Expression.Lambda<Func<T, int, T>>(roundConvert, value, decimals);
@@ -267,14 +266,14 @@ public static class NumericLibrary<T> where T : unmanaged
         }
         else
         {
-            var roundMethod = typeof(Math).GetMethod("Round", new[] { typeof(T), typeof(int)});
+            var roundMethod = typeof(Math).GetMethod("Round", new[] { typeof(T), typeof(int) });
             var body = Expression.Call(roundMethod, value, decimals);
             var round = Expression.Lambda<Func<T, int, T>>(body, value, decimals);
 
             return round.Compile();
         }
     }
-    
+
     private static Func<T, T, T> CreateMinFunc()
     {
         var paramA = Expression.Parameter(typeof(T), "a");
@@ -292,19 +291,19 @@ public static class NumericLibrary<T> where T : unmanaged
         var max = Expression.Lambda<Func<T, T, T>>(body, paramA, paramB);
         return max.Compile();
     }
-    
+
     private static Func<T, T> CreateAbsFunc()
     {
         var valueParam = Expression.Parameter(typeof(T), "value");
         var zeroConst = Expression.Constant(0);
         var zero = Expression.Convert(zeroConst, typeof(T));
         var body = Expression.Condition(Expression.LessThan(valueParam, zero),
-            Expression.Negate(valueParam), 
+            Expression.Negate(valueParam),
             valueParam);
         var lambda = Expression.Lambda<Func<T, T>>(body, valueParam);
         return lambda.Compile();
     }
-    
+
     private static Func<T> CreateEpsilonGetter()
     {
         object epsilon;

@@ -12,8 +12,8 @@ public static class GPUTools
     private static void MakeIonBubble(IntVec3 pos, float time, float bubbleRadius, Color color, ThingDef ionDistortion)
     {
         var composition = new ActionComposition("Ion Bübble " + ionDistortion);
-        var mote = (Mote) ThingMaker.MakeThing(ThingDef.Named("IonBubble"));
-        var distortion = (Mote) ThingMaker.MakeThing(ionDistortion);
+        var mote = (Mote)ThingMaker.MakeThing(ThingDef.Named("IonBubble"));
+        var distortion = (Mote)ThingMaker.MakeThing(ionDistortion);
         composition.AddPart(delegate
         {
             mote.exactPosition = distortion.exactPosition = pos.ToVector3Shifted();
@@ -24,9 +24,9 @@ public static class GPUTools
             GenSpawn.Spawn(distortion, pos, Find.CurrentMap);
         }, 0);
         composition.AddPart(
-            delegate(ActionPart part)
+            delegate (ActionPart part)
             {
-                distortion.Scale = mote.Scale = bubbleRadius * (part.CurrentTick / (float) part.Duration);
+                distortion.Scale = mote.Scale = bubbleRadius * (part.CurrentTick / (float)part.Duration);
             }, 0, time);
         composition.Init();
     }

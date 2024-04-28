@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TeleCore.FlowCore;
 using UnityEngine;
 using Verse;
 
@@ -7,22 +6,22 @@ namespace TeleCore;
 
 public class FlowValueDef : Def
 {
-    internal static readonly Dictionary<string, List<FlowValueDef>> TaggedFlowValues = new ();
-    
+    internal static readonly Dictionary<string, List<FlowValueDef>> TaggedFlowValues = new();
+
     public FlowValueCollectionDef? collectionDef;
-    
+
     public float capacityFactor = 1;
     public string labelShort;
     public bool sharesCapacity;
     public Color valueColor = Color.white;
     public string valueUnit;
-    
+
     //The rate at which value flows between containers
     public float viscosity = 1;
     public double friction;
 
     public List<string> tags;
-    
+
     //Runtime
     public float FlowRate => 1f / viscosity;
 
@@ -30,12 +29,12 @@ public class FlowValueDef : Def
     {
         return $"{value}{valueUnit}";
     }
-    
+
     public override IEnumerable<string> ConfigErrors()
     {
         foreach (var error in base.ConfigErrors())
             yield return error;
-        
+
         if (collectionDef == null)
             yield return $"{nameof(collectionDef)} not set!";
 

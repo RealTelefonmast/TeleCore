@@ -72,7 +72,7 @@ internal class TimeLineControl : UIElement
 
     //Canvas Elements
     public List<UIElement> Elements => Canvas.ChildElements;
-    public IEnumerable<IKeyFramedElement> KeyFramedElements => Canvas.ChildElements.Select(t => (IKeyFramedElement) t);
+    public IEnumerable<IKeyFramedElement> KeyFramedElements => Canvas.ChildElements.Select(t => (IKeyFramedElement)t);
 
     private Rect LeftRect => InRect.LeftPartPixels(_LeftSize);
     private Rect RightRect => InRect.RightPartPixels(InRect.width - _LeftSize);
@@ -83,7 +83,7 @@ internal class TimeLineControl : UIElement
     private Rect TopRight => RightRect.TopPartPixels(_TopSize);
     private Rect BotRight => RightRect.BottomPartPixels(InRect.height - _TopSize);
 
-    private float TimeSelectorPctPos => CurrentFrame / (float) AnimationLength;
+    private float TimeSelectorPctPos => CurrentFrame / (float)AnimationLength;
 
     private float CurrentZoom
     {
@@ -507,7 +507,7 @@ internal class TimeLineControl : UIElement
     private void ElementListing(Rect leftRect, IKeyFramedElement element)
     {
         TWidgets.DrawBox(leftRect, SelectedElement == element ? Color.cyan : TColor.White05, 1);
-        Widgets.Label(leftRect, $"{((TextureElement) element).LayerTag}");
+        Widgets.Label(leftRect, $"{((TextureElement)element).LayerTag}");
         if (Widgets.ButtonImage(leftRect.RightPartPixels(20), TeleContent.DeleteX))
             AnimationPartFrames[element].Clear();
     }
@@ -665,16 +665,16 @@ internal class TimeLineControl : UIElement
             switch (forMode)
             {
                 case ManipulationMode.Move:
-                    data.TPosition += (Vector2) byValue;
+                    data.TPosition += (Vector2)byValue;
                     break;
                 case ManipulationMode.Resize:
-                    data.TSize += (Vector2) byValue;
+                    data.TSize += (Vector2)byValue;
                     break;
                 case ManipulationMode.Rotate:
-                    data.TRotation += (float) byValue;
+                    data.TRotation += (float)byValue;
                     break;
                 case ManipulationMode.PivotDrag:
-                    data.PivotPoint += (Vector2) byValue;
+                    data.PivotPoint += (Vector2)byValue;
                     break;
                 default: return;
             }

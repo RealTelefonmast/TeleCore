@@ -22,7 +22,7 @@ public class MapComponent_TeleCore : MapComponent
 
     public T GetMapInfo<T>() where T : MapInformation
     {
-        return (T) mapInfoByType[typeof(T)];
+        return (T)mapInfoByType[typeof(T)];
     }
 
     public override void ExposeData()
@@ -42,7 +42,7 @@ public class MapComponent_TeleCore : MapComponent
 
             try
             {
-                var item = (MapInformation) Activator.CreateInstance(type, map);
+                var item = (MapInformation)Activator.CreateInstance(type, map);
                 allMapInfos.Add(item);
             }
             catch (Exception ex)
@@ -53,13 +53,13 @@ public class MapComponent_TeleCore : MapComponent
 
         //
         mapInfoByType.Clear();
-        foreach (var mapInfo in allMapInfos) 
+        foreach (var mapInfo in allMapInfos)
             mapInfoByType.Add(mapInfo.GetType(), mapInfo);
 
         //
-        NetworkInfo = (PipeNetworkMapInfo) mapInfoByType[typeof(PipeNetworkMapInfo)];
-        ThingGroupCacheInfo = (ThingGroupCacheInfo) mapInfoByType[typeof(ThingGroupCacheInfo)];
-        ThingTrackerMapInfo = (ThingTrackerMapInfo) mapInfoByType[typeof(ThingTrackerMapInfo)];
+        NetworkInfo = (PipeNetworkMapInfo)mapInfoByType[typeof(PipeNetworkMapInfo)];
+        ThingGroupCacheInfo = (ThingGroupCacheInfo)mapInfoByType[typeof(ThingGroupCacheInfo)];
+        ThingTrackerMapInfo = (ThingTrackerMapInfo)mapInfoByType[typeof(ThingTrackerMapInfo)];
     }
 
     public override void FinalizeInit()
@@ -123,7 +123,7 @@ public class MapComponent_TeleCore : MapComponent
 
     internal void TeleMapSingleTick()
     {
-        for (var i = 0; i < allMapInfos.Count; i++) 
+        for (var i = 0; i < allMapInfos.Count; i++)
             allMapInfos[i].TeleTick();
     }
 

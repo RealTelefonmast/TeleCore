@@ -99,11 +99,11 @@ public sealed class ThingValue : Editable, IExposable
         var values = Regex.Replace(xmlRoot.FirstChild.Value, @"\s+", "").Split(',');
 
         var count = values.Length;
-        value = (int) ParseHelper.FromString(values[0], typeof(int));
+        value = (int)ParseHelper.FromString(values[0], typeof(int));
         if (count > 1)
-            chance = (float) ParseHelper.FromString(values[1], typeof(float));
+            chance = (float)ParseHelper.FromString(values[1], typeof(float));
         if (count > 2)
-            QualityCategory = (QualityCategory) ParseHelper.FromString(values[3], typeof(QualityCategory));
+            QualityCategory = (QualityCategory)ParseHelper.FromString(values[3], typeof(QualityCategory));
         if (count > 3)
             DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "stuffDef", values[3]);
     }

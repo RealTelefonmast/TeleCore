@@ -16,7 +16,7 @@ public static class XMLPatches
             return false;
         }
     }
-    
+
     private static float CalculateMarketValue(ThingDef raceDef)
     {
         float num = 0f;
@@ -31,7 +31,7 @@ public static class XMLPatches
             TLog.Error($"raceDef.race is null on {raceDef}");
             return 0;
         }
-        
+
         if (raceDef.race.meatDef != null)
         {
             int num2 = Mathf.RoundToInt(raceDef.GetStatValueAbstract(StatDefOf.MeatAmount, null));
@@ -57,7 +57,7 @@ public static class XMLPatches
         }
         return num * 0.6f;
     }
-    
+
     /*
     [HarmonyPatch]
     internal static class MonoMethod_MakeGenericMethod

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
@@ -10,11 +9,11 @@ public class TeleTickManager
 {
     private const float _FPSLimiter = 45.4545441f;
     private readonly Stopwatch clock = new();
-    
+
     private float realTimeToTickThrough;
     private int ticksThisFrame;
     private int ticksThisFrameNormal;
-    
+
     public TeleTickManager()
     {
         TLog.Message("Starting TeleTickManager!");
@@ -104,14 +103,14 @@ public class TeleTickManager
             }
 
             GlobalUpdateEventHandler.OnUITick();
-            
+
             realTimeToTickThrough -= curTimePerTick;
             ticksThisFrameNormal++;
             CurrentTick++;
 
             if (Paused || clock.ElapsedMilliseconds > _FPSLimiter) break;
         }
-        
+
         realTimeToTickThrough = 0;
     }
 

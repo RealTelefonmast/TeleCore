@@ -38,7 +38,7 @@ public class RandomAdjacentCellComparer : IComparer<IntVec3>
     {
         var num = 1f;
         num *= 1f / c.DistanceTo(root);
-        num *= 1f + (float) noiseGenerator.GetValue(c.x, c.y, c.z) * PerlinNoiseFactor;
+        num *= 1f + (float)noiseGenerator.GetValue(c.x, c.y, c.z) * PerlinNoiseFactor;
         if (MapGenerator.mapBeingGenerated == map)
             num *= c.DistanceTo(MapGenerator.PlayerStartSpot) / map.Size.LengthHorizontal;
         return num * (1f + AdjacentCellCount(c) / 8f * NoisyEdgeFactor);

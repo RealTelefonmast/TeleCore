@@ -1191,7 +1191,7 @@ public readonly partial struct ImmutableArray<T> : IList<T>, IList, IStructuralC
     {
         var self = this;
         self.ThrowInvalidOperationIfNotInitialized();
-        return self.Contains((T) value!);
+        return self.Contains((T)value!);
     }
 
     /// <summary>
@@ -1205,7 +1205,7 @@ public readonly partial struct ImmutableArray<T> : IList<T>, IList, IStructuralC
     {
         var self = this;
         self.ThrowInvalidOperationIfNotInitialized();
-        return self.IndexOf((T) value!);
+        return self.IndexOf((T)value!);
     }
 
     /// <summary>

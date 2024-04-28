@@ -38,7 +38,7 @@ internal static class DebugTools
                     TWidgets.DrawHalfArrow(edge.To.Parent.Thing.TrueCenter().ToScreenPos(),
                     edge.From.Parent.Thing.TrueCenter().ToScreenPos(), Color.blue, size);
             }
-            
+
             TWidgets.DrawBoxOnThing(thingA);
             TWidgets.DrawBoxOnThing(thingB);
         }
@@ -51,7 +51,7 @@ internal static class DebugTools
             var r = default(GenDraw.FillableBarRequest);
             r.center = part.Parent.Thing.Position.ToVector3() + new Vector3(0.25f, 0, 0.75f);
             r.size = new Vector2(1.5f, 0.5f);
-            r.fillPercent = (float) fb.FillPercent;
+            r.fillPercent = (float)fb.FillPercent;
             r.filledMat = FilledMat;
             r.unfilledMat = UnFilledMat;
             r.margin = 0f;

@@ -28,7 +28,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     protected CompRefuelable refuelableComp;
     protected CompMechPowerCell powerCellComp;
     protected CompNetwork networkComp;
-    
+
     private TurretGunSet turretSet;
 
     public TurretDefExtension Extension { get; private set; }
@@ -39,7 +39,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
         get
         {
             if (!hasTurret) return LocalTargetInfo.Invalid;
-            if(turretSet.KnownTargets.Count > 0)
+            if (turretSet.KnownTargets.Count > 0)
                 return turretSet.KnownTargets.First();
             return LocalTargetInfo.Invalid;
         }
@@ -48,7 +48,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     public override Verb AttackVerb => turretSet.AttackVerb;
     public Verb_Tele TeleVerb => turretSet.AttackVerb as Verb_Tele;
     public TurretGun MainGun => turretSet.MainGun;
-    
+
     public bool MannedByColonist => ManningPawn?.Faction == Faction.OfPlayer;
     public bool MannedByNonColonist => ManningPawn?.Faction != Faction.OfPlayer;
     public bool HoldingFire => turretSet.HoldingFire;
@@ -60,10 +60,10 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     public virtual LocalTargetInfo TargetOverride => forcedTarget;
 
     //TurretHolder
-    public bool Active => (PowerTraderComp == null || PowerTraderComp.PowerOn) && 
-                            (DormantComp == null || DormantComp.Awake) && 
-                            (InitiatableComp == null || InitiatableComp.Initiated) && 
-                            (this.interactableComp == null) && 
+    public bool Active => (PowerTraderComp == null || PowerTraderComp.PowerOn) &&
+                            (DormantComp == null || DormantComp.Awake) &&
+                            (InitiatableComp == null || InitiatableComp.Initiated) &&
+                            (this.interactableComp == null) &&
                             this.powerCellComp is not { depleted: true } &&
                             MannableComp is not { MannedNow: false }; //TODO: Change whether manning requires activating
 
@@ -82,15 +82,15 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
 
     public virtual void Notify_OnProjectileFired()
     {
-        
+
     }
 
     public new bool ThreatDisabled(IAttackTargetSearcher disabledFor)
     {
         if (!hasTurret) return true;
         if (base.ThreatDisabled(disabledFor)) return true;
-        if (PowerTraderComp is {PowerOn: false}) return true;
-        return MannableComp is {MannedNow: false};
+        if (PowerTraderComp is { PowerOn: false }) return true;
+        return MannableComp is { MannedNow: false };
     }
 
     public void Notify_LostTarget(LocalTargetInfo forcedTarget)
@@ -112,7 +112,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     {
         base.SpawnSetup(map, respawningAfterLoad);
         Extension = def.TurretExtension();
-        
+
         dormantComp = GetComp<CompCanBeDormant>();
         initiatableComp = GetComp<CompInitiatable>();
         powerComp = GetComp<CompPowerTrader>();
@@ -121,8 +121,8 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
         refuelableComp = GetComp<CompRefuelable>();
         powerCellComp = GetComp<CompMechPowerCell>();
         networkComp = GetComp<CompNetwork>();
-        
-        
+
+
         //Init Turrets
         if (Extension.HasTurrets)
         {
@@ -191,7 +191,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     }
 
     private static StringBuilder sb = new StringBuilder();
-    
+
     public override string GetInspectString()
     {
         sb.Clear();
@@ -199,7 +199,7 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
         if (!inspectString.NullOrEmpty())
             sb.AppendLine(inspectString);
 
-        if(hasTurret)
+        if (hasTurret)
             sb.AppendFormat(turretSet.InspectString());
         return sb.ToString().TrimEndNewlines();
     }
@@ -207,12 +207,12 @@ public class Building_TeleTurret : Building_Turret, ITurretHolder, IFXLayerProvi
     //
     public override IEnumerable<Gizmo> GetGizmos()
     {
-        foreach (var gizmo in base.GetGizmos()) 
+        foreach (var gizmo in base.GetGizmos())
             yield return gizmo;
 
         if (!hasTurret) yield break;
-        
-        foreach (var turretGizmo in turretSet.TurretGizmos()) 
+
+        foreach (var turretGizmo in turretSet.TurretGizmos())
             yield return turretGizmo;
 
         if (canForceTargetDefault)

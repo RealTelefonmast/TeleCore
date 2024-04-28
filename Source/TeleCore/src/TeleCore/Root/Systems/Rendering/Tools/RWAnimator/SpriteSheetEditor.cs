@@ -12,7 +12,7 @@ public class SpriteSheetEditor : UIElement, IDragAndDropReceiver
     private const int _MinTileSize = 12;
     private const int _MaxTileSize = 48;
     private const int _GridPixels = _MinGridSize * _MaxTileSize; //8*48 = 384
-    private static readonly int[] GridSizes = new int[3] {1, 2, 4};
+    private static readonly int[] GridSizes = new int[3] { 1, 2, 4 };
 
     //
     private static readonly Vector2 _ListSize = new(75, 20);
@@ -323,7 +323,7 @@ public class SpriteSheetEditor : UIElement, IDragAndDropReceiver
 
         var width = rect.width;
         float size = 32;
-        var height = (float) Math.Round(Tiles.Count / 4f, 0, MidpointRounding.AwayFromZero) * size;
+        var height = (float)Math.Round(Tiles.Count / 4f, 0, MidpointRounding.AwayFromZero) * size;
 
         Widgets.BeginGroup(TileOutPutRect);
         var XY = Vector2.zero;

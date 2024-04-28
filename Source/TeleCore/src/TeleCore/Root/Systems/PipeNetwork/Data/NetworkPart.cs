@@ -23,9 +23,9 @@ public class NetworkPart : INetworkPart, IExposable
     private NetworkIO? _networkIO;
     [Unsaved]
     private NetworkIOPartSet? _adjacentSet;
-    
+
     private NetworkVolume? _cachedVolume;
-    
+
     private float _passThrough = 1; //MUST be initalized with 100%
     private bool _isReady;
 
@@ -69,18 +69,18 @@ public class NetworkPart : INetworkPart, IExposable
     public NetworkVolume Volume => ((Network?.System?.Relations?.TryGetValue(this, out var vol) ?? false) ? vol : null)!;
 
     public bool HasVolumeConfig => _config.volumeConfig != null;
-    
+
     public bool IsController => (Config.roles | NetworkRole.Controller) == NetworkRole.Controller;
 
     public bool IsPureEdge => IsEdge && !IsJunction;
     public bool IsEdge => Config.roles == NetworkRole.Transmitter;
     public bool IsNode => (!IsEdge || IsJunction);
 
-    public bool IsJunction => Config.roles == NetworkRole.Transmitter 
-                              && _adjacentSet.Size > 2 
+    public bool IsJunction => Config.roles == NetworkRole.Transmitter
+                              && _adjacentSet.Size > 2
                               && _adjacentSet[NetworkRole.Transmitter]?.Count >= 2;
     public bool HasConnection => _adjacentSet[NetworkRole.Transmitter]?.Count > 0;
-    
+
     public bool IsReady => _isReady;
     public bool IsWorking => true;
     public bool IsReceiving { get; }
@@ -98,7 +98,7 @@ public class NetworkPart : INetworkPart, IExposable
     {
         Parent = parent;
     }
-    
+
     //Main creation in Comp_Network with Activator.
     public NetworkPart(INetworkStructure parent, NetworkPartConfig config) : this(parent)
     {
@@ -112,11 +112,11 @@ public class NetworkPart : INetworkPart, IExposable
     {
         foreach (var adjPart in _adjacentSet)
         {
-            if(adjPart is NetworkPart part)
+            if (adjPart is NetworkPart part)
                 part.CheckIsJunction();
         }
     }
-    
+
     private void CheckIsJunction()
     {
         if (IsJunction)
@@ -129,9 +129,9 @@ public class NetworkPart : INetworkPart, IExposable
     {
         return $"{Thing}_{_config.networkDef}";
     }
-    
+
     #endregion
-    
+
     public void ExposeData()
     {
         if (Scribe.mode == LoadSaveMode.Saving)
@@ -142,7 +142,7 @@ public class NetworkPart : INetworkPart, IExposable
         Scribe_Values.Look(ref _passThrough, "passThrough");
         Scribe_Deep.Look(ref _cachedVolume, "cachedVolume");
     }
-    
+
     //Ran after ExposeData
     public void PostLoadInit(NetworkPartConfig config)
     {
@@ -153,12 +153,12 @@ public class NetworkPart : INetworkPart, IExposable
         if (_cachedVolume != null)
             _cachedVolume.PostLoadInit(config.volumeConfig);
     }
-    
+
     public void PartSetup(bool respawningAfterLoad)
     {
         GetDirectlyAdjacentNetworkParts();
     }
-    
+
     public void PostDestroy(DestroyMode mode, Map map)
     {
         //Notify adjacent parts
@@ -176,7 +176,7 @@ public class NetworkPart : INetworkPart, IExposable
             TLog.Warning("Edges should not be ticked!");
             return;
         }
-        
+
         var isPowered = Parent.IsPowered;
         Parent.NetworkPostTick(this, isPowered);
     }
@@ -191,7 +191,7 @@ public class NetworkPart : INetworkPart, IExposable
     #endregion
 
     #region Helpers
-    
+
     private void GetDirectlyAdjacentNetworkParts()
     {
         for (var c = 0; c < PartIO.Connections.Count; c++)
@@ -221,9 +221,9 @@ public class NetworkPart : INetworkPart, IExposable
     public IOConnection IOConnectionTo(INetworkPart other)
     {
         if (other == this) return IOConnection.Invalid;
-        if (!Config.networkDef.Equals(other.Config.networkDef)) 
+        if (!Config.networkDef.Equals(other.Config.networkDef))
             return IOConnection.Invalid;
-        if (!Parent.CanConnectToOther(other.Parent)) 
+        if (!Parent.CanConnectToOther(other.Parent))
             return IOConnection.Invalid;
         return IOConnection.TryCreate(this, (NetworkPart)other);
     }
@@ -257,7 +257,7 @@ public class NetworkPart : INetworkPart, IExposable
             {
                 defaultLabel = "Adjancy Set",
                 defaultDesc = _adjacentSet.ToString(),
-                action = {}
+                action = { }
             };
             /*if (IsController)
             {
@@ -293,9 +293,9 @@ public class NetworkPart : INetworkPart, IExposable
             };*/
         }
 
-        if(Network != null)
+        if (Network != null)
         {
-            foreach (var g in Network.GetGizmos()) 
+            foreach (var g in Network.GetGizmos())
                 yield return g;
         }
     }
@@ -310,7 +310,7 @@ public class NetworkPart : INetworkPart, IExposable
         r.size = new Vector2(1.5f, 0.15f);
         r.fillPercent = (float)(Volume?.FillPercent ?? 0f);
         r.filledMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.green);
-        r.unfilledMat =  SolidColorMaterials.SimpleSolidColorMaterial(Color.grey);
+        r.unfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.grey);
         r.margin = 0f;
         r.rotation = Rot4.East;
         GenDraw.DrawFillableBar(r);

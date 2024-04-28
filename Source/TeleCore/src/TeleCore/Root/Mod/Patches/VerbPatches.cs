@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using RimWorld;
 using TeleCore.Systems.Events;
 using UnityEngine;
 using Verse;
@@ -22,7 +21,7 @@ internal static class VerbPatches
             VerbWatcher.Notify_NewVerb(verb, __instance);
         }
     }
-    
+
     // ## WarmUp ##
     [HarmonyPatch(typeof(Verb), nameof(Verb.WarmupComplete))]
     internal static class Verb_WarmupComplete_Patch
@@ -33,7 +32,7 @@ internal static class VerbPatches
             return true;
         }
     }
-    
+
     // ## LaunchProjectile ##
 
     [HarmonyPatch(typeof(Verb_LaunchProjectile), nameof(Verb_LaunchProjectile.TryCastShot))]
@@ -54,17 +53,17 @@ internal static class VerbPatches
                 typeof(Thing),
                 typeof(ThingDef)
             ]);
-        
+
         private static readonly MethodInfo TransformCastOriginMethod = AccessTools.Method(typeof(VerbLaunchProjectile_TryCastShot_Patch), nameof(TransformCastOrigin));
         private static readonly FieldInfo CachedProjectileFld = AccessTools.Field(typeof(VerbLaunchProjectile_TryCastShot_Patch), nameof(_projectile));
-        
+
         [HarmonyPrefix]
         internal static bool Prefix(Verb_LaunchProjectile __instance)
         {
             _attacher = VerbWatcher.GetAttacher(__instance);
             return true;
         }
-        
+
         [HarmonyPostfix]
         internal static void Postfix(Verb_LaunchProjectile __instance)
         {
@@ -73,13 +72,13 @@ internal static class VerbPatches
             _projectile = null;
             _attacher = null;
         }
-        
+
         [HarmonyTranspiler]
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (var instruction in instructions)
             {
-                if(TryInjectProjectileLaunchPosition(instruction, out var sub1))
+                if (TryInjectProjectileLaunchPosition(instruction, out var sub1))
                 {
                     foreach (var subInstruction in sub1)
                     {
@@ -87,8 +86,8 @@ internal static class VerbPatches
                     }
                     continue;
                 }
-                
-                if(TryInjectCacheLaunchedProjectile(instruction, out var sub2))
+
+                if (TryInjectCacheLaunchedProjectile(instruction, out var sub2))
                 {
                     foreach (var subInstruction in sub2)
                     {
@@ -96,15 +95,15 @@ internal static class VerbPatches
                     }
                     continue;
                 }
-                
+
                 yield return instruction;
             }
         }
-        
+
         private static bool TryInjectProjectileLaunchPosition(CodeInstruction instruction, out IEnumerable<CodeInstruction> instructions)
         {
             instructions = Enumerable.Empty<CodeInstruction>();
-            if(instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder {LocalIndex: 6})
+            if (instruction.opcode == OpCodes.Stloc_S && instruction.operand is LocalBuilder { LocalIndex: 6 })
             {
                 instructions = new[]
                 {
@@ -115,11 +114,11 @@ internal static class VerbPatches
             }
             return false;
         }
-        
+
         private static bool TryInjectCacheLaunchedProjectile(CodeInstruction instruction, out IEnumerable<CodeInstruction> instructions)
         {
             instructions = Enumerable.Empty<CodeInstruction>();
-            if(instruction.Calls(ProjectileLaunch))
+            if (instruction.Calls(ProjectileLaunch))
             {
                 instructions = new[]
                 {
@@ -139,13 +138,13 @@ internal static class VerbPatches
     }
 
     #endregion
-    
+
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     internal static class PawnRenderer_DrawEquipmentAndApparelExtrasPatch
     {
         private static void Postfix(Pawn pawn, Vector3 drawPos, Rot4 facing, PawnRenderFlags flags)
         {
-            if (pawn?.CurrentEffectiveVerb is Verb_Tele teleVerb) 
+            if (pawn?.CurrentEffectiveVerb is Verb_Tele teleVerb)
                 teleVerb.DrawVerb(drawPos);
         }
     }

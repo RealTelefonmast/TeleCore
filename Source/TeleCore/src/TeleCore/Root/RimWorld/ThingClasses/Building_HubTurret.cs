@@ -24,7 +24,7 @@ public class Building_HubTurret : Building_TeleTurret
     public override CompCanBeDormant DormantComp => parentHub.DormantComp;
     public override CompInitiatable InitiatableComp => parentHub.InitiatableComp;
     public override CompNetwork NetworkComp => parentHub.NetworkComp;
-    
+
     public bool NeedsRepair => false;
 
     //

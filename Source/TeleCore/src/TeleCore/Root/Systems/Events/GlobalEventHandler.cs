@@ -24,7 +24,7 @@ public static partial class GlobalEventHandler
                 }
             };
         }
-        
+
         public static void RegisterDespawned(ThingDespawnedEvent handle, Predicate<Thing> predicate)
         {
             Despawned += args =>
@@ -35,7 +35,7 @@ public static partial class GlobalEventHandler
                 }
             };
         }
-        
+
         internal static void OnSpawned(ThingStateChangedEventArgs args)
         {
             try
@@ -85,7 +85,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to send signal on thing: {args.Thing}\n{ex.Message}\n{ex.StackTrace}");
             }
         }
-        
+
         internal static void Clear()
         {
             Spawned = null;
@@ -101,7 +101,7 @@ public static partial class GlobalEventHandler
         //TODO:
         //public static event PawnEnteredRoomEvent PawnEnteredRoom;
         //public static event PawnLeftRoomEvent PawnLeftRoom;
-        
+
         internal static void OnPawnHediffChanged(PawnHediffChangedEventArgs args)
         {
             try
@@ -119,7 +119,7 @@ public static partial class GlobalEventHandler
             HediffChanged = null;
         }
     }
-    
+
     public static class Rooms
     {
         public static event RoomCreatedEvent Created;
@@ -139,7 +139,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to register room creation: {args.RoomTracker.Room.ID}\n{ex.Message}\n{ex.StackTrace}");
             }
         }
-    
+
         internal static void OnRoomDisbanded(RoomChangedArgs args)
         {
             try
@@ -151,7 +151,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to notify disbanded room:\n{ex}");
             }
         }
-    
+
         internal static void OnRoomReused(RoomChangedArgs args)
         {
             try
@@ -163,7 +163,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to notify reused room:\n{ex}");
             }
         }
-        
+
         internal static void OnRegionStateCachedRoomUpdate(RegionStateChangedArgs action)
         {
             try
@@ -187,7 +187,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to notify reset region state:\n{ex}");
             }
         }
-    
+
         internal static void OnRegionStateGetRoomUpdate(RegionStateChangedArgs action)
         {
             try
@@ -199,7 +199,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to notify cached region state:\n{ex}");
             }
         }
-        
+
         internal static void Clear()
         {
             Created = null;
@@ -214,7 +214,7 @@ public static partial class GlobalEventHandler
     {
         public static event TerrainChangedEvent TerrainChanged;
         public static event CellChangedEvent CellChanged;
-        
+
         internal static void OnCellChanged(CellChangedEventArgs args)
         {
             try
@@ -226,7 +226,7 @@ public static partial class GlobalEventHandler
                 TLog.Error($"Error trying to register cell change: {args.Cell}\n{ex.Message}");
             }
         }
-        
+
         internal static void OnTerrainChanged(TerrainChangedEventArgs args)
         {
             try
@@ -250,8 +250,8 @@ public static partial class GlobalEventHandler
     public static class NetworkEvents<T> where T : FlowValueDef
     {
         public static event NetworkVolumeStateChangedEvent<T> NetworkVolumeStateChanged;
-        
-        internal static void OnVolumeStateChange (FlowVolumeBase<T> flowVolume, VolumeChangedEventArgs<T>.ChangedAction action)
+
+        internal static void OnVolumeStateChange(FlowVolumeBase<T> flowVolume, VolumeChangedEventArgs<T>.ChangedAction action)
         {
             try
             {
@@ -263,7 +263,7 @@ public static partial class GlobalEventHandler
             }
         }
     }
-    
+
     internal static void ClearData()
     {
         Things.Clear();
@@ -271,11 +271,11 @@ public static partial class GlobalEventHandler
         Rooms.Clear();
         Terrain.Clear();
     }
-    
+
     #region Verbs
 
     public static event ProjectileLaunchedEvent ProjectileLaunched;
-    
+
     internal static void OnProjectileLaunched(ProjectileLaunchedArgs args)
     {
         try

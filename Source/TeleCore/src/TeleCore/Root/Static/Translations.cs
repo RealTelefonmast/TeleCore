@@ -1,5 +1,4 @@
 ﻿using TeleCore.Network;
-using TeleCore.Network.Data;
 using Verse;
 
 namespace TeleCore.Static;

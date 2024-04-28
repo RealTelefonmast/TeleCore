@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
+﻿using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -23,7 +20,7 @@ public class SectionLayer_NetworkGrid : SectionLayer_Things
     {
         if (designator is not Designator_Build build) yield break;
         if (((build.PlacingDef as ThingDef)?.comps is not { } comps)) yield break;
-        
+
         foreach (var comp in comps)
         {
             if (comp is not CompProperties_Network network) continue;

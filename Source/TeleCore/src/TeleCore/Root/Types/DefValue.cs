@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Verse;
+﻿using Verse;
 
 namespace TeleCore.Primitive;
 
@@ -8,13 +7,13 @@ namespace TeleCore.Primitive;
 /// </summary>
 /// <typeparam name="TDef">The <see cref="Def" /> Type of the value.</typeparam>
 /// <typeparam name="TValue">The numeric Type of the value.</typeparam>
-public struct DefValue<TDef, TValue> 
+public struct DefValue<TDef, TValue>
     where TDef : Def
     where TValue : unmanaged
 {
     public TDef Def { get; }
     public Numeric<TValue> Value { get; set; }
-    
+
     public static implicit operator DefValue<TDef, TValue>((TDef Def, Numeric<TValue> Value) value) => new(value.Def, value.Value);
     public static implicit operator TDef(DefValue<TDef, TValue> def) => def.Def;
     public static explicit operator Numeric<TValue>(DefValue<TDef, TValue> def) => def.Value;
@@ -33,7 +32,7 @@ public struct DefValue<TDef, TValue>
         Def = def;
         Value = value;
     }
-    
+
     #region Math
 
     public static DefValue<TDef, TValue> operator +(DefValue<TDef, TValue> a, TValue b)

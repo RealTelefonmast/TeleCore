@@ -28,8 +28,8 @@ internal class AnimationMetaData : IExposable
     public AnimationMetaData(TextureCanvas parentCanvas)
     {
         this.parentCanvas = parentCanvas;
-        lastSelectedElementIndex = new List<int> {-1, -1, -1, -1};
-        lastSelectedAnimationIndex = new List<int> {-1, -1, -1, -1};
+        lastSelectedElementIndex = new List<int> { -1, -1, -1, -1 };
+        lastSelectedAnimationIndex = new List<int> { -1, -1, -1, -1 };
         //
         elementsByRotation = new List<UIElement>[4]
         {
@@ -245,7 +245,7 @@ public class AnimationPartValue
         var index = 0;
         foreach (var keyFrameCollection in animationPart.keyFrames)
         {
-            var texture = (TextureElement) uiElements[index];
+            var texture = (TextureElement)uiElements[index];
             InternalFrames.Add(texture, new Dictionary<int, KeyFrame>());
             if (!keyFrameCollection.NullOrEmpty())
                 foreach (var frame in keyFrameCollection.savedList)

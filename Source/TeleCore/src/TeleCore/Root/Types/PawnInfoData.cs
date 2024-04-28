@@ -20,6 +20,6 @@ public class PawnInfoData
 
     public void Notify_DeregisterPawn(ThingStateChangedEventArgs args)
     {
-        
+
     }
 }

@@ -33,7 +33,7 @@ public class NetworkPartSetExtended : NetworkPartSet
     protected override void OnPartAdded(INetworkPart part)
     {
         //Controller
-        if ((part.Config.roles & NetworkRole.Controller) == NetworkRole.Controller) 
+        if ((part.Config.roles & NetworkRole.Controller) == NetworkRole.Controller)
             Controller = part;
         if (!part.IsEdge)
             _tickSet.Add(part);
@@ -74,17 +74,17 @@ public class NetworkIOPartSet : NetworkPartSet
     private Dictionary<INetworkPart, IOConnection> _connections;
 
     public IReadOnlyDictionary<INetworkPart, IOConnection> Connections => _connections;
-    
+
     public NetworkIOPartSet(NetworkDef def) : base(def)
     {
         _connections = new Dictionary<INetworkPart, IOConnection>();
     }
-    
+
     public bool TryGetResult(INetworkPart part, out IOConnection result)
     {
         return _connections.TryGetValue(part, out result);
     }
-    
+
     public bool AddComponent(INetworkPart? part, IOConnection result)
     {
         if (base.AddComponent(part))
@@ -112,14 +112,14 @@ public class NetworkPartSet : IDisposable, IEnumerable<INetworkPart>
     protected readonly NetworkDef _def;
     protected readonly HashSet<INetworkPart> _fullSet;
     protected readonly Dictionary<NetworkRole, HashSet<INetworkPart>> _partsByRole;
-    
+
     public ICollection<INetworkPart> FullSet => _fullSet;
     public int Size => _fullSet.Count;
 
     public HashSet<INetworkPart>? this[NetworkRole role] => _partsByRole.TryGetValue(role, out var value) ? value : null;
 
     public event NotifyCollectionChangedEventHandler OnSetChanged;
-    
+
     public NetworkPartSet(NetworkDef def)
     {
         _def = def;
@@ -130,7 +130,7 @@ public class NetworkPartSet : IDisposable, IEnumerable<INetworkPart>
             _partsByRole.TryAdd(role, new HashSet<INetworkPart>());
         }
     }
-    
+
     public virtual void Dispose()
     {
         _fullSet.Clear();
@@ -152,7 +152,7 @@ public class NetworkPartSet : IDisposable, IEnumerable<INetworkPart>
     {
         return GetEnumerator();
     }
-    
+
     #region Registration
 
     public bool AddComponent(INetworkPart? part)
@@ -181,7 +181,7 @@ public class NetworkPartSet : IDisposable, IEnumerable<INetworkPart>
         {
             _partsByRole[flag].Remove(part);
         }
-        
+
         _fullSet.Remove(part);
         OnPartRemoved(part);
         OnSetChanged?.Invoke(part, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, part));

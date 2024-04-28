@@ -5,8 +5,8 @@ namespace TeleCore;
 
 public struct TickTime
 {
-    public float Hours => TotalTicks / (float) GenDate.TicksPerHour;
-    public float Days => TotalTicks / (float) GenDate.TicksPerDay;
+    public float Hours => TotalTicks / (float)GenDate.TicksPerHour;
+    public float Days => TotalTicks / (float)GenDate.TicksPerDay;
 
     public int TotalTicks { get; private set; }
 
@@ -20,9 +20,9 @@ public struct TickTime
         var value = xmlRoot.Value;
 
         if (value.EndsWith("h"))
-            TotalTicks = (int) float.Parse(value.Substring(0, value.Length - 1)) * GenDate.TicksPerHour;
+            TotalTicks = (int)float.Parse(value.Substring(0, value.Length - 1)) * GenDate.TicksPerHour;
         else if (value.EndsWith("d"))
-            TotalTicks = (int) float.Parse(value.Substring(0, value.Length - 1)) * GenDate.TicksPerDay;
+            TotalTicks = (int)float.Parse(value.Substring(0, value.Length - 1)) * GenDate.TicksPerDay;
 
         if (int.TryParse(value, out var ticksVal)) TotalTicks = ticksVal;
     }

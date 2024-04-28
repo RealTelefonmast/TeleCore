@@ -55,23 +55,23 @@ public class ThingGroupCacheInfo : MapInformation
         switch (obj)
         {
             case Thing thing:
-            {
-                if (!cachedThingsByGroup.ContainsKey(groupDef)) cachedThingsByGroup.Add(groupDef, new List<Thing>());
-                cachedThingsByGroup[groupDef].Add(thing);
+                {
+                    if (!cachedThingsByGroup.ContainsKey(groupDef)) cachedThingsByGroup.Add(groupDef, new List<Thing>());
+                    cachedThingsByGroup[groupDef].Add(thing);
 
-                break;
-            }
+                    break;
+                }
             case ThingComp comp:
-            {
-                if (!cachedCompsByGroup.ContainsKey(groupDef)) cachedCompsByGroup.Add(groupDef, new List<ThingComp>());
-                cachedCompsByGroup[groupDef].Add(comp);
+                {
+                    if (!cachedCompsByGroup.ContainsKey(groupDef)) cachedCompsByGroup.Add(groupDef, new List<ThingComp>());
+                    cachedCompsByGroup[groupDef].Add(comp);
 
-                //Cache Parent
-                if (!cachedCompParentsByGroup.ContainsKey(groupDef))
-                    cachedCompParentsByGroup.Add(groupDef, new List<ThingWithComps>());
-                cachedCompParentsByGroup[groupDef].Add(comp.parent);
-                break;
-            }
+                    //Cache Parent
+                    if (!cachedCompParentsByGroup.ContainsKey(groupDef))
+                        cachedCompParentsByGroup.Add(groupDef, new List<ThingWithComps>());
+                    cachedCompParentsByGroup[groupDef].Add(comp.parent);
+                    break;
+                }
         }
 
         //
@@ -86,16 +86,16 @@ public class ThingGroupCacheInfo : MapInformation
         switch (obj)
         {
             case Thing thing:
-            {
-                cachedThingsByGroup[groupDef].Remove(thing);
-                break;
-            }
+                {
+                    cachedThingsByGroup[groupDef].Remove(thing);
+                    break;
+                }
             case ThingComp comp:
-            {
-                cachedCompsByGroup[groupDef].Remove(comp);
-                cachedCompParentsByGroup[groupDef].Remove(comp.parent);
-                break;
-            }
+                {
+                    cachedCompsByGroup[groupDef].Remove(comp);
+                    cachedCompParentsByGroup[groupDef].Remove(comp.parent);
+                    break;
+                }
         }
 
         //

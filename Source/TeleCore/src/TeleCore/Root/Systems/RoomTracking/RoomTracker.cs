@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using RimWorld;
 using TeleCore.Static;
 using UnityEngine;
 using Verse;
@@ -18,7 +16,7 @@ public class RoomTracker
     //
     internal bool DebugSelected;
     internal bool DebugPortals;
-    
+
     //
     private bool _wasOutSide;
     private HashSet<IntVec3> borderCells = new();
@@ -27,10 +25,10 @@ public class RoomTracker
     private readonly Dictionary<Type, RoomComponent> _compsByType = new();
 
     private RoomNeighborSet _roomNeighbors = new();
-    
+
     public IEnumerable<RoomComponent> Comps => _compsByType.Values;
     public RoomNeighborSet RoomNeighbors => _roomNeighbors;
-        
+
     static RoomTracker()
     {
         RoomComponentTypes = typeof(RoomComponent).AllSubclassesNonAbstract();
@@ -43,14 +41,14 @@ public class RoomTracker
         BorderListerThings = new ListerThings(ListerThingsUse.Region);
 
         _roomNeighbors = new RoomNeighborSet();
-        
+
         //Get Group Data
         UpdateRoomData();
 
         //Create Components
         foreach (var type in RoomComponentTypes)
         {
-            var comp = (RoomComponent) Activator.CreateInstance(type);
+            var comp = (RoomComponent)Activator.CreateInstance(type);
             comp.Create(this);
             _compsByType.Add(type, comp);
         }
@@ -60,7 +58,7 @@ public class RoomTracker
             comp.PostCreate(this);
         }
     }
-    
+
     #region Properties
 
     public Map Map { get; private set; }
@@ -99,8 +97,8 @@ public class RoomTracker
     public Vector3 DrawPos { get; private set; }
 
     #endregion
-    
-    
+
+
     #region Room State Change
 
     public void Init(RoomTracker?[] previous)
@@ -117,10 +115,10 @@ public class RoomTracker
             }
             else
             {
-                SelfTrackerLink = new RoomTrackerLink(Room.Regions[0].door, roomFacing,roomOpposite, this);
+                SelfTrackerLink = new RoomTrackerLink(Room.Regions[0].door, roomFacing, roomOpposite, this);
             }
         }
-        
+
         //
         RegenerateData();
         foreach (var comp in Comps)
@@ -134,11 +132,11 @@ public class RoomTracker
         foreach (var comp in Comps)
             comp.PostInit(previous);
     }
-    
+
     public void Reset()
     {
         _roomNeighbors.Reset();
-        
+
         foreach (var comp in Comps)
             comp.Reset();
     }
@@ -146,15 +144,15 @@ public class RoomTracker
     public void Notify_Reused()
     {
         RegenerateData(true);
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.Notify_Reused();
     }
-    
+
     public void MarkDisbanded()
     {
         IsDisbanded = true;
     }
-    
+
     public void Disband(Map onMap)
     {
         _roomNeighbors.Reset();
@@ -165,30 +163,30 @@ public class RoomTracker
             comp.Disband(this, onMap);
         }
     }
-    
+
     public void Notify_RoofChanged()
     {
         RegenerateData(true, false, false);
         //Check if room closed
-        if (_wasOutSide && !IsOutside) 
+        if (_wasOutSide && !IsOutside)
             RoofClosed();
 
-        if (!_wasOutSide && IsOutside) 
+        if (!_wasOutSide && IsOutside)
             RoofOpened();
 
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.Notify_RoofChanged();
     }
 
     private void RoofClosed()
     {
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.Notify_RoofClosed();
     }
 
     private void RoofOpened()
     {
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.Notify_RoofOpened();
     }
 
@@ -220,7 +218,7 @@ public class RoomTracker
         foreach (var comp in Comps)
         {
             comp.Notify_ThingRemoved(thing);
-            if (thing is Pawn pawn) 
+            if (thing is Pawn pawn)
                 comp.Notify_PawnLeftRoom(pawn);
         }
     }
@@ -236,7 +234,7 @@ public class RoomTracker
     public void Notify_RegisterBorderThing(Thing thing)
     {
         if (BorderListerThings.Contains(thing)) return;
-        
+
         HandleAttachedNghb(thing);
         BorderListerThings.Add(thing);
         foreach (var comp in Comps)
@@ -260,23 +258,23 @@ public class RoomTracker
     }
 
     #endregion
-    
+
     public void FinalizeMapInit()
     {
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.FinalizeMapInit();
     }
 
-    public RoomComponent GetRoomComp(Type type) 
+    public RoomComponent GetRoomComp(Type type)
     {
         return _compsByType[type];
     }
-    
+
     public T GetRoomComp<T>() where T : RoomComponent
     {
-        return (T) _compsByType[typeof(T)];
+        return (T)_compsByType[typeof(T)];
     }
-    
+
     public bool ContainsRegionType(RegionType type)
     {
         return RegionTypes.HasFlag(type);
@@ -289,24 +287,24 @@ public class RoomTracker
 
     public void RoomTick()
     {
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.CompTick();
     }
 
     public void RoomOnGUI()
     {
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.OnGUI();
     }
 
     public void RoomDraw()
     {
         //
-        foreach (var comp in Comps) 
+        foreach (var comp in Comps)
             comp.Draw();
 
         if (!DebugSettings.godMode) return;
-        
+
         //Debug
         if (DebugSelected)
         {
@@ -317,7 +315,7 @@ public class RoomTracker
                 {
                     GenDraw.DrawFieldEdges(attachedNghb.Room.Cells.ToList(), Color.magenta);
                 }
-                
+
                 foreach (var trueNghb in RoomNeighbors.TrueNeighbors)
                 {
                     GenDraw.DrawFieldEdges(trueNghb.Room.Cells.ToList(), Color.green);
@@ -340,7 +338,7 @@ public class RoomTracker
         GenDraw.DrawFieldEdges(debugList, Color.blue);
         debugList.Clear();
     }
-    
+
     private string Icon(bool checkFail)
     {
         return $"{(checkFail ? check : fail)}";
@@ -358,7 +356,7 @@ public class RoomTracker
 
         var containedThing = Room.ContainedAndAdjacentThings.Where(t => innerCells.Contains(t.Position)).ToList();
         var sameCount = containedThing.Count(t => ListerThings.Contains(t));
-        var sameRatio = sameCount / (float) containedThing.Count();
+        var sameRatio = sameCount / (float)containedThing.Count();
         var sameBool = sameRatio >= 1f;
         var sameRatioString = $"[{sameCount}/{containedThing.Count()}][{sameRatio}]{Icon(sameBool)}".Colorize(ColorSel(sameBool));
         TLog.Message($"ContainedThingRatio: {sameRatioString}");
@@ -431,7 +429,7 @@ public class RoomTracker
     {
         //var watch = new Stopwatch();
         //watch.Start();
-        
+
         ListerThings.Clear();
         BorderListerThings.Clear();
 
@@ -444,7 +442,7 @@ public class RoomTracker
                 Notify_PawnEnteredRoom((Pawn)pawn);
             }
         }
-        
+
         foreach (var cell in borderCells)
         {
             var edi = cell.GetEdifice(Map);
@@ -456,7 +454,7 @@ public class RoomTracker
                 Notify_RegisterBorderThing(thing);
             }
         }
-        
+
         //watch.Stop();
         //TLog.Message($"RegenerateListerThings took {watch.ElapsedMilliseconds}ms");
     }
@@ -465,7 +463,7 @@ public class RoomTracker
     {
         //Caching cell data on outside room is performance intensive
         if (!IsProper) return;
-        
+
         thinRoofCells.Clear();
         borderCells.Clear();
         borderRooms.Clear();
@@ -495,7 +493,7 @@ public class RoomTracker
             }
         }
     }
-    
+
     private void UpdateRoomData()
     {
         _wasOutSide = IsOutside;
@@ -509,8 +507,8 @@ public class RoomTracker
             //If not outside, we want to know if there are any open roof cells
             OpenRoofCount = Room.OpenRoofCount;
         }
-        
-        foreach (var roomRegion in Room.Regions) 
+
+        foreach (var roomRegion in Room.Regions)
             RegionTypes |= roomRegion.type;
     }
 
@@ -523,7 +521,7 @@ public class RoomTracker
     {
         DebugSelected = true;
     }
-    
+
     internal void Debug_Deselect()
     {
         DebugSelected = false;

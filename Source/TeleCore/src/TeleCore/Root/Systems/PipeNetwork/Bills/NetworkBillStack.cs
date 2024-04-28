@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TeleCore.Network.Data;
 using TeleCore.Network.Utility;
 using TeleCore.Primitive;
 using UnityEngine;
@@ -18,7 +17,7 @@ public class NetworkBillStack : IExposable
     public string billName = "";
     public Dictionary<CustomRecipeRatioDef, int> RequestedAmount = new();
     public string[] textBuffers;
-    
+
     //Stack
     private List<CustomNetworkBill> bills = new();
 
@@ -29,16 +28,16 @@ public class NetworkBillStack : IExposable
     {
         ParentComp = parent;
         textBuffers = new string[Ratios.Count];
-        foreach (var recipe in Ratios) 
+        foreach (var recipe in Ratios)
             RequestedAmount.Add(recipe, 0);
 
         ResetBillData();
     }
 
     public DefValueStack<NetworkValueDef, double> TotalCost { get; set; }
-    public DefValueStack<NetworkValueDef,double> ByProducts { get; set; }
+    public DefValueStack<NetworkValueDef, double> ByProducts { get; set; }
 
-    public int TotalWorkAmount => TotalCost.IsEmpty ? 0 : TotalCost.Values.Sum(m => (int) (m.Value * WorkAmountFactor));
+    public int TotalWorkAmount => TotalCost.IsEmpty ? 0 : TotalCost.Values.Sum(m => (int)(m.Value * WorkAmountFactor));
 
     //
     public Building ParentBuilding => ParentComp.parent;
@@ -66,7 +65,7 @@ public class NetworkBillStack : IExposable
 
     public void CreateBillFromDef(CustomRecipePresetDef presetDefDef)
     {
-        var totalCost = presetDefDef.desiredResources.Sum(t => (int) (t.Value * WorkAmountFactor));
+        var totalCost = presetDefDef.desiredResources.Sum(t => (int)(t.Value * WorkAmountFactor));
         var customBill = new CustomNetworkBill(totalCost);
         customBill.billName = presetDefDef.defName;
         customBill.SetCost(NetworkBillUtility.ConstructCustomCostStack(presetDefDef.desiredResources));

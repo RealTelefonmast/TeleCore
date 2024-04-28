@@ -8,7 +8,7 @@ public static class TeleSerializeUtility
     public static float[] DeserializeFloat(byte[] data)
     {
         var result = new float[data.Length / 4];
-        LoadFloat(data, result.Length, delegate(int i, float dat) { result[i] = dat; });
+        LoadFloat(data, result.Length, delegate (int i, float dat) { result[i] = dat; });
         return result;
     }
 
@@ -46,10 +46,10 @@ public static class TeleSerializeUtility
         for (var i = 0; i < elements; i++)
         {
             var num = reader(i);
-            array[i * 4] = (byte) (num & 255);
-            array[i * 4 + 1] = (byte) ((num >> 8) & 255);
-            array[i * 4 + 2] = (byte) ((num >> 16) & 255);
-            array[i * 4 + 3] = (byte) ((num >> 24) & 255);
+            array[i * 4] = (byte)(num & 255);
+            array[i * 4 + 1] = (byte)((num >> 8) & 255);
+            array[i * 4 + 2] = (byte)((num >> 16) & 255);
+            array[i * 4 + 3] = (byte)((num >> 24) & 255);
         }
 
         return array;
@@ -58,7 +58,7 @@ public static class TeleSerializeUtility
     public static uint[] DeserializeUInt(byte[] data)
     {
         var result = new uint[data.Length / 4];
-        LoadUInt(data, result.Length, delegate(int i, uint dat) { result[i] = dat; });
+        LoadUInt(data, result.Length, delegate (int i, uint dat) { result[i] = dat; });
         return result;
     }
 
@@ -67,7 +67,7 @@ public static class TeleSerializeUtility
         if (arr == null || arr.Length == 0) return;
         for (var i = 0; i < elements; i++)
             writer(i,
-                arr[i * 4] | ((uint) arr[i * 4 + 1] << 8) | ((uint) arr[i * 4 + 2] << 16) |
-                ((uint) arr[i * 4 + 3] << 24));
+                arr[i * 4] | ((uint)arr[i * 4 + 1] << 8) | ((uint)arr[i * 4 + 2] << 16) |
+                ((uint)arr[i * 4 + 3] << 24));
     }
 }

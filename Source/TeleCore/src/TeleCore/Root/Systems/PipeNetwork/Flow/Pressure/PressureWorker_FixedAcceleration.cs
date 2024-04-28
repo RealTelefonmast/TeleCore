@@ -1,5 +1,4 @@
 ﻿using TeleCore.FlowCore;
-using TeleCore.Network.Data;
 
 namespace TeleCore.Network.Flow.Pressure;
 
@@ -19,7 +18,7 @@ public class PressureWorker_FixedAcceleration : PressureWorker
     {
         NetworkVolume from = iface.From;
         NetworkVolume to = iface.To;
-        
+
         f *= Inertia;
         f += (PressureFunction(from) - PressureFunction(to) > 0 ? 1 : -1) * Acceleration;
         return f;

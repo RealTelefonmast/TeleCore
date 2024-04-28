@@ -8,14 +8,14 @@ namespace TeleCore.Static;
 public static class QuickAccess
 {
     private static Dictionary<Thing, RoomTracker> _roomTrackerByThing;
-    
+
     static QuickAccess()
     {
         _roomTrackerByThing = new();
 
         GlobalEventHandler.Things.Spawned += HandleThingSpawn;
         GlobalEventHandler.Things.Despawned += HandleThingDespawn;
-        
+
         GlobalEventHandler.Rooms.Created += HandleCreated;
     }
 
@@ -36,11 +36,11 @@ public static class QuickAccess
 
     private static void HandleThingDespawn(ThingStateChangedEventArgs args)
     {
-        
+
     }
 
     private static void HandleThingSpawn(ThingStateChangedEventArgs args)
     {
-        
+
     }
 }

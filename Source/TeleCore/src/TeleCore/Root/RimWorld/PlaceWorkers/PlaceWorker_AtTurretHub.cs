@@ -56,7 +56,7 @@ public class PlaceWorker_AtTurretHub : PlaceWorker
         {
             var cell = GenRadial.RadialPattern[i] + origin;
             if (!cell.InBounds(map)) continue;
-            var hub = (Building_TurretHubCore) cell.GetFirstThing(map, extension.hub.hubDef);
+            var hub = (Building_TurretHubCore)cell.GetFirstThing(map, extension.hub.hubDef);
             if (hub != null && hub.AcceptsTurrets) return hub;
         }
 

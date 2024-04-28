@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using TeleCore.FlowCore;
-using TeleCore.FlowCore.Events;
 using TeleCore.Generics;
 using TeleCore.Network.Data;
 using TeleCore.Network.Flow.Clamping;
@@ -19,7 +17,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
 {
     public ClampWorker ClampWorker { get; set; }
     public PressureWorker PressureWorker { get; set; }
-    
+
     public NetworkFlowSystem()
     {
         ClampWorker = new ClampWorker_Overcommit();
@@ -30,7 +28,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
     {
         return Mathf.Min(connectors.A.PassThrough, connectors.B.PassThrough);
     }
-    
+
     protected override NetworkVolume CreateVolume(NetworkPart part)
     {
         if (part.CachedVolume != null)
@@ -52,7 +50,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
             GenerateForOrGetVolume(part);
         }
     }
-    
+
     internal void Notify_Populate(NetEdge newEdge)
     {
         var edge = newEdge;
@@ -70,7 +68,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
             return;
         }
         var mode = edge.BiDirectional ? InterfaceFlowMode.TwoWay : InterfaceFlowMode.FromTo;
-        var iFace = new FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef>(edge.From, edge.To, fb1, fb2,mode);
+        var iFace = new FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef>(edge.From, edge.To, fb1, fb2, mode);
         AddInterface((edge.From, edge.To), iFace);
     }
 
@@ -78,7 +76,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
     {
         TryRemoveRelatedPart(part);
     }
-    
+
     internal void Notify_Populate(NetworkGraph graph)
     {
         foreach (var edgePair in graph.EdgesByNodes)
@@ -98,7 +96,7 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
                 continue;
             }
             var mode = edge.BiDirectional ? InterfaceFlowMode.TwoWay : InterfaceFlowMode.FromTo;
-            var iFace = new FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef>(edge.From, edge.To, fb1, fb2,mode);
+            var iFace = new FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef>(edge.From, edge.To, fb1, fb2, mode);
             AddInterface((edge.From, edge.To), iFace);
         }
     }
@@ -149,9 +147,9 @@ public class NetworkFlowSystem : FlowSystem<NetworkPart, NetworkVolume, NetworkV
 
     protected override DefValueStack<NetworkValueDef, double> ClampFunc(FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef> iface, DefValueStack<NetworkValueDef, double> flow, ClampType clampType)
     {
-        return ClampWorker.ClampFunction(iface , flow, clampType);
+        return ClampWorker.ClampFunction(iface, flow, clampType);
     }
-    
+
     // protected override double FlowFunc(FlowInterface<NetworkPart, NetworkVolume, NetworkValueDef> iface, double previous)
     // {
     //     return PressureWorker.FlowFunction(iface, previous);

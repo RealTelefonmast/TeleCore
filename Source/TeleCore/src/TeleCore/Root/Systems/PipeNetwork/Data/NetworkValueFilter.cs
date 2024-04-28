@@ -8,7 +8,7 @@ public class NetworkValueFilter : FlowValueFilter<NetworkValueDef>
 {
     public List<NetworkValueFilterByRole> allowedValuesByRole;
 
-    [Unsaved] 
+    [Unsaved]
     private Dictionary<NetworkRole, List<NetworkValueDef>>? allowedValuesByRoleInt;
 
     public List<NetworkValueDef> this[NetworkRole role] => allowedValuesByRoleInt[role];

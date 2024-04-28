@@ -14,14 +14,14 @@ namespace TeleCore;
 public unsafe class ComputeGrid<T> : IExposable, IDisposable where T : unmanaged
 {
     private Map _map;
-    
+
     private ComputeBuffer _buffer;
     private NativeArray<T> _arr;
     private T* _ptr;
 
     //
     private int _changesMade;
-    
+
     public ComputeGrid(Map map)
     {
         Constructor(map, _ => default);
@@ -33,9 +33,9 @@ public unsafe class ComputeGrid<T> : IExposable, IDisposable where T : unmanaged
     }
 
     public bool IsReady { get; private set; }
-    
+
     public ComputeBuffer DataBuffer => _buffer;
-    
+
     public NativeArray<T> Grid => _arr;
     public int Length => _arr.Length;
 
@@ -112,7 +112,7 @@ public unsafe class ComputeGrid<T> : IExposable, IDisposable where T : unmanaged
 
         //
         _arr = new NativeArray<T>(map.cellIndices.NumGridCells, Allocator.Persistent);
-        _ptr = (T*) _arr.GetUnsafePtr();
+        _ptr = (T*)_arr.GetUnsafePtr();
 
         for (var i = 0; i < _arr.Length; i++) _ptr[i] = factory.Invoke(i);
     }

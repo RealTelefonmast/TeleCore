@@ -103,7 +103,7 @@ public class ScribeList<T> : IList<T>, IExposable
     public void SortBy<TSortBy>(Func<T, TSortBy> selector) where TSortBy : IComparable<TSortBy>
     {
         if (savedList.Count <= 1) return;
-        savedList.Sort(delegate(T a, T b)
+        savedList.Sort(delegate (T a, T b)
         {
             var tsortBy = selector(a);
             return tsortBy.CompareTo(selector(b));

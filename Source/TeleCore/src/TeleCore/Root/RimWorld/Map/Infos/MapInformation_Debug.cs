@@ -7,13 +7,13 @@ namespace TeleCore;
 public class MapInformation_Debug : MapInformation
 {
     private readonly List<DebugSettingWorker> _debugSettings;
-    
+
     public MapInformation_Debug(Map map) : base(map)
     {
         _debugSettings = new List<DebugSettingWorker>();
         foreach (var type in typeof(DebugSettingWorker).AllSubclassesNonAbstract())
         {
-            var instance = (DebugSettingWorker) Activator.CreateInstance(type);
+            var instance = (DebugSettingWorker)Activator.CreateInstance(type);
             _debugSettings.Add(instance);
         }
     }

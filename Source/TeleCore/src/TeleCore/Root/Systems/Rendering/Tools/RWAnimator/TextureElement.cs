@@ -76,7 +76,7 @@ internal class TextureElement : UIElement, IKeyFramedElement, IReorderableElemen
         hasTopBar = false;
     }
 
-    public TextureCanvas ParentCanvas => (TextureCanvas) _parent;
+    public TextureCanvas ParentCanvas => (TextureCanvas)_parent;
     public override bool CanBeFocused => base.CanBeFocused && IsSelected;
     protected override Rect DragAreaRect => Rect;
     public ManipulationMode ManiMode { get; private set; } = ManipulationMode.None;
@@ -208,8 +208,8 @@ internal class TextureElement : UIElement, IKeyFramedElement, IReorderableElemen
             foreach (var t in SubParts)
             {
                 var point = t.TPosition + t.PivotPoint;
-                var result = Quaternion.Euler(0, 0, rotDiff) * (point - pivot) + (Vector3) pivot -
-                             (Vector3) t.PivotPoint;
+                var result = Quaternion.Euler(0, 0, rotDiff) * (point - pivot) + (Vector3)pivot -
+                             (Vector3)t.PivotPoint;
                 t.SetTRSP_Direct(result, t.TRotation + rotDiff);
             }
 

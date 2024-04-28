@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using RimWorld;
-using Verse;
-using Verse.AI;
-
-namespace TeleCore;
+﻿namespace TeleCore;
 
 //TODO: Adjust to new Verse.CompTurretGun
 /*public class Comp_TeleTurret : ThingComp, ITurretHolder, IAttackTarget, IAttackTargetSearcher

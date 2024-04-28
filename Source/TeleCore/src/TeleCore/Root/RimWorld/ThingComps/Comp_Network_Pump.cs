@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TeleCore.Network;
-using TeleCore.Network.Data;
 using TeleCore.Network.IO;
 using TeleCore.Systems.Events;
 using UnityEngine;
@@ -24,7 +22,7 @@ public class Comp_Network_Pump : CompNetwork
     private FloatRange uvMoveRange = new FloatRange(0, -0.3f);
 
     private FXLayer _layer;
-    
+
     private FXLayer StolenLayer
     {
         get
@@ -42,10 +40,10 @@ public class Comp_Network_Pump : CompNetwork
         switch (args.layerTag)
         {
             case "PumpPiston" or "PumpPistonCap":
-            {
-                StolenLayer.PropertyBlock.SetVector(TeleShaderIDs.OffsetID, positionOff / 2f);
-                return parent.DrawPos + new Vector3(0,0,-0.125f) + positionOff;
-            }
+                {
+                    StolenLayer.PropertyBlock.SetVector(TeleShaderIDs.OffsetID, positionOff / 2f);
+                    return parent.DrawPos + new Vector3(0, 0, -0.125f) + positionOff;
+                }
         }
 
         return base.FX_GetDrawPosition(args);
@@ -82,7 +80,7 @@ public class Comp_Network_Pump : CompNetwork
         {
             positionOff.z = Mathf.Lerp(zMoveRange.max, 0, pumpTick / 90f);
             pumpTick++;
-            if (pumpTick > 90 )
+            if (pumpTick > 90)
             {
                 resetting = false;
                 pumpTick = 0;
@@ -94,7 +92,7 @@ public class Comp_Network_Pump : CompNetwork
     {
         if (!IsPowered) return;
         if (wantsPump || resetting) return;
-        
+
         var output = netPart.Network.Graph.GetEdgeOnCell((NetworkPart)netPart, _output);
         if (output.IsValid && !netPart.Volume.Empty && !output.To.Volume.Full)
         {

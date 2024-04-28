@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Verse;
+﻿using Verse;
 
 namespace TeleCore;
 
@@ -11,7 +10,7 @@ public class BeamProperties
     //
     public DamageDef damageDef;
     public FloatRange visWidth = FloatRange.One;
-    
+
     //
     public EffecterDef impactEffecter;
     public ExplosionProperties impactExplosion;

@@ -313,7 +313,7 @@ internal class TextureCanvas : BaseCanvas
             var animation = AnimationData.Notify_CreateNewAnimationPart("NewPart", 1);
             foreach (var element in ChildElements)
             {
-                var texElement = (TextureElement) element;
+                var texElement = (TextureElement)element;
                 animation.InternalFrames.Add(texElement, new Dictionary<int, KeyFrame>());
                 animation.InternalFrames[texElement].TryAdd(TimeLine.CurrentFrame,
                     new KeyFrame(texElement.CurrentData, TimeLine.CurrentFrame));
@@ -446,7 +446,7 @@ internal class TextureCanvas : BaseCanvas
             var floatOptions = new List<FloatMenuOption>();
             foreach (var value in Enum.GetValues(typeof(TexCoordAnchor)))
                 floatOptions.Add(new FloatMenuOption($"{value}",
-                    delegate { tex.TexCoordAnchor = (TexCoordAnchor) value; }));
+                    delegate { tex.TexCoordAnchor = (TexCoordAnchor)value; }));
             Find.WindowStack.Add(new FloatMenu(floatOptions));
         }
 
@@ -455,7 +455,7 @@ internal class TextureCanvas : BaseCanvas
             var floatOptions = new List<FloatMenuOption>();
             foreach (var value in Enum.GetValues(typeof(TexStretchMode)))
                 floatOptions.Add(
-                    new FloatMenuOption($"{value}", delegate { tex.StretchMode = (TexStretchMode) value; }));
+                    new FloatMenuOption($"{value}", delegate { tex.StretchMode = (TexStretchMode)value; }));
             Find.WindowStack.Add(new FloatMenu(floatOptions));
         }
 

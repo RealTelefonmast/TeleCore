@@ -118,62 +118,62 @@ public class SubEffecter_FX : SubEffecter
     {
     }
 
-    public SubEffecterExtendedDef Def => (SubEffecterExtendedDef) def;
+    public SubEffecterExtendedDef Def => (SubEffecterExtendedDef)def;
 
     public override void SubEffectTick(TargetInfo A, TargetInfo B)
     {
         switch (Def.effectMode)
         {
             case EffectThrowMode.Continuous:
-            {
-                if (moteCount >= def.maxMoteCount) return;
-                ticksUntilMote--;
-                if (ticksUntilMote <= 0)
                 {
-                    MakeMote(A, B);
-                    ticksUntilMote = def.ticksBetweenMotes;
-                    moteCount++;
+                    if (moteCount >= def.maxMoteCount) return;
+                    ticksUntilMote--;
+                    if (ticksUntilMote <= 0)
+                    {
+                        MakeMote(A, B);
+                        ticksUntilMote = def.ticksBetweenMotes;
+                        moteCount++;
+                    }
                 }
-            }
                 break;
             case EffectThrowMode.ChancePerTick:
-            {
-                var num = def.chancePerTick;
-                if (def.spawnLocType == MoteSpawnLocType.RandomCellOnTarget && B.HasThing)
-                    num *= B.Thing.def.size.x * B.Thing.def.size.z;
-                if (Rand.Value < num)
-                    MakeMote(A, B);
-            }
+                {
+                    var num = def.chancePerTick;
+                    if (def.spawnLocType == MoteSpawnLocType.RandomCellOnTarget && B.HasThing)
+                        num *= B.Thing.def.size.x * B.Thing.def.size.z;
+                    if (Rand.Value < num)
+                        MakeMote(A, B);
+                }
                 break;
             case EffectThrowMode.Burst:
-            {
-                if (Def.burstInterval.Average > 0)
                 {
-                    if (ticksUntilBurst > 0)
+                    if (Def.burstInterval.Average > 0)
                     {
-                        ticksUntilBurst--;
-                    }
-                    else if (burstCountLeft > 0)
-                    {
-                        burstCountLeft--;
-                        MakeMote(A, B);
+                        if (ticksUntilBurst > 0)
+                        {
+                            ticksUntilBurst--;
+                        }
+                        else if (burstCountLeft > 0)
+                        {
+                            burstCountLeft--;
+                            MakeMote(A, B);
+                        }
+                        else
+                        {
+                            ticksUntilBurst = Def.burstInterval.RandomInRange;
+                            burstCountLeft = Def.burstCount.RandomInRange;
+                        }
                     }
                     else
                     {
-                        ticksUntilBurst = Def.burstInterval.RandomInRange;
-                        burstCountLeft = Def.burstCount.RandomInRange;
+                        ticksLeft--;
+                        if (ticksLeft <= 0)
+                        {
+                            MakeMote(A, B);
+                            ticksLeft = Def.throwInterval.RandomInRange;
+                        }
                     }
                 }
-                else
-                {
-                    ticksLeft--;
-                    if (ticksLeft <= 0)
-                    {
-                        MakeMote(A, B);
-                        ticksLeft = Def.throwInterval.RandomInRange;
-                    }
-                }
-            }
                 break;
         }
     }
@@ -209,26 +209,26 @@ public class SubEffecter_FX : SubEffecter
                 info.AdjustOrigin(B.CenterVector3, true);
                 break;
             case MoteSpawnLocType.BetweenPositions:
-            {
-                var vector2 = A.HasThing ? A.Thing.DrawPos : A.Cell.ToVector3Shifted();
-                var vector3 = B.HasThing ? B.Thing.DrawPos : B.Cell.ToVector3Shifted();
-                if (A.HasThing && !A.Thing.Spawned)
-                    info.AdjustOrigin(vector3, true);
-                else if (B.HasThing && !B.Thing.Spawned)
-                    info.AdjustOrigin(vector2, true);
-                else
-                    info.AdjustOrigin(vector2 * def.positionLerpFactor + vector3 * (1f - def.positionLerpFactor), true);
-                break;
-            }
+                {
+                    var vector2 = A.HasThing ? A.Thing.DrawPos : A.Cell.ToVector3Shifted();
+                    var vector3 = B.HasThing ? B.Thing.DrawPos : B.Cell.ToVector3Shifted();
+                    if (A.HasThing && !A.Thing.Spawned)
+                        info.AdjustOrigin(vector3, true);
+                    else if (B.HasThing && !B.Thing.Spawned)
+                        info.AdjustOrigin(vector2, true);
+                    else
+                        info.AdjustOrigin(vector2 * def.positionLerpFactor + vector3 * (1f - def.positionLerpFactor), true);
+                    break;
+                }
             case MoteSpawnLocType.BetweenTouchingCells:
                 info.AdjustOrigin(A.Cell.ToVector3Shifted() + (B.Cell - A.Cell).ToVector3().normalized * 0.5f, true);
                 break;
             case MoteSpawnLocType.RandomCellOnTarget:
-            {
-                var cellRect = B.HasThing ? B.Thing.OccupiedRect() : CellRect.CenteredOn(B.Cell, 0);
-                info.AdjustOrigin(cellRect.RandomCell.ToVector3Shifted(), true);
-                break;
-            }
+                {
+                    var cellRect = B.HasThing ? B.Thing.OccupiedRect() : CellRect.CenteredOn(B.Cell, 0);
+                    info.AdjustOrigin(cellRect.RandomCell.ToVector3Shifted(), true);
+                    break;
+                }
             case MoteSpawnLocType.RandomDrawPosOnTarget:
                 if (B.Thing.DrawSize != Vector2.one && B.Thing.DrawSize != Vector2.zero)
                 {
@@ -282,7 +282,7 @@ public class SubEffecter_FX : SubEffecter
             var windSpeed = pos.GetRoom(map).PsychologicallyOutdoors ? map.windManager.WindSpeed : 0f;
             var windPct = Mathf.InverseLerp(0f, 2f, windSpeed);
             speed *= Mathf.Lerp(0.1f, 1, windPct);
-            angle = (int) Mathf.Lerp(def.angle.min, def.angle.max, windPct);
+            angle = (int)Mathf.Lerp(def.angle.min, def.angle.max, windPct);
         }
 
         info.AdjustVelocityAngle(angle, true);
@@ -358,7 +358,7 @@ public class SubEffecter_FX : SubEffecter
 
             //Try Notify Parent
             if (Def?.eventTag != null)
-                ((Effecter_FX) parent)?.SpawnedEffect(new FXEffecterSpawnedEventArgs
+                ((Effecter_FX)parent)?.SpawnedEffect(new FXEffecterSpawnedEventArgs
                 {
                     //Cant pass fleck on as there is no return value when creating
                     effecterTag = Def.eventTag,
@@ -373,7 +373,7 @@ public class SubEffecter_FX : SubEffecter
         if (def.moteDef == null) return;
         if (info.final.ShouldSpawnMotesAt(info.map, def.moteDef.drawOffscreen))
         {
-            sustainedMote = (Mote) ThingMaker.MakeThing(def.moteDef);
+            sustainedMote = (Mote)ThingMaker.MakeThing(def.moteDef);
             GenSpawn.Spawn(sustainedMote, info.final.ToIntVec3(), info.map);
             sustainedMote.Scale = def.scale.RandomInRange * info.scale;
             sustainedMote.exactPosition = info.final;
@@ -406,7 +406,7 @@ public class SubEffecter_FX : SubEffecter
 
             //Try Notify Parent
             if (Def?.eventTag != null)
-                ((Effecter_FX) parent)?.SpawnedEffect(new FXEffecterSpawnedEventArgs
+                ((Effecter_FX)parent)?.SpawnedEffect(new FXEffecterSpawnedEventArgs
                 {
                     effecterTag = Def.eventTag,
                     mote = sustainedMote

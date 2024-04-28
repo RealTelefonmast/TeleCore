@@ -28,7 +28,7 @@ public class TeleThing : FXThing, IDiscoverable
         if (def.HasTeleExtension(out var textension))
         {
             Extension = textension;
-            if (Extension.addCustomTick) 
+            if (Extension.addCustomTick)
                 TeleEventHandler.EntityTicked += TeleTick;
         }
     }

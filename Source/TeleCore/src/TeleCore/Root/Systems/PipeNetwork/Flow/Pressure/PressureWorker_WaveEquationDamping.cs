@@ -1,6 +1,5 @@
 ﻿using System;
 using TeleCore.FlowCore;
-using TeleCore.Network.Data;
 
 namespace TeleCore.Network.Flow.Pressure;
 
@@ -16,7 +15,7 @@ public class PressureWorker_WaveEquationDamping : PressureWorker
     {
         NetworkVolume from = iface.From;
         NetworkVolume to = iface.To;
-        
+
         var dp = PressureFunction(from) - PressureFunction(to);
         var c = Math.Sign(f) == Math.Sign(dp) ? CSquared : CSquaredDamper;
         f += dp * c;

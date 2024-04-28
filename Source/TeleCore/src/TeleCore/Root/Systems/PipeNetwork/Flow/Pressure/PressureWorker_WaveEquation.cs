@@ -1,5 +1,4 @@
 ﻿using TeleCore.FlowCore;
-using TeleCore.Network.Data;
 
 namespace TeleCore.Network.Flow.Pressure;
 
@@ -14,7 +13,7 @@ public class PressureWorker_WaveEquation : PressureWorker
     {
         NetworkVolume from = iface.From;
         NetworkVolume to = iface.To;
-        
+
         f += (PressureFunction(from) - PressureFunction(to)) * CSquared;
         f *= 1 - Friction;
         return f;

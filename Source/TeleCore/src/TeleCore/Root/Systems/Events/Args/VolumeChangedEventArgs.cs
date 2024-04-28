@@ -7,7 +7,7 @@ where TValue : FlowValueDef
 {
     public ChangedAction Action { get; }
     public FlowVolumeBase<TValue> Volume { get; }
-    
+
     public enum ChangedAction
     {
         Invalid,

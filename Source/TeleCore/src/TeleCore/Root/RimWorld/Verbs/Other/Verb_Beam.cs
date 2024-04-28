@@ -29,13 +29,13 @@ public class Verb_Beam : Verb_Tele
     //
     public BeamProperties BeamProps => Props.beamProps;
     public bool IsStatic => BeamProps.isStatic;
-    
+
     //
     public override DamageDef DamageDef => BeamProps.damageDef ?? verbProps.beamDamageDef;
     protected override float ExplosionOnTargetSize => BeamProps.impactExplosion?.explosionRadius ?? 0;
 
     //Beam Moving Mechanic
-    private float ShotProgress => ticksToNextLocation / (float) verbProps.ticksBetweenBurstShots;
+    private float ShotProgress => ticksToNextLocation / (float)verbProps.ticksBetweenBurstShots;
 
     private Vector3 InterpolatedPosition
     {
@@ -138,7 +138,7 @@ public class Verb_Beam : Verb_Tele
         for (var i = 0; i <= ShotsPerBurst; i++)
         {
             //
-            var b = Mathf.Sin((i / (float) ShotsPerBurst + 0.5f) * Mathf.PI * Mathf.Rad2Deg) * verbProps.beamCurvature *
+            var b = Mathf.Sin((i / (float)ShotsPerBurst + 0.5f) * Mathf.PI * Mathf.Rad2Deg) * verbProps.beamCurvature *
                 -normalVec - normalVec * verbProps.beamMaxDeviation / 2f;
             beamHitLocations.Add(finalMovingBeamTarget + (a2 + b) * fullWidthRangeFactor);
             finalMovingBeamTarget += normalRotated * beamWidthStep;
@@ -344,7 +344,7 @@ public class Verb_Beam : Verb_Tele
         var finalPos = rangePos.IsValid ? rangePos : desiredRange;
 
         //
-        if (IsStatic) 
+        if (IsStatic)
             StaticTargetEffects(CurrentStartPos, finalPos.ToVector3Shifted(), finalPos);
 
         HitCell(finalPos);

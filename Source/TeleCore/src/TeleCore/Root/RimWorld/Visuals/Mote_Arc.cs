@@ -32,7 +32,7 @@ public class Mote_Arc : TeleMote
         var color = instanceColor;
         color.a *= alpha;
         if (color != drawMat.color)
-            drawMat = MaterialPool.MatFrom((Texture2D) drawMat.mainTexture, ShaderDatabase.MoteGlow, color);
+            drawMat = MaterialPool.MatFrom((Texture2D)drawMat.mainTexture, ShaderDatabase.MoteGlow, color);
         var z = diff.MagnitudeHorizontal();
         var x = diff.MagnitudeHorizontal();
         var pos = (start + end) / 2f;

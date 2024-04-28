@@ -75,7 +75,7 @@ public class PipeNetwork : IDisposable
     {
         System.Tick(tick);
     }
-    
+
     internal void Tick(int tick)
     {
         foreach (var part in _partSet.TickSet)
@@ -86,7 +86,7 @@ public class PipeNetwork : IDisposable
     {
         System.Draw();
         Graph.Draw();
-        
+
         if (DEBUG_DrawFlowPressure)
             DebugTools.Debug_DrawPressure(System);
     }

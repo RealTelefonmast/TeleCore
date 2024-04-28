@@ -5,7 +5,7 @@ namespace TeleCore;
 public class VerbComponent
 {
     private TeleVerbAttacher _parent;
-    
+
     public Verb Verb => _parent.Verb;
 
 

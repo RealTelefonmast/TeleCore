@@ -13,9 +13,9 @@ public unsafe struct UnsafeDefValue<TDef, TValue>
     where TDef : Def
     where TValue : unmanaged
 {
-    [FieldOffset(0)] 
+    [FieldOffset(0)]
     public int defID; //4 bytes
-    [FieldOffset(4)] 
+    [FieldOffset(4)]
     public Numeric<TValue> _value; //Up to 8 bytes
 
     public UnsafeDefValue(Def def, Numeric<TValue> value)
@@ -42,8 +42,8 @@ public unsafe struct UnsafeValueStack<TDef, TValue>
     public int Length => curInd;
     public Numeric<TValue> TotalValue => _totalValue;
     public bool IsValid => false;
-    public bool Invalid =>  false;
-    
+    public bool Invalid => false;
+
     public bool IsEmpty => _totalValue.IsZero;
 
     public UnsafeDefValue<TDef, TValue> this[int ind]
@@ -52,30 +52,30 @@ public unsafe struct UnsafeValueStack<TDef, TValue>
         {
             if (ind < 0 || ind >= curInd)
                 throw new IndexOutOfRangeException();
-            
+
             fixed (byte* ptr = _stack)
             {
-                var defValue = (UnsafeDefValue<TDef, TValue>*) ptr;
+                var defValue = (UnsafeDefValue<TDef, TValue>*)ptr;
                 return defValue[ind];
             }
         }
     }
-    
+
     //Stack Info
     public IEnumerable<TDef> Defs
     {
         get
         {
-            for(var i=0; i<curInd; i++)
+            for (var i = 0; i < curInd; i++)
                 yield return this[i].Def;
         }
     }
 
     public UnsafeValueStack()
     {
-        
+
     }
-    
+
     public UnsafeDefValue<TDef, TValue> TryGetWithFallback(TDef key, UnsafeDefValue<TDef, TValue> fallback)
     {
         return TryGetValue(key, out _, out var value) ? value : fallback;
@@ -85,7 +85,7 @@ public unsafe struct UnsafeValueStack<TDef, TValue>
     {
         index = -1;
         var tmp = value = new UnsafeDefValue<TDef, TValue>(key, Numeric<TValue>.Zero);
-        if(curInd == 0) return false;
+        if (curInd == 0) return false;
         for (var i = 0; i < curInd; i++)
         {
             tmp = this[i];
@@ -97,7 +97,7 @@ public unsafe struct UnsafeValueStack<TDef, TValue>
 
         return false;
     }
-    
+
     private unsafe void TryAddOrSet(UnsafeDefValue<TDef, TValue> newValue)
     {
         if (!TryGetValue(newValue.Def, out var index, out var previous))
@@ -126,9 +126,9 @@ public unsafe struct UnsafeValueStack<TDef, TValue>
 
         //Get Delta
         //TODO:var delta = this[index] - previous;
-       //TODO: _totalValue += delta.Value;
+        //TODO: _totalValue += delta.Value;
     }
-    
+
 }
 
 /// <summary>
@@ -143,17 +143,17 @@ public struct DefValueStack<TDef, TValue> : IExposable
 {
     private LightImmutableArray<DefValue<TDef, TValue>> _stack;
     private Numeric<TValue> _totalValue;
-    
+
     //States
     public int Length => _stack.Length;
     public Numeric<TValue> TotalValue => _totalValue;
     public bool IsValid => !_stack.IsNullOrEmpty;
-    public bool Invalid =>_stack.IsNullOrEmpty;
-    
+    public bool Invalid => _stack.IsNullOrEmpty;
+
     public bool IsEmpty => _totalValue.IsZero;
-    
-    public static implicit operator DefValueStack<TDef, TValue>(DefValue<TDef, TValue> value) =>new DefValueStack<TDef, TValue>(value);
-    
+
+    public static implicit operator DefValueStack<TDef, TValue>(DefValue<TDef, TValue> value) => new DefValueStack<TDef, TValue>(value);
+
     //Stack Info
     public IEnumerable<TDef> Defs => _stack.Select(value => value.Def);
     public ICollection<DefValue<TDef, TValue>> Values => _stack;
@@ -178,11 +178,11 @@ public struct DefValueStack<TDef, TValue> : IExposable
                 listTemp.Add(val);
             }
         }
-        
+
         Scribe_Values.Look(ref _totalValue, "totalValue");
         Scribe_Collections.Look(ref listTemp, "stack", LookMode.Deep);
         //Scribe_Arrays.Look(ref _stack, "stack");
-        
+
         if (Scribe.mode == LoadSaveMode.LoadingVars)
         {
             _stack = new LightImmutableArray<DefValue<TDef, TValue>>();
@@ -192,12 +192,12 @@ public struct DefValueStack<TDef, TValue> : IExposable
             }
         }
     }
-    
+
     public DefValueStack()
     {
         _stack = LightImmutableArray<DefValue<TDef, TValue>>.Empty;
         _totalValue = Numeric<TValue>.Zero;
-        
+
     }
 
     public DefValueStack(DefValueStack<TDef, TValue> other) : this()
@@ -212,7 +212,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
         _totalValue = other._totalValue;
     }
 
-    public DefValueStack(DefValue<TDef,TValue> value) : this()
+    public DefValueStack(DefValue<TDef, TValue> value) : this()
     {
         if (value.Def == null)
         {
@@ -223,7 +223,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
         _stack = new LightImmutableArray<DefValue<TDef, TValue>>(value); //new ImmutableArray<DefValue<TDef, TValue>>().Add(value);
         _totalValue = value.Value;
     }
-    
+
     /*public DefValueStack(IDictionary<TDef, TValue> source, TValue maxCapacity) : this(maxCapacity)
     {
         if (source.EnumerableNullOrEmpty())
@@ -295,7 +295,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
         }
         _totalValue = other._totalValue;
     }*/
-    
+
     private int IndexOf(TDef def)
     {
         for (var i = 0; i < _stack.Length; i++)
@@ -314,7 +314,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     {
         index = -1;
         var tmp = value = new DefValue<TDef, TValue>(key, Numeric<TValue>.Zero);
-        if(_stack.IsNullOrEmpty) return false;
+        if (_stack.IsNullOrEmpty) return false;
         for (var i = 0; i < _stack.Length; i++)
         {
             tmp = _stack[i];
@@ -334,7 +334,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
             TLog.Warning("Caught NaN!");
             newValue = new DefValue<TDef, TValue>(newValue.Def, Numeric<TValue>.Zero);
         }
-        
+
         if (!TryGetValue(newValue.Def, out var index, out var previous))
         {
             //Add onto stack
@@ -387,15 +387,15 @@ public struct DefValueStack<TDef, TValue> : IExposable
         _totalValue = Numeric<TValue>.Zero;
         _stack = _stack.Clear();
     }
-    
+
     #region Math
-    
+
     #region Value Math
 
     public static DefValueStack<TDef, TValue> operator *(DefValueStack<TDef, TValue> a, TValue b)
     {
         if (a._stack.IsNullOrEmpty) return a;
-        foreach (var value in a.Values) 
+        foreach (var value in a.Values)
             a[value.Def] *= b;
         return a;
     }
@@ -407,7 +407,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
         {
             return new DefValueStack<TDef, TValue>();
         }
-        foreach (var value in a.Values) 
+        foreach (var value in a.Values)
             a[value.Def] /= b;
         return a;
     }
@@ -419,7 +419,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     public static DefValueStack<TDef, TValue> operator +(DefValueStack<TDef, TValue> a, DefValueStack<TDef, TValue> b)
     {
         if (b._stack.IsNullOrEmpty) return a;
-        foreach (var value in b.Values) 
+        foreach (var value in b.Values)
             a[value.Def] += b[value.Def];
         return a;
     }
@@ -427,7 +427,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     public static DefValueStack<TDef, TValue> operator -(DefValueStack<TDef, TValue> a, DefValueStack<TDef, TValue> b)
     {
         if (b._stack.IsNullOrEmpty) return a;
-        foreach (var value in b.Values) 
+        foreach (var value in b.Values)
             a[value.Def] -= b[value.Def];
         return a;
     }
@@ -435,7 +435,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     public static DefValueStack<TDef, TValue> operator *(DefValueStack<TDef, TValue> a, DefValueStack<TDef, TValue> b)
     {
         if (a._stack.IsNullOrEmpty) return a;
-        foreach (var value in a.Values) 
+        foreach (var value in a.Values)
             a[value.Def] *= b[value.Def];
         return a;
     }
@@ -507,7 +507,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     {
         return a.TotalValue < b.TotalValue;
     }
-    
+
     public static bool operator ==(DefValueStack<TDef, TValue> a, DefValueStack<TDef, TValue> b)
     {
         return a.TotalValue == b.TotalValue;
@@ -539,13 +539,13 @@ public struct DefValueStack<TDef, TValue> : IExposable
     {
         return a > b._totalValue;
     }
-    
-    
-    public static bool operator<(TValue a, DefValueStack<TDef, TValue> b)
+
+
+    public static bool operator <(TValue a, DefValueStack<TDef, TValue> b)
     {
         return a < b._totalValue;
     }
-    
+
     public static bool operator >(DefValueStack<TDef, TValue> a, TValue b)
     {
         return a._totalValue > b;
@@ -555,7 +555,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     {
         return a._totalValue < b;
     }
-    
+
     public static bool operator ==(DefValueStack<TDef, TValue> a, TValue b)
     {
         return a._totalValue == b;
@@ -596,7 +596,7 @@ public struct DefValueStack<TDef, TValue> : IExposable
     {
         unchecked
         {
-            var hashCode =  _stack.GetHashCode();
+            var hashCode = _stack.GetHashCode();
             hashCode = (hashCode * 397) ^ _totalValue.GetHashCode();
             return hashCode;
         }

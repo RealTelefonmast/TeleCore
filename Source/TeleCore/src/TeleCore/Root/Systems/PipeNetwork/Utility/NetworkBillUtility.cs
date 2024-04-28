@@ -7,7 +7,7 @@ namespace TeleCore.Network.Utility;
 
 internal static class NetworkBillUtility
 {
-    public static DefValueStack<NetworkValueDef, double> ConstructCustomCostStack(List<DefValueLoadable<CustomRecipeRatioDef, int>> list,bool isByProduct = false)
+    public static DefValueStack<NetworkValueDef, double> ConstructCustomCostStack(List<DefValueLoadable<CustomRecipeRatioDef, int>> list, bool isByProduct = false)
     {
         var stack = new DefValueStack<NetworkValueDef, double>();
         foreach (var defIntRef in list)

@@ -1,12 +1,6 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using RimWorld;
 using TeleCore.Generics;
-using TeleCore.Network.Data;
 using TeleCore.Network.IO;
-using TeleCore.Network.Utility;
-using TeleCore.Primitive;
-using Verse;
 
 namespace TeleCore.Network.Graph;
 
@@ -26,31 +20,31 @@ public struct NetEdge : IEdge<NetworkPart>
 {
     public NetworkPart From { get; set; }
     public NetworkPart To { get; set; }
-    
+
     public IOConnection FromAnchor { get; }
     public IOConnection ToAnchor { get; }
 
     public NetworkIOMode FromMode => FromAnchor.FromMode;
     public NetworkIOMode ToMode => ToAnchor.ToMode;
-    
+
     public IOCell FromIOCell => FromAnchor.FromIOCell;
     public IOCell ToIOCell => ToAnchor.ToIOCell;
-    
+
     public int Length { get; private set; }
-    
+
     public bool BiDirectional => FromMode == NetworkIOMode.TwoWay && ToMode == NetworkIOMode.TwoWay;
-    public bool IsValid => From != null && To != null && 
+    public bool IsValid => From != null && To != null &&
                            From.IsNode && To.IsNode &&
                            (FromMode & NetworkIOMode.Output) == NetworkIOMode.Output &&
                            (ToMode & NetworkIOMode.Input) == NetworkIOMode.Input;
-    
+
     public bool IsLogical => IsValid && (FromMode == NetworkIOMode.Logical || ToMode == NetworkIOMode.Logical);
-    
+
     public static implicit operator TwoWayKey<NetNode>(NetEdge edge)
     {
         return (edge.From, edge.To);
     }
-    
+
     public static implicit operator (NetworkPart, NetworkPart)(NetEdge edge)
     {
         return (edge.From, edge.To);
@@ -66,7 +60,7 @@ public struct NetEdge : IEdge<NetworkPart>
             if (from.From.IsNode && from.To.IsNode)
             {
                 //If we already have From:Output To:Input then we can just use that
-                if ((from.FromMode & NetworkIOMode.Output) == NetworkIOMode.Output && 
+                if ((from.FromMode & NetworkIOMode.Output) == NetworkIOMode.Output &&
                     (from.ToMode & NetworkIOMode.Input) == NetworkIOMode.Input)
                 {
                     FromAnchor = from;
@@ -77,7 +71,7 @@ public struct NetEdge : IEdge<NetworkPart>
                     return;
                 }
                 //Otherwise we reverse the connecting connections
-                else if ((from.ToMode & NetworkIOMode.Output) == NetworkIOMode.Output && 
+                else if ((from.ToMode & NetworkIOMode.Output) == NetworkIOMode.Output &&
                          (from.FromMode & NetworkIOMode.Input) == NetworkIOMode.Input)
                 {
                     FromAnchor = from.Reverse;
@@ -90,7 +84,7 @@ public struct NetEdge : IEdge<NetworkPart>
                 return;
             }
         }
-        
+
         //Resolve Input
         FromAnchor = from.From.IsNode ? from : from.Reverse;
         ToAnchor = to.To.IsNode ? to : to.Reverse;
@@ -122,7 +116,7 @@ public struct NetEdge : IEdge<NetworkPart>
     }
 
     public NetEdge Reverse => new(ToAnchor.Reverse, FromAnchor.Reverse, Length);
-    
+
     public static NetEdge Invalid => new NetEdge
     {
         From = null,

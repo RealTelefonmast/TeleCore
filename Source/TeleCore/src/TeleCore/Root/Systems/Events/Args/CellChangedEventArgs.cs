@@ -12,7 +12,7 @@ public struct CellChangedEventArgs
 
     public ThingStateChangedEventArgs? ThingChangedArgs { get; }
     public TerrainChangedEventArgs? TerrainChangedArgs { get; }
-    
+
     public CellChangedEventArgs(ThingStateChangedEventArgs args)
     {
         ThingChangedArgs = args;

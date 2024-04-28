@@ -198,7 +198,7 @@ public class FXLayer
         }
 
         inoutPos += g.data.DrawOffsetForRot(rot); //exData?.drawOffset ?? Vector3.zero;
-        
+
         //DrawSize
         drawSize = g.drawSize;
         var drawRotated = exData?.drawRotatedOverride ?? g.ShouldDrawRotated;
@@ -253,16 +253,16 @@ public class FXLayer
 
         //Resize
         var newSize = data.resize != null ? drawSize : drawSizeBase;
-        
+
         var rotationQuat = TrueRotation.ToQuat();
-        
+
         if (data.PivotOffset != null)
         {
             var pivotPoint = drawPos + data.PivotOffset.Value;
             var relativePos = rotationQuat * (drawPos - pivotPoint);
             drawPos = pivotPoint + relativePos;
         }
-        
+
         //
         if (DrawFunction != null)
         {

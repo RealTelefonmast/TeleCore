@@ -13,14 +13,14 @@ namespace TeleCore.Gizmos;
 public class Gizmo_FlowVolume<T> : Gizmo where T : FlowValueDef
 {
     protected readonly FlowVolume<T> _volume;
-    
+
     public string Label { get; set; }
-    
+
     public sealed override float GetWidth(float maxWidth)
-    {        
+    {
         return 150; //optionToggled ? 310 : 150f;
     }
-    
+
     public sealed override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth, GizmoRenderParms parms)
     {
         var inRect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), 75f);
@@ -79,21 +79,21 @@ public class Gizmo_FlowVolume<T> : Gizmo where T : FlowValueDef
         });
         return new GizmoResult(GizmoState.Clear);
     }
-    
+
     public sealed override IEnumerable<FloatMenuOption> RightClickFloatMenuOptions
     {
         get
         {
-            var part = _volume.MaxCapacity / (float) _volume.AllowedValues.Count;
-            yield return new FloatMenuOption("Add ALL", delegate { Debug_AddAll((int) part); });
+            var part = _volume.MaxCapacity / (float)_volume.AllowedValues.Count;
+            yield return new FloatMenuOption("Add ALL", delegate { Debug_AddAll((int)part); });
 
             yield return new FloatMenuOption("Remove ALL", Debug_Clear);
 
             foreach (var type in _volume.AllowedValues)
-                yield return new FloatMenuOption($"Add {type}", delegate { Debug_AddType(type, (int) part); });
+                yield return new FloatMenuOption($"Add {type}", delegate { Debug_AddType(type, (int)part); });
         }
     }
-    
+
     protected virtual void Debug_AddAll(int part)
     {
     }
@@ -113,7 +113,7 @@ public class Gizmo_NetworkVolume : Gizmo_FlowVolume<NetworkValueDef>
     //[SyncMethod]
     protected override void Debug_AddAll(int part)
     {
-        foreach (var type in _volume.AllowedValues) 
+        foreach (var type in _volume.AllowedValues)
             _volume.TryAdd(type, part);
     }
 

@@ -32,7 +32,7 @@ public class ModuleData
 
     public ModuleBase Module { get; }
 
-    public bool HasInputs => Inputs is {Length: > 0};
+    public bool HasInputs => Inputs is { Length: > 0 };
     public float Height { get; }
 
     public ModuleBase[] Inputs
@@ -50,7 +50,7 @@ public class ModuleData
 
         Widgets.Label(labelRect, label);
 
-        var value = (float) (double) field.GetValue();
+        var value = (float)(double)field.GetValue();
         var prevVal = value;
         Widgets.TextFieldNumeric(fieldRect, ref value, ref stringBuffers[index], 0, 100);
         field.SetValue(value);

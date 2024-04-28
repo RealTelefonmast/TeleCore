@@ -20,7 +20,7 @@ public class WorldComp_TeleCore : WorldComponent
         StaticData.ExposeStaticData();
         Scribe_Deep.Look(ref discoveries, "DiscoveryTable");
 
-        if (Scribe.mode == LoadSaveMode.PostLoadInit) 
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
             GenerateInfos();
     }
 

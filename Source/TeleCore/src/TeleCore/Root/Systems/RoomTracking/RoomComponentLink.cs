@@ -11,13 +11,13 @@ public class RoomComponentLink
     public RoomComponent A => _connections[0];
     public RoomComponent B => _connections[1];
     public Thing Connector => _connector;
-    
+
     public RoomComponentLink(Thing connector, RoomComponent roomA)
     {
         _connector = connector;
-        _connections = new[] {roomA, null};
+        _connections = new[] { roomA, null };
         _connectionDirections = new Rot4[2];
-        
+
         //Get Directions
         for (var i = 0; i < 4; i++)
         {
@@ -36,13 +36,13 @@ public class RoomComponentLink
             }
         }
     }
-    
+
     public RoomComponentLink(Thing b, RoomComponent roomA, RoomComponent roomB)
     {
         _connector = b;
-        _connections = new[] {roomA, roomB};
+        _connections = new[] { roomA, roomB };
     }
-    
+
     public RoomComponent Opposite(RoomComponent other)
     {
         return other == _connections[0] ? _connections[1] : _connections[0];

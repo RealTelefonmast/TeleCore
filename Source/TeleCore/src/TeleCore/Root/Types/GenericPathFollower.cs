@@ -167,7 +167,7 @@ public class GenericPathFollower : IExposable
         {
             // If there is a building, check if it has a free passage (represented by a Building_Door object)
             var building_Door = building as Building_Door;
-            if (building_Door is not {FreePassage: true})
+            if (building_Door is not { FreePassage: true })
             {
                 // If the building doesn't have a free passage, mark the pather as failed and exit the method
                 PatherFailed();
@@ -228,7 +228,7 @@ public class GenericPathFollower : IExposable
 
     private bool NeedNewPath()
     {
-        if (!destination.IsValid || curPath is not {Found: true} || curPath.NodesLeftCount == 0) return true;
+        if (!destination.IsValid || curPath is not { Found: true } || curPath.NodesLeftCount == 0) return true;
 
         if (destination.HasThing && destination.Thing.Map != Thing.Map) return true;
 
@@ -323,7 +323,7 @@ public class GenericPathFollower : IExposable
     public Building_Door NextCellDoorToWaitForOrManuallyOpen()
     {
         var building_Door = Thing.Map.thingGrid.ThingAt<Building_Door>(nextCell);
-        if (building_Door is {SlowsPawns: true} &&
+        if (building_Door is { SlowsPawns: true } &&
             (!building_Door.Open || building_Door.TicksTillFullyOpened > 0) /*&& building_Door.PawnCanOpen(this.pawn)*/
            ) return building_Door;
         return null;
@@ -411,7 +411,7 @@ public class GenericPathFollower : IExposable
     //
     public void DrawPath()
     {
-        if (curPath is not {Found: true}) return;
+        if (curPath is not { Found: true }) return;
 
         var y = AltitudeLayer.Item.AltitudeFor();
         if (curPath.NodesLeftCount > 0)

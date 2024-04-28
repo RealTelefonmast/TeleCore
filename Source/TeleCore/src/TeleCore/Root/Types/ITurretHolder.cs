@@ -16,7 +16,7 @@ public interface ITurretHolder
     Thing Caster { get; }
     Thing HolderThing { get; }
     Faction Faction { get; }
-    
+
     TurretGunSet TurretSet { get; }
 
     //ThingComps

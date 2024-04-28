@@ -41,9 +41,9 @@ internal class Dialog_AnimationFileList : Dialog_FileList
             if (!directoryInfo.Exists) directoryInfo.Create();
 
             return from f in directoryInfo.GetFiles()
-                where f.Extension == ".anim"
-                orderby f.LastWriteTime descending
-                select f;
+                   where f.Extension == ".anim"
+                   orderby f.LastWriteTime descending
+                   select f;
         }
     }
 
@@ -101,7 +101,7 @@ internal class Dialog_AnimationFileList : Dialog_FileList
 
     private void ReloadFilesTask()
     {
-        Parallel.ForEach<SaveFileInfo>(files, delegate(SaveFileInfo file)
+        Parallel.ForEach<SaveFileInfo>(files, delegate (SaveFileInfo file)
         {
             try
             {

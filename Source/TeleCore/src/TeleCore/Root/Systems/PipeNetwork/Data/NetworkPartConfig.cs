@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TeleCore.FlowCore;
 using TeleCore.Network.Data;
 using TeleCore.Network.IO;
-using UnityEngine;
 using Verse;
 
 namespace TeleCore.Network;
@@ -18,7 +17,7 @@ public class NetworkPartConfig : Editable
     public bool requiresController;
     public NetIOConfig? netIOConfig;
     public FlowVolumeConfig<NetworkValueDef> volumeConfig;
-    
+
     public float gasThroughPut = 0.03f;
     public float friction = 0.1f;
 
@@ -27,10 +26,10 @@ public class NetworkPartConfig : Editable
 
     public override IEnumerable<string> ConfigErrors()
     {
-        if(volumeConfig == null)
+        if (volumeConfig == null)
             yield return $"A network part cannot have a null volume config! (NetworkDef: {networkDef})";
     }
-    
+
     public void PostLoadSpecial(ThingDef parent)
     {
         TLog.Debug("PostLoadSpecial");

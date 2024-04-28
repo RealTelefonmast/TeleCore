@@ -17,7 +17,7 @@ internal static partial class ImmutableExtensions
     /// <returns><c>true</c> if the count could be determined; <c>false</c> otherwise.</returns>
     internal static bool TryGetCount<T>(this IEnumerable<T> sequence, out int count)
     {
-        return TryGetCount<T>((IEnumerable) sequence, out count);
+        return TryGetCount<T>((IEnumerable)sequence, out count);
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ internal static partial class ImmutableExtensions
             // See https://github.com/dotnet/runtime/issues/14794 for more info.
             if (sequence.GetType() == typeof(T[]))
             {
-                var sourceArray = (T[]) sequence;
+                var sourceArray = (T[])sequence;
                 Array.Copy(sourceArray, 0, array, arrayIndex, sourceArray.Length);
                 return true;
             }

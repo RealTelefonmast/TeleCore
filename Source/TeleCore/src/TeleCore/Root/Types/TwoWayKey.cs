@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TeleCore.Network.Data;
 
 namespace TeleCore.Generics;
 
@@ -16,7 +14,7 @@ public readonly record struct TwoWayKey<T>
     public T B { get; }
 
     public bool IsValid => A != null && B != null;
-    
+
     public static implicit operator TwoWayKey<T>((T, T) tuple)
     {
         return new TwoWayKey<T>(tuple.Item1, tuple.Item2);

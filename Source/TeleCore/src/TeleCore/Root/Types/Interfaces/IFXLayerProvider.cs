@@ -1,5 +1,4 @@
 ﻿using System;
-using HarmonyLib;
 using RimWorld;
 using TeleCore.Systems.Events;
 using UnityEngine;
@@ -115,7 +114,7 @@ public interface IFXLayerProvider : IFXBase
     ///     Returns a bool which defines where the actual layer draw function should be run.
     /// </summary>
     Func<RoutedDrawArgs, bool> FX_GetDrawFunc(FXLayerArgs args);
-    
+
     /*
     #region Effecters
 

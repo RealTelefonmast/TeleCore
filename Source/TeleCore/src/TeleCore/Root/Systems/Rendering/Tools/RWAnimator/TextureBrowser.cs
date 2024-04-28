@@ -38,7 +38,7 @@ public class TextureBrowser : DataBrowser<WrappedTexture>
 
     protected override Texture2D IconFor(WrappedTexture element)
     {
-        return (Texture2D) element.Texture;
+        return (Texture2D)element.Texture;
     }
 
     protected override string SearchTextFor(WrappedTexture element)

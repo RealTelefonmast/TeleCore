@@ -5,7 +5,7 @@ public static class KnownCompSignals
     //Door
     public const string DoorOpened = "DoorOpened";
     public const string DoorClosed = "DoorClosed";
-    
+
     //Flicking
     public const string FlickedOn = "FlickedOn";
     public const string FlickedOff = "FlickedOff";

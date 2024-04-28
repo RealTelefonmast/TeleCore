@@ -6,7 +6,7 @@ namespace TeleCore.Static.Utilities;
 public static class TeleParseHelper
 {
     public static void Init()
-    {        
+    {
         ParseHelper.Parsers<Numeric<int>>.Register(ParseInt);
         ParseHelper.Parsers<Numeric<float>>.Register(ParseFloat);
         ParseHelper.Parsers<Numeric<double>>.Register(ParseDouble);
@@ -23,7 +23,7 @@ public static class TeleParseHelper
         var val = ParseHelper.ParseFloat(arg);
         return new Numeric<float>(val);
     }
-    
+
     private static Numeric<int> ParseInt(string arg)
     {
         var val = ParseHelper.ParseIntPermissive(arg);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using TeleCore.Network.Data;
@@ -19,10 +18,10 @@ public partial class CustomNetworkBill
 {
     private DefValueStack<NetworkValueDef, double> _cost;
     private bool _hasBeenPaid;
-    
+
     public bool HasBeenPaid => _hasBeenPaid;
     public bool CanBePaid => !_hasBeenPaid && CanPay;
-    private bool CanPay 
+    private bool CanPay
     {
         get
         {
@@ -44,9 +43,9 @@ public partial class CustomNetworkBill
             return debt == 0f;
         }
     }
-    
+
     public DefValueStack<NetworkValueDef, double> Cost => _cost;
-    
+
     //TODO: Consider Caching?
     /// <summary>
     /// Relevant networks for the current cost
@@ -56,7 +55,7 @@ public partial class CustomNetworkBill
         get
         {
             return _cost.Values.Select(defValue => defValue.Def.NetworkDef).Distinct();
-        } 
+        }
     }
 
     public IEnumerable<INetworkPart> AvailableSourceParts
@@ -66,26 +65,26 @@ public partial class CustomNetworkBill
             var parentComp = _ownerStack.ParentComp;
             foreach (var sourceDef in PaymentNetworkSources)
             {
-               var sourcePart = parentComp[sourceDef];
-               if (sourcePart.HasContainer)
-               {
-                   //Return local part first
-                   yield return sourcePart;
-               }
-               else
-               {
-                   //If local part has no container, check if it has logical edges
-                   if (sourcePart.Network.Graph.TryGetAdjacencyList(sourcePart, out var adjParts))
-                   {
-                       foreach (var adjData in adjParts)
-                       {
-                           if (adjData.Edge.IsLogical && adjData.Node.Value.HasContainer)
-                           {
-                               yield return adjData.Node.Value;
-                           }
-                       }
-                   }
-               }
+                var sourcePart = parentComp[sourceDef];
+                if (sourcePart.HasContainer)
+                {
+                    //Return local part first
+                    yield return sourcePart;
+                }
+                else
+                {
+                    //If local part has no container, check if it has logical edges
+                    if (sourcePart.Network.Graph.TryGetAdjacencyList(sourcePart, out var adjParts))
+                    {
+                        foreach (var adjData in adjParts)
+                        {
+                            if (adjData.Edge.IsLogical && adjData.Node.Value.HasContainer)
+                            {
+                                yield return adjData.Node.Value;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -113,11 +112,11 @@ public partial class CustomNetworkBill
     {
         _cost = costStack;
     }
-    
+
     public bool TryPay()
     {
         var stack = _cost;
-        
+
         //Shouldnt be necessary due to immutability
         // foreach (var value in _cost)
         // {
@@ -159,7 +158,7 @@ public partial class CustomNetworkBill
             Refund();
         }
     }
-    
+
     private void Refund()
     {
         foreach (var netComp in AvailableSourceParts)
@@ -182,10 +181,10 @@ public partial class CustomNetworkBill
     {
         _hasBeenPaid = false;
     }
-    
+
     private DefValueStack<NetworkValueDef, double> StackFor(INetworkPart comp)
     {
-        return DefValueStack<NetworkValueDef,double>.Empty;
+        return DefValueStack<NetworkValueDef, double>.Empty;
 
         /*var storages = comp.ContainerSet[NetworkFlags];
         DefValueStack<NetworkValueDef> stack = new DefValueStack<NetworkValueDef>();
@@ -217,10 +216,10 @@ public partial class CustomNetworkBill
 {
     private static readonly float borderWidth = 5;
     private static float contentHeight;
-    
+
     private string WorkLabel => "TELE.NetworkBill.WorkLabel".Translate((int)workAmountLeft);
     private string CostLabel => "TELE.NetworkBill.CostLabel".Translate(NetworkBillUtility.CostLabel(Cost));
-    
+
     public float DrawHeight
     {
         get
@@ -236,21 +235,21 @@ public partial class CustomNetworkBill
             return height;
         }
     }
-    
+
     public void DrawBill(Rect rect, int index)
     {
         if (RepeatMode == BillRepeatModeDefOf.TargetCount && CurrentCount > targetCount)
             TWidgets.DrawHighlightColor(rect, TColor.Orange);
 
-        if (!CanBePaid) 
+        if (!CanBePaid)
             TWidgets.DrawHighlightColor(rect, Color.red);
 
-        if (HasBeenPaid) 
+        if (HasBeenPaid)
             TWidgets.DrawHighlightColor(rect, Color.green);
 
         if (index % 2 == 0)
             Widgets.DrawAltRect(rect);
-        
+
         rect = rect.ContractedBy(5);
         Widgets.BeginGroup(rect);
         {
@@ -314,7 +313,7 @@ public partial class CustomNetworkBill
                 controlRow.Init(bottomRect.xMax, 0, UIDirection.LeftThenUp);
                 if (controlRow.ButtonText("Details".Translate() + "..."))
                     _ownerStack.RequestDetails(this);
-                if (controlRow.ButtonText(RepeatMode.LabelCap)) 
+                if (controlRow.ButtonText(RepeatMode.LabelCap))
                     DoRepeatModeConfig();
 
                 if (RepeatMode == BillRepeatModeDefOf.RepeatCount)
@@ -349,7 +348,7 @@ public partial class CustomNetworkBill
         }
         Widgets.EndGroup();
     }
-    
+
     public void DoRepeatModeConfig()
     {
         var list = new List<FloatMenuOption>();
@@ -376,8 +375,8 @@ public partial class CustomNetworkBill
         Text.Font = GameFont.Small;
         var list = new List<FloatMenuOption>();
         foreach (var billStoreModeDef in from bsm in DefDatabase<BillStoreModeDef>.AllDefs
-                 orderby bsm.listOrder
-                 select bsm)
+                                         orderby bsm.listOrder
+                                         select bsm)
             if (billStoreModeDef == BillStoreModeDefOf.SpecificStockpile)
             {
                 List<SlotGroup> allGroupsListInPriorityOrder =
@@ -398,7 +397,7 @@ public partial class CustomNetworkBill
                                 string.Format(billStoreModeDef.LabelCap, group.parent.SlotYielderLabel()),
                                 delegate
                                 {
-                                    SetStoreMode(BillStoreModeDefOf.SpecificStockpile, (Zone_Stockpile) group.parent);
+                                    SetStoreMode(BillStoreModeDefOf.SpecificStockpile, (Zone_Stockpile)group.parent);
                                 }));
                     }
                 }
@@ -416,7 +415,7 @@ public partial class CustomNetworkBill : IExposable
 {
     //SubSystems
     private NetworkBillStack _ownerStack;
-    
+
     //
     public string billName;
 
@@ -432,7 +431,7 @@ public partial class CustomNetworkBill : IExposable
     public float workAmountTotal;
 
     public NetworkBillStack Stack => _ownerStack;
-    
+
     private static NetworkRole NetworkFlags => NetworkRole.Storage | NetworkRole.Producer;
 
     public Map Map => _ownerStack.ParentBuilding.Map;
@@ -457,9 +456,9 @@ public partial class CustomNetworkBill : IExposable
     public BillRepeatModeDef RepeatMode { get; private set; } = BillRepeatModeDefOf.Forever;
 
     public BillStoreModeDef StoreMode { get; private set; } = BillStoreModeDefOf.BestStockpile;
-    
+
     public Zone_Stockpile StoreZone { get; private set; }
-    
+
     public CustomNetworkBill(NetworkBillStack stack)
     {
         _ownerStack = stack;
@@ -474,22 +473,22 @@ public partial class CustomNetworkBill : IExposable
     {
         _ownerStack = owner;
     }
-    
+
     public void Destroy()
     {
         _ownerStack.Delete(this);
     }
-    
+
     public CustomNetworkBill Clone()
     {
         var bill = new CustomNetworkBill(workAmountTotal);
         bill.repeatCount = repeatCount;
         bill.billName = billName + "_Copy";
         bill.RepeatMode = RepeatMode;
-        
+
         bill._cost = new DefValueStack<NetworkValueDef, double>(_cost);
         bill._hasBeenPaid = _hasBeenPaid;
-        
+
         bill.byProducts = new DefValueStack<NetworkValueDef, double>(byProducts);
         bill.results = new List<ThingDefCount>(results);
         return bill;
@@ -504,12 +503,12 @@ public partial class CustomNetworkBill : IExposable
         Scribe_Collections.Look(ref results, "results");
 
         ExposePayment();
-        
+
         Scribe_Deep.Look(ref byProducts, "byProducts");
     }
 
     #region Job
-    
+
     public bool ShouldDoNow()
     {
         if (!CanBePaid) return false;
@@ -522,22 +521,22 @@ public partial class CustomNetworkBill : IExposable
     {
         if (HasBeenPaid) return true;
         if (TryPay()) return true;
-        
+
         //Failed to pay...
         return false;
     }
-    
+
     private void Reset()
     {
         workAmountLeft = workAmountTotal;
         ResetPayment();
     }
-    
+
     public void Cancel()
     {
         TryRefund();
     }
-    
+
     //Allocate network cost as "paid", refund if cancelled
     public void DoWork(Pawn pawn)
     {
@@ -549,7 +548,7 @@ public partial class CustomNetworkBill : IExposable
         if (DebugSettings.fastCrafting) num *= 30f;
         workAmountLeft = Mathf.Clamp(workAmountLeft - num, 0, float.MaxValue);
     }
-    
+
     public bool TryFinish(out List<Thing> products)
     {
         products = null;
@@ -593,7 +592,7 @@ public partial class CustomNetworkBill : IExposable
 
         return true;
     }
-    
+
     #endregion
 
     #region Storage Config (drop off location)

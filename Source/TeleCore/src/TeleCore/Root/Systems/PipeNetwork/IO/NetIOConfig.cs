@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TeleCore.Network.Utility;
 using UnityEngine;
@@ -15,7 +14,7 @@ public class NetIOConfig : Editable
 {
     [Unsaved(false)]
     public IntVec2 patternSize = IntVec2.Invalid;
-    
+
     public List<IOCellPrototype> cellsEast;
     public List<IOCellPrototype> cellsNorth;
     public List<IOCellPrototype> cellsSouth;
@@ -59,7 +58,7 @@ public class NetIOConfig : Editable
             Quaternion rotation = Quaternion.AngleAxis(90, Vector3.up);
             var rotated = rotation * asVec3;
             rotated = new Vector3(Mathf.RoundToInt(rotated.x), 0, Mathf.RoundToInt(rotated.z));
-            
+
             toRotate.Add(new IOCellPrototype
             {
                 offset = rotated.ToIntVec3(),
@@ -75,12 +74,12 @@ public class NetIOConfig : Editable
         {
             pattern = Regex.Replace(pattern, @"[\s|]+", "");
         }
-        
+
         if (patternSize.IsValid)
         {
             TLog.Warning("Pattern size should not be set manually.");
         }
-        
+
         if (patternSize.IsInvalid && def != null)
         {
             patternSize = def.size + new IntVec2(2, 2);
@@ -99,13 +98,13 @@ public class NetIOConfig : Editable
         // if (cellsNorth == null) 
         //     Rotate(cells, ref cellsNorth, Rot4.North);
 
-        if (cellsEast == null) 
+        if (cellsEast == null)
             Rotate(cellsNorth, ref cellsEast);
 
-        if (cellsSouth == null) 
+        if (cellsSouth == null)
             Rotate(cellsEast, ref cellsSouth);
 
-        if (cellsWest == null) 
+        if (cellsWest == null)
             Rotate(cellsSouth, ref cellsWest);
     }
 }

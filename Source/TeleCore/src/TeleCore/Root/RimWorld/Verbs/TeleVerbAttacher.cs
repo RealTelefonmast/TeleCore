@@ -14,33 +14,33 @@ public class TeleVerbAttacher
     private IVerbOwner _owner;
     private Verb _verb;
     private List<VerbComponent> _comps;
-    
+
     private CompChangeableProjectile _changeableProjectile;
-    
+
     //
     private ThingDef _projectileOverride;
     private int _curShotIndex;
     private int _lastShotIndex;
     private int _maxShotRotations = 1;
-    
+
     private TurretGun? _turretGun;
     private Vector3[]? _drawOffsets;
-    
+
     public Verb Verb => _verb;
 
     public bool CasterIsPawn => _verb.CasterIsPawn;
     public Pawn CasterPawn => _verb.CasterPawn;
     public Thing Caster => _verb.Caster;
-    
+
     public bool Available => _verb.Available();
 
     public VerbProperties_Tele Props => (VerbProperties_Tele)_verb.verbProps;
-    
+
     public ThingDef Projectile
     {
         get
         {
-            if (_changeableProjectile is {Loaded: true}) 
+            if (_changeableProjectile is { Loaded: true })
                 return _changeableProjectile.Projectile;
             return _projectileOverride;
         }
@@ -54,7 +54,7 @@ public class TeleVerbAttacher
             return Projectile.projectile.damageDef;
         }
     }
-    
+
     public event Action WarmupComplete;
     public event Action ShotCast;
     public event Action Reset;
@@ -89,7 +89,7 @@ public class TeleVerbAttacher
         _comps = new List<VerbComponent>();
         foreach (var compProp in Props.comps)
         {
-            var comp = (VerbComponent) Activator.CreateInstance(compProp.compClass);
+            var comp = (VerbComponent)Activator.CreateInstance(compProp.compClass);
             WarmupComplete += comp.Notify_WarmupComplete;
             ShotCast += comp.Notify_ShotCast;
             Reset += comp.Notify_Reset;
@@ -107,17 +107,17 @@ public class TeleVerbAttacher
     {
         _turretGun = turretGun;
     }
-    
+
     public void Notify_WarmupComplete()
     {
         WarmupComplete?.Invoke();
     }
-    
+
     public void Notify_ShotCast()
     {
         ShotCast?.Invoke();
     }
-    
+
     public void Notify_Reset()
     {
         Reset?.Invoke();
@@ -130,7 +130,7 @@ public class TeleVerbAttacher
         Props.originEffecter?.Spawn(Caster.Position, Caster.Map, DrawPosOffset);
         //Do Muzzle Flash
         TeleVerbUtilities.DoMuzzleFlash(Caster.Map, RelativeDrawOffset, projectile.intendedTarget, Props.muzzleFlash);
-        
+
         _turretGun?.Notify_FiredSingleProjectile();
         RotateNextShotIndex();
     }
@@ -159,7 +159,7 @@ public class TeleVerbAttacher
             return 0;
         }
     }
-    
+
     protected float CurrentAimAngle
     {
         get
@@ -170,11 +170,11 @@ public class TeleVerbAttacher
     }
 
     #endregion
-    
+
     #region Origin Rotation
-    
+
     protected int ShotIndex => _turretGun?.ShotIndex ?? _curShotIndex;
-    
+
     private Vector3 BaseOrigin => Verb.caster.DrawPos; //turretGun?.DrawPos ??
 
     private Vector3 DrawPosOffset
@@ -186,9 +186,9 @@ public class TeleVerbAttacher
             return Vector3.zero;
         }
     }
-    
+
     public Vector3 BaseDrawOffset => DrawPosOffset + Props.shotStartOffset.RotatedBy(CurrentAimAngle);
-    
+
     public Vector3 RelativeDrawOffset
     {
         get
@@ -208,7 +208,7 @@ public class TeleVerbAttacher
         _lastShotIndex = _curShotIndex;
         _curShotIndex = _curShotIndex >= _maxShotRotations - 1 ? 0 : _curShotIndex + 1;
     }
-    
+
     /// <summary>
     /// When certain configs are set, we allow manipulating the launch origin of projectiles.
     /// </summary>

@@ -83,10 +83,10 @@ public class Building_TurretHubCore : Building_TeleTurret
     public override void Print(SectionLayer layer)
     {
         base.Print(layer);
-        foreach (var turret in hubTurrets) 
+        foreach (var turret in hubTurrets)
             PrintTurretCable(layer, this, turret);
     }
-    
+
     private void PrintTurretCable(SectionLayer layer, Thing A, Thing B)
     {
         var mat = MaterialPool.MatFrom(Extension.hub.cableTexturePath);

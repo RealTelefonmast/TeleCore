@@ -22,7 +22,7 @@ public abstract class PlaySettingsWorker
     public virtual bool DefaultValue { get; } = false;
 
     public abstract Texture2D Icon { get; }
-    
+
     public Texture2D ActiveIcon => Icon.NullOrBad() ? BaseContent.BadTex : Icon;
 
     public abstract string Description { get; }

@@ -25,7 +25,7 @@ public class TeleDefExtension : DefModExtension
         get
         {
             return _altGraphicWorkerInt ??=
-                (AlternateGraphicWorker) Activator.CreateInstance(graphicAlternateWorkerType);
+                (AlternateGraphicWorker)Activator.CreateInstance(graphicAlternateWorkerType);
         }
     }
 }
@@ -33,7 +33,7 @@ public class TeleDefExtension : DefModExtension
 //
 public class ThingGroupCollection
 {
-    public readonly List<ThingGroupDef> groups = new() {ThingGroupDefOf.All};
+    public readonly List<ThingGroupDef> groups = new() { ThingGroupDefOf.All };
 
     /*TODO: Add listed items to list
     public void LoadDataFromXmlCustom(XmlNode xmlRoot)

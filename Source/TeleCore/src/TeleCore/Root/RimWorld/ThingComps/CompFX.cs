@@ -50,14 +50,14 @@ public class CompFX : TeleComp
 
     private IFXLayerProvider[] LayerProviderByLayerIndex;
     private bool spawnedOnce;
-    
-    public CompProperties_FX Props => (CompProperties_FX) props;
-    
+
+    public CompProperties_FX Props => (CompProperties_FX)props;
+
     public CompPowerTrader ParentPowerComp { get; private set; }
     public FXDefExtension GraphicExtension { get; private set; }
     public List<FXLayer> FXLayers { get; private set; }
     public List<EffecterLayer> EffectLayers { get; private set; }
-    
+
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
         base.PostSpawnSetup(respawningAfterLoad);
@@ -99,7 +99,7 @@ public class CompFX : TeleComp
                 //
                 _hasEffecters = EffectLayers?.Count > 0;
             }
-            
+
             spawnedOnce = true;
         }
     }
@@ -141,7 +141,7 @@ public class CompFX : TeleComp
 
             LayerProviderByLayerIndex[i] = allHeldFXComps.FirstOrFallback(fx =>
             {
-                return (bool) fx?.FX_ProvidesForLayer(new FXArgs
+                return (bool)fx?.FX_ProvidesForLayer(new FXArgs
                 {
                     index = i,
                     layerTag = layerData.layerTag,
@@ -181,7 +181,7 @@ public class CompFX : TeleComp
                 continue;
             }
 
-            LayerProviderByLayerIndex[i] = allHeldFXComps.FirstOrFallback(fx => (bool) fx?.FX_ProvidesForLayer(
+            LayerProviderByLayerIndex[i] = allHeldFXComps.FirstOrFallback(fx => (bool)fx?.FX_ProvidesForLayer(
                 new FXEffecterArgs
                 {
                     index = i,
@@ -231,7 +231,7 @@ public class CompFX : TeleComp
 
     public override void CompTickRare()
     {
-        for (var i = 0; i < GenTicks.TickRareInterval; i++) 
+        for (var i = 0; i < GenTicks.TickRareInterval; i++)
             FXTick(GenTicks.TickRareInterval);
     }
 
@@ -268,9 +268,9 @@ public class CompFX : TeleComp
             return powerPlant.PowerOutput > 0;
         }
 
-        if (provider is {PowerOn: true}) return true;
+        if (provider is { PowerOn: true }) return true;
 
-        return ParentPowerComp is {PowerOn: true};
+        return ParentPowerComp is { PowerOn: true };
     }
 
     #region Base Properties
@@ -299,7 +299,7 @@ public class CompFX : TeleComp
     {
         base.PostDraw();
         if (!_hasFXLayers) return;
-        
+
         foreach (var layer in FXLayers)
         {
             var canDraw = CanDraw(layer.Args);

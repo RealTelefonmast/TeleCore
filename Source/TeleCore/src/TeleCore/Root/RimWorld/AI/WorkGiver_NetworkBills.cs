@@ -15,7 +15,7 @@ public class WorkGiver_NetworkBills : WorkGiver_Scanner
     {
         get
         {
-            if (def.fixedBillGiverDefs is {Count: 1})
+            if (def.fixedBillGiverDefs is { Count: 1 })
                 return ThingRequest.ForDef(def.fixedBillGiverDefs[0]);
 
             return ThingRequest.ForGroup(ThingRequestGroup.Undefined);
@@ -52,7 +52,7 @@ public class WorkGiver_NetworkBills : WorkGiver_Scanner
         if (compTNW.BillStack == null) return false;
         if (compTNW.BillStack.Count == 0) return false;
         if (compTNW.billStack.CurrentBill != null)
-        { 
+        {
             if (compTNW.BillStack.CurrentBill.AvailableSourceParts.Any(t => !t.Network.IsWorking)) return false;
             if (!compTNW.billStack.CurrentBill.ShouldDoNow()) return false;
             return !t.IsReserved(pawn.Map, out _);

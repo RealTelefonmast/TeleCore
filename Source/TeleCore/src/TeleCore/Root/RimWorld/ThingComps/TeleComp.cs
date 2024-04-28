@@ -21,7 +21,7 @@ public abstract class TeleComp : ThingComp
         if (parent.def.HasTeleExtension(out var textension))
         {
             Extension = textension;
-            if (Extension.addCustomTick) 
+            if (Extension.addCustomTick)
                 TeleEventHandler.EntityTicked += TeleTick;
         }
     }

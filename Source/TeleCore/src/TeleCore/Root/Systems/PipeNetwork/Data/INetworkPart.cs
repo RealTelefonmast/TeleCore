@@ -30,7 +30,7 @@ public interface INetworkPart
     /// Determines whether this part has been assigned a <see cref="Network"/>.
     /// </summary>
     public bool IsReady { get; }
-    
+
     /// <summary>
     /// Determines whether the part is active.
     /// </summary>
@@ -42,7 +42,7 @@ public interface INetworkPart
     public bool HasContainer { get; }
     public bool HasConnection { get; }
     public bool IsLeaking { get; }
-    
+
     public void PostDestroy(DestroyMode mode, Map map);
 
     void Tick();

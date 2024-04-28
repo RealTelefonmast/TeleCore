@@ -44,7 +44,7 @@ public class TurretBarrel
     }
 
     public Vector3 DrawPos { get; private set; }
-    
+
     public void Draw(Vector3 drawPos)
     {
         var offset = props.barrelOffset + new Vector3(0, 0, barrelOffset) + props.recoilOffset * currentRecoil;

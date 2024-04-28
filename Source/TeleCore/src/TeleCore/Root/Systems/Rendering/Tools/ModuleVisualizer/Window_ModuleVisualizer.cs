@@ -89,7 +89,7 @@ public class Window_ModuleVisualizer : Window
 
         foreach (var node in allNodes) node.Draw(nodeGraphScale);
 
-        if (FinalOutput is {FinalBase: not null})
+        if (FinalOutput is { FinalBase: not null })
         {
             var renderRect = new Rect(inRect.width - (renderResultSize + 1), 0, renderResultSize + 1,
                 renderResultSize + 1);
@@ -124,7 +124,7 @@ public class Window_ModuleVisualizer : Window
             */
             foreach (var type in ModuleTypes)
                 list.Add(new FloatMenuOption(type.ToString().Split('.').Last(),
-                    delegate { allNodes.Add((ModuleNode) Activator.CreateInstance(type, currentPos)); }));
+                    delegate { allNodes.Add((ModuleNode)Activator.CreateInstance(type, currentPos)); }));
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
@@ -205,11 +205,11 @@ public class Window_ModuleVisualizer : Window
         if (!NeedsReRender) return CachedRenderTex;
         CachedRenderTex = new Texture2D(renderResultSize, renderResultSize, TextureFormat.RGBAFloat, false);
         for (var x = 0; x < renderResultSize; x++)
-        for (var y = 0; y < renderResultSize; y++)
-        {
-            var val = (float) module.GetValue(x, 0, y);
-            CachedRenderTex.SetPixel(x, y, new Color(val, val, val));
-        }
+            for (var y = 0; y < renderResultSize; y++)
+            {
+                var val = (float)module.GetValue(x, 0, y);
+                CachedRenderTex.SetPixel(x, y, new Color(val, val, val));
+            }
 
         CachedRenderTex.wrapMode = TextureWrapMode.Clamp;
         CachedRenderTex.Apply();

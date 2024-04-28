@@ -29,7 +29,7 @@ public static class TeleThingMaker
             stuff = null;
         }
 
-        var thing = (TThing) Activator.CreateInstance(typeof(TThing));
+        var thing = (TThing)Activator.CreateInstance(typeof(TThing));
         thing.def = def;
         thing.SetStuffDirect(stuff);
         thing.PostMake();

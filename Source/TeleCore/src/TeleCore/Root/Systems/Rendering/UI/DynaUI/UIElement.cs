@@ -207,7 +207,7 @@ public abstract class UIElement : IDraggable, IFocusable
     //Relation Functions
     public T GetChildElement<T>() where T : UIElement
     {
-        return (T) ChildElements.First(t => t is T);
+        return (T)ChildElements.First(t => t is T);
     }
 
     //Relation Changes
@@ -333,25 +333,25 @@ public abstract class UIElement : IDraggable, IFocusable
         switch (ContainerMode)
         {
             case UIContainerMode.InOrder:
-            {
-                for (var i = 0; i < ChildElements.Count; i++)
                 {
-                    var element = ChildElements[i];
-                    element.DrawElement();
-                }
+                    for (var i = 0; i < ChildElements.Count; i++)
+                    {
+                        var element = ChildElements[i];
+                        element.DrawElement();
+                    }
 
-                break;
-            }
+                    break;
+                }
             case UIContainerMode.Reverse:
-            {
-                for (var i = ChildElements.Count - 1; i >= 0; i--)
                 {
-                    var element = ChildElements[i];
-                    element.DrawElement();
-                }
+                    for (var i = ChildElements.Count - 1; i >= 0; i--)
+                    {
+                        var element = ChildElements[i];
+                        element.DrawElement();
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
 
         Widgets.EndGroup();

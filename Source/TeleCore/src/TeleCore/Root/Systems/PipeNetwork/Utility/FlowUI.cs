@@ -3,7 +3,6 @@ using System.Collections.Generic;
 //using Multiplayer.API;
 using TeleCore.FlowCore;
 using TeleCore.Generics.Container;
-using TeleCore.Network.Flow;
 using TeleCore.Primitive;
 using TeleCore.Static;
 using UnityEngine;
@@ -35,7 +34,7 @@ public static class FlowUI<T> where T : FlowValueDef
     {
         var size = new Vector2(10, 10);
         var stack = fb.Stack;
-        if(stack.IsEmpty) return Vector2.zero;
+        if (stack.IsEmpty) return Vector2.zero;
         foreach (var fv in stack.Values)
         {
             var type = fv.Def;
@@ -53,7 +52,7 @@ public static class FlowUI<T> where T : FlowValueDef
     }
 
 
-    public static float DrawFlowValueStackReadout<TDef, TValue>(Rect rect, DefValueStack<TDef, TValue> stack) 
+    public static float DrawFlowValueStackReadout<TDef, TValue>(Rect rect, DefValueStack<TDef, TValue> stack)
         where TDef : FlowValueDef
         where TValue : unmanaged
     {
@@ -62,13 +61,13 @@ public static class FlowUI<T> where T : FlowValueDef
         Widgets.BeginGroup(rect);
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.UpperLeft;
-        
+
         if (stack.IsValid)
         {
             foreach (var fv in stack.Values)
             {
                 var type = fv.Def;
-                var stored = MathG.Round(stack[type].Value,1);
+                var stored = MathG.Round(stack[type].Value, 1);
                 var label = $"{type.labelShort}: {stored}";
                 var typeRect = new Rect(5, height, 10, 10);
                 var typeSize = Text.CalcSize(label);
@@ -83,14 +82,14 @@ public static class FlowUI<T> where T : FlowValueDef
             Widgets.Label(new Rect(5, height, rect.width - 10, rect.height - 10), "Invalid..");
             height += 10 + 2;
         }
-        
+
         Text.Font = default;
         Text.Anchor = default;
         Widgets.EndGroup();
-        
+
         return height;
     }
-    
+
     public static float DrawFlowBoxReadout(Rect rect, FlowVolumeBase<T> fb)
     {
         float height = 5;
@@ -103,7 +102,7 @@ public static class FlowUI<T> where T : FlowValueDef
             foreach (var fv in fb.Stack.Values)
             {
                 var type = fv.Def;
-                var label = $"{type.labelShort}: {Math.Round(fb.StoredValueOf(type),1)} ({fb.StoredPercentOf(type).ToStringPercent()})";
+                var label = $"{type.labelShort}: {Math.Round(fb.StoredValueOf(type), 1)} ({fb.StoredPercentOf(type).ToStringPercent()})";
                 var typeRect = new Rect(5, height, 10, 10);
                 var typeSize = Text.CalcSize(label);
                 var typeLabelRect = new Rect(20, height - 2, typeSize.x, typeSize.y);
@@ -138,7 +137,7 @@ public static class FlowUI<T> where T : FlowValueDef
     public static List<FloatMenuOption> DebugFloatMenuOptions(FlowVolumeBase<T> fv)
     {
         var tempList = StaticListHolder<FloatMenuOption>.RequestList($"FlowMenuOptions_{fv.GetHashCode()}");
-        
+
         if (tempList.Count == 0)
         {
             var part = (int)(fv.MaxCapacity / fv.AllowedValues.Count);
@@ -154,10 +153,10 @@ public static class FlowUI<T> where T : FlowValueDef
                 tempList.Add(new FloatMenuOption($"Add {type}", delegate { Debug_AddType(fv, type, part); }));
             }
         }
-        
+
         return tempList;
     }
-    
+
     //[SyncMethod]
     private static void Debug_AddAll(FlowVolumeBase<T> fb, double part)
     {

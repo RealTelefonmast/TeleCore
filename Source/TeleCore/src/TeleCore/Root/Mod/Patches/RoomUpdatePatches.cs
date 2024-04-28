@@ -9,13 +9,13 @@ namespace TeleCore;
 /// </summary>
 internal static class RoomUpdatePatches
 {
-    
+
     // Rebuilding Dirty Regions And Rooms Begins
     // > RegenerateNewRegionsFromDirtyCells
     //   Crates new Regions based on dirty cells
     // > CreateOrUpdateRooms
     //   Actaully creates rooms from new regions
-    
+
     private static Room GetParentRoom(Thing thing, Map map)
     {
         var position = thing.Position;
