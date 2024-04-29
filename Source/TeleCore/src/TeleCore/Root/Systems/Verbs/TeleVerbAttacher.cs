@@ -7,13 +7,12 @@ using Verse;
 namespace TeleCore;
 
 /// <summary>
-/// A data container attached to vanilla verbs as an outside data component!
+/// A data container attached to a Verb to handle custom logic.
 /// </summary>
 public class TeleVerbAttacher
 {
     private IVerbOwner _owner;
     private Verb _verb;
-    private List<VerbComponent> _comps;
 
     private CompChangeableProjectile _changeableProjectile;
 
@@ -34,7 +33,7 @@ public class TeleVerbAttacher
 
     public bool Available => _verb.Available();
 
-    public VerbProperties_Tele Props => (VerbProperties_Tele)_verb.verbProps;
+    public VerbProperties_Tele Props => (VerbProperties_Tele)_verb.verbProps!;
 
     public ThingDef Projectile
     {
@@ -55,18 +54,12 @@ public class TeleVerbAttacher
         }
     }
 
-    public event Action WarmupComplete;
-    public event Action ShotCast;
-    public event Action Reset;
-    public event Action<Projectile> ProjectileLaunched;
-
     public TeleVerbAttacher(IVerbOwner owner, Verb verb)
     {
         _owner = owner;
         _verb = verb;
 
         GenerateOffset();
-        GenerateVerbComps();
         GetCompData();
     }
 
@@ -82,22 +75,7 @@ public class TeleVerbAttacher
             }
         }
     }
-
-    private void GenerateVerbComps()
-    {
-        if (Props.comps.NullOrEmpty()) return;
-        _comps = new List<VerbComponent>();
-        foreach (var compProp in Props.comps)
-        {
-            var comp = (VerbComponent)Activator.CreateInstance(compProp.compClass);
-            WarmupComplete += comp.Notify_WarmupComplete;
-            ShotCast += comp.Notify_ShotCast;
-            Reset += comp.Notify_Reset;
-            ProjectileLaunched += comp.Notify_ProjectileLaunched;
-            _comps.Add(comp);
-        }
-    }
-
+    
     private void GetCompData()
     {
         _changeableProjectile = _verb.EquipmentSource?.GetComp<CompChangeableProjectile>();
@@ -108,33 +86,49 @@ public class TeleVerbAttacher
         _turretGun = turretGun;
     }
 
+    #region Logic Hooks
+
     public void Notify_WarmupComplete()
     {
-        WarmupComplete?.Invoke();
     }
 
     public void Notify_ShotCast()
     {
-        ShotCast?.Invoke();
     }
 
     public void Notify_Reset()
     {
-        Reset?.Invoke();
+    }
+
+    public void Notify_SingleShot(VerbArgs args)
+    {
+        Props.originEffecter?.Spawn(Caster.Position, Caster.Map, DrawPosOffset);
+        
+        if (Props.muzzleFlash != null)
+        {
+            TeleVerbUtilities.DoMuzzleFlash(Caster.Map, RelativeDrawOffset, args.IntendedTarget, Props.muzzleFlash);
+        }
+
+        if (args.Projectile != null)
+        {
+            _turretGun?.Notify_FiredSingleProjectile();
+        }
+        
+        RotateNextShotIndex();
+    }
+
+    public struct VerbArgs
+    {
+        public Projectile? Projectile { get; set; }
+        public LocalTargetInfo IntendedTarget { get; set; }
     }
 
     public void Notify_ProjectileLaunched(Projectile projectile)
     {
-        ProjectileLaunched?.Invoke(projectile);
-        //Do Origin Effect
-        Props.originEffecter?.Spawn(Caster.Position, Caster.Map, DrawPosOffset);
-        //Do Muzzle Flash
-        TeleVerbUtilities.DoMuzzleFlash(Caster.Map, RelativeDrawOffset, projectile.intendedTarget, Props.muzzleFlash);
-
-        _turretGun?.Notify_FiredSingleProjectile();
-        RotateNextShotIndex();
     }
 
+    #endregion
+    
     #region Data
 
     public float DesiredAimAngle

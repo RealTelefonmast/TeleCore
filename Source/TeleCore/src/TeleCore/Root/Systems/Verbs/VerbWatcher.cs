@@ -3,6 +3,9 @@ using Verse;
 
 namespace TeleCore;
 
+/// <summary>
+/// Global handler of custom Verb logic, attaching to vanilla verbs.
+/// </summary>
 public static class VerbWatcher
 {
     private static Dictionary<Verb, TeleVerbAttacher> _watched;
