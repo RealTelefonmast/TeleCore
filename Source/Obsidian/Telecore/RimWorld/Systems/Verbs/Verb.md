@@ -1,6 +1,22 @@
 ---
-usedby: "[[VerbTracker]]"
+Namespace: Verse
+Implements:
+  - "[[ITargetingSource]]"
+  - "[[IExposable]]"
+  - "[[ILoadReferenceable]]"
+References:
+  - "[[IVerbOwner]]"
+  - "[[VerbProperties]]"
+  - "[[VerbTracker]]"
+  - "[[Tool]]"
+  - "[[Thing]]"
+  - "[[ManeuverDef]]"
+  - "[[MechanitorControlGroup]]"
+  - "[[TerrainDef]]"
+tags:
+  - Verb
 ---
+
 
 
 Defines behavior of an attack or "cast" on any other entity.

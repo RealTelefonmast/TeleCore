@@ -1,3 +1,5 @@
 ---
 Namespace: Verse
+tags:
+  - Hediff
 ---
