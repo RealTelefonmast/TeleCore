@@ -1,5 +1,7 @@
 ﻿using System;
 using RimWorld;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using Verse;
 
 namespace TeleCore.Static.Utilities;

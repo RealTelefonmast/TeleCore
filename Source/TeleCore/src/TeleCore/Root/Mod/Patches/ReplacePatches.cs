@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using TeleCore.Loader;
 using TeleCore.Network.Bills;
+using TeleCore.Shared;
 
 namespace TeleCore.Loading;
 

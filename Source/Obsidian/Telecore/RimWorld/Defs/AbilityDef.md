@@ -1,8 +1,9 @@
 ---
-Namespace: Verse
+Namespace: RimWorld
 InheritsFrom: "[[Def]]"
 tags:
   - Def
   - XML
+  - Ability
 ---
 

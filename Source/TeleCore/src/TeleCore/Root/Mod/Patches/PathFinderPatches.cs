@@ -2,6 +2,8 @@
 using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using Verse;
 using Verse.AI;
 

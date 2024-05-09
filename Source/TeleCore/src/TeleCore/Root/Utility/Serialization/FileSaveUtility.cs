@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using Verse;
 
 namespace TeleCore;

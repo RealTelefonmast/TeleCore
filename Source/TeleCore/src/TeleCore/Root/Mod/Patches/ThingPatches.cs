@@ -76,63 +76,6 @@ internal static class ThingPatches
         }
     }
 
-    [HarmonyPatch(typeof(Thing))]
-    [HarmonyPatch(nameof(Thing.SpawnSetup))]
-    public static class Tele_SpawnSetupPatch
-    {
-        public static void Postfix(Thing __instance)
-        {
-            //Event Handling
-            GlobalEventHandler.Things.OnSpawned(new ThingStateChangedEventArgs(ThingChangeFlag.Spawned, __instance));
-        }
-    }
-
-    [HarmonyPatch(typeof(Thing))]
-    [HarmonyPatch(nameof(Thing.DeSpawn))]
-    public static class DeSpawnPatch
-    {
-        public static bool Prefix(Thing __instance)
-        {
-            //Event Handling
-            GlobalEventHandler.Things.OnDespawning(new ThingStateChangedEventArgs(ThingChangeFlag.Despawning,
-                __instance));
-            return true;
-        }
-
-        public static void Postfix(Thing __instance)
-        {
-            //Event Handling
-            GlobalEventHandler.Things.OnDespawned(new ThingStateChangedEventArgs(ThingChangeFlag.Despawned, __instance));
-        }
-    }
-
-    [HarmonyPatch(typeof(ThingWithComps))]
-    [HarmonyPatch(nameof(ThingWithComps.BroadcastCompSignal))]
-    public static class ThingWithComps_BroadcastCompSignalPatch
-    {
-        public static void Postfix(Thing __instance, string signal)
-        {
-            //Event Handling
-            GlobalEventHandler.Things.OnSentSignal(new ThingStateChangedEventArgs(ThingChangeFlag.SentSignal, __instance, signal));
-        }
-    }
-
-    //Door state changed
-    [HarmonyPatch(typeof(Building_Door))]
-    [HarmonyPatch(nameof(Building_Door.CheckClearReachabilityCacheBecauseOpenedOrClosed))]
-    public static class Building_Door_CheckClearReachabilityCacheBecauseOpenedOrClosed_Patch
-    {
-        public static void Postfix(Building_Door __instance)
-        {
-            //Event Handling
-            GlobalEventHandler.Things.OnSentSignal(
-                new ThingStateChangedEventArgs(
-                    ThingChangeFlag.SentSignal,
-                    __instance,
-                    __instance.Open ? KnownCompSignals.DoorOpened : KnownCompSignals.DoorClosed));
-        }
-    }
-
     //Projectiles
     [HarmonyPatch(typeof(Projectile))]
     [HarmonyPatch(nameof(Projectile.ArcHeightFactor), MethodType.Getter)]

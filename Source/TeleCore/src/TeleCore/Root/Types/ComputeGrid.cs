@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using TeleCore.Systems.Events;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;

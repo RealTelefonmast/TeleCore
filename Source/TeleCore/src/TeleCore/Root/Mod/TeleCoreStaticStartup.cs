@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TeleCore.Loader;
+using TeleCore.Shared;
+using TeleCore.Static.Utilities;
 //using Multiplayer.API;
 using Verse;
 
@@ -27,28 +30,6 @@ internal static class TeleCoreStaticStartup
         //         TLog.Error($"Failed to register MP hooks: {ex.Message}");
         //     }
         // }
-
-        //Process Defs after load
-        ApplyDefChangesPostLoad();
-
-        /*TLog.Message("Startup Finished!", TColor.Green);
-        foreach (var assetbundle in TeleCoreMod.Mod.Content.assetBundles.loadedAssetBundles)
-        {
-            TLog.Debug($"Asset bundle found: {assetbundle.name}");
-            foreach (var assetName in assetbundle.GetAllAssetNames())
-            {
-                TLog.Debug("Trying to load asset: " + assetName);
-                var asset = assetbundle.LoadAsset(assetName);
-                if (asset != null)
-                {
-                    TLog.Debug("Asset loaded: " + asset.name);
-                }
-                else
-                {
-                    TLog.Warning("Failed to load asset: " + assetName);
-                }
-            }
-        }*/
     }
 
     public static List<(string TypeName, Assembly Assembly)> FindDuplicateTypes()
@@ -72,97 +53,6 @@ internal static class TeleCoreStaticStartup
 
         // Return only the types that occur more than once
         return duplicateTypes;
-    }
-
-    private static void DefIDValidation()
-    {
-        var allDefs = LoadedModManager.RunningModsListForReading.SelectMany(pack => pack.AllDefs);
-        //Runs ID check
-        var failed = false;
-        foreach (var def in allDefs)
-        {
-            var toID = def.ToID();
-            var andBack = toID.ToDef<Def>();
-            if (andBack.ToID() != toID)
-            {
-                TLog.Warning($"Checking {def} failed: ({def}){toID} != ({andBack}){andBack.ToID()}");
-                failed = true;
-            }
-        }
-
-        if (failed)
-            TLog.Warning("Def ID check failed!");
-        else
-        {
-            TLog.DebugSuccess("Successfully validated all Def IDs!");
-        }
-    }
-
-    private static void ApplyDefChangesPostLoad()
-    {
-        //Load Translation Libraries
-        //LoadStaticTranslationLibraries();
-
-        DefIDValidation();
-
-        //
-        var allInjectors = DefInjectors()?.ToArray();
-        TLog.Debug("Executing Def Injectors...");
-        foreach (var injector in allInjectors)
-        {
-            var type = injector.GetType();
-            TLog.Debug($"[Injector] {type.Assembly.FullName}.{type.Name}");
-        }
-
-        var skipInjectors = allInjectors is not { Length: > 0 };
-        var defs = LoadedModManager.RunningMods.SelectMany(s => s.AllDefs).ToArray();
-        //TODO: Evaluate
-        //TLog.Message($"Def ID Database check - Loaded IDs: {DefIDStack._MasterID} == {defs.Length}: {defs.Length - 1 == DefIDStack._MasterID}");
-        foreach (var def in defs)
-        {
-            var bDef = def as BuildableDef;
-            var tDef = def as ThingDef;
-            var isBuildable = bDef != null;
-            var isThing = tDef != null;
-
-            //
-            DefExtensionCache.TryRegister(def);
-
-            if (isBuildable)
-                if (bDef.HasSubMenuExtension(out var extension))
-                    SubMenuThingDefList.Add(bDef, extension);
-
-            if (skipInjectors) continue;
-            foreach (var injector in allInjectors)
-            {
-                if (injector.AcceptsSpecial(def)) injector.OnDefSpecialInjected(def);
-
-                if (isBuildable) injector.OnBuildableDefInject(bDef);
-
-                if (isThing)
-                {
-                    //Injections
-                    injector.OnThingDefInject(tDef);
-
-                    //Pawn Check
-                    if (tDef?.thingClass != null && (tDef.thingClass == typeof(Pawn) || tDef.thingClass.IsSubclassOf(typeof(Pawn))))
-                    {
-                        tDef.comps ??= new List<CompProperties>();
-                        injector.OnPawnInject(tDef);
-                    }
-                }
-            }
-        }
-
-        if (skipInjectors) return;
-        foreach (var injector in allInjectors) injector.Dispose();
-    }
-
-    //
-    private static IEnumerable<DefInjectBase> DefInjectors()
-    {
-        return typeof(DefInjectBase).AllSubclassesNonAbstract()
-            .Select(type => (DefInjectBase)Activator.CreateInstance(type));
     }
 
     /*

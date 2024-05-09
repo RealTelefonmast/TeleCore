@@ -6,6 +6,8 @@
     "Uses": "multitext",
     "Implements": "multitext",
     "References": "multitext",
-    "Referenced By": "multitext"
+    "Referenced By": "multitext",
+    "Exposes": "multitext",
+    "Includes": "multitext"
   }
 }

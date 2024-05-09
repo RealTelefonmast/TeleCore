@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net481</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <OutputPath>..\..\..\..\Assemblies</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <Authors>Telefonmast (aka Maxim)</Authors>
+        <Company>TeleGames</Company>
+        <RootNamespace>TeleCore.UI</RootNamespace>
+        <AssemblyName>TeleCore.UI</AssemblyName>
+        <Nullable>enable</Nullable>
+        <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Publicize Include="Assembly-CSharp" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4069" GeneratePathProperty="true" ExcludeAssets="runtime">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="Lib.Harmony" Version="2.2.2">
+            <PrivateAssets>all</PrivateAssets>
+            <ExcludeAssets>runtime</ExcludeAssets>
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="10.0.1" ExcludeAssets="runtime">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+</Project>

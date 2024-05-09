@@ -1,8 +1,6 @@
 ---
 Namespace: Verse
 InheritsFrom: "[[ThingComp]]"
-tags:
-  - ThingComp
 Implements:
   - "[[IVerbOwner]]"
 References:
@@ -15,5 +13,7 @@ References:
   - "[[ImplementOwnerTypeDef]]"
   - "[[Command]]"
   - "[[Apparel]]"
+tags:
+  - ThingComp
 ---
 Provides a [[VerbTracker]].

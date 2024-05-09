@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using Verse;
 
 namespace TeleCore;

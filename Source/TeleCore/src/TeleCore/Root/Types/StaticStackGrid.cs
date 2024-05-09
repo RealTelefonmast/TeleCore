@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using TeleCore.Shared;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Verse;

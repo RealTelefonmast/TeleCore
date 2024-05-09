@@ -7,7 +7,9 @@ using System.Text;
 using HarmonyLib;
 using RimWorld;
 using TeleCore.Gizmos;
+using TeleCore.Loader;
 using TeleCore.Network.Bills;
+using TeleCore.Shared;
 using UnityEngine;
 using Verse;
 

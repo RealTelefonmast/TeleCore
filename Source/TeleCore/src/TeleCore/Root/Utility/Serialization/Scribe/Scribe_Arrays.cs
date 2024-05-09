@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using RimWorld.Planet;
+using TeleCore.Loader;
 using TeleCore.Primitive.Immutable;
+using TeleCore.Shared;
 using Verse;
 
 namespace TeleCore;

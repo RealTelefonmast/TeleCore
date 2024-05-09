@@ -1,4 +1,6 @@
 ﻿using RimWorld;
+using TeleCore.Loader;
+using TeleCore.Shared;
 using TeleCore.Static;
 using Verse;
 

@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 internal class Program
 {
-    public static void Main(string[] args)
+    public static unsafe void Main(string[] args)
     {
     }
 }

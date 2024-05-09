@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.IO;
+using TeleCore.Static;
 using TeleCore.Static.Utilities;
 using UnityEngine;
 using Verse;
@@ -13,22 +14,6 @@ namespace TeleCore;
 
 internal static class InjectPatches
 {
-    //Allows custom shaders to be loaded
-    [HarmonyPatch(typeof(ShaderDatabase), nameof(ShaderDatabase.LoadShader))]
-    internal static class LoadShaderPatch
-    {
-        private static bool Prefix(string shaderPath, ref Shader __result)
-        {
-            var vanilla = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
-            if (vanilla == null)
-            {
-                __result = TeleContentDB.LoadShader(shaderPath);
-                return false;
-            }
-            return true;
-        }
-    }
-
     //This adds gizmos to the pawn
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch("GetGizmos")]
@@ -80,36 +65,6 @@ internal static class InjectPatches
                 floatMenuOption.Label = text;
                 opts.Add(floatMenuOption);
             }
-        }
-    }
-
-    //
-    [HarmonyPatch]
-    public static class EditablePostLoadPatch
-    {
-        [HarmonyTargetMethods]
-        public static IEnumerable<MethodInfo> TargetMethods()
-        {
-            // yield return AccessTools.Method(typeof(Def), "PostLoad");
-            // yield return AccessTools.Method(typeof(PawnKindDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(ThingStyleDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(BodyPartDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(FactionDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(ThingCategoryDef), "PostLoad");
-            //
-            // yield return AccessTools.Method(typeof(SkillDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(AbilityDef), "PostLoad");
-            // yield return AccessTools.Method(typeof(MechWorkModeDef), "PostLoad");
-
-            foreach (var type in typeof(Def).AllSubclasses().Concat(typeof(Def)))
-            {
-                yield return AccessTools.Method(type, nameof(Def.PostLoad));
-            }
-        }
-
-        public static void Postfix(Def __instance)
-        {
-            DefIDStack.RegisterNew(__instance);
         }
     }
 

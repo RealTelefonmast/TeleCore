@@ -3,10 +3,10 @@ using Verse;
 
 namespace TeleCore;
 
+//TODO: Remove or handle generally
 public static class DefExtensionCache
 {
-    private static readonly Dictionary<Def, (TeleDefExtension, SubMenuExtension, TurretDefExtension, FXDefExtension)>
-        ExtensionsByDef = new();
+    private static readonly Dictionary<Def, (TeleDefExtension, SubMenuExtension, TurretDefExtension, FXDefExtension)> ExtensionsByDef = new();
 
     //
     public static TeleDefExtension TeleExtension(this Def def)

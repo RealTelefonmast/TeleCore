@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>net481</TargetFramework>
         <LangVersion>preview</LangVersion>
         <OutputPath>..\..\..\..\Assemblies</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -69,7 +69,7 @@
          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
        </PackageReference>
         
-       <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4035-beta" GeneratePathProperty="true" ExcludeAssets="runtime">
+       <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4069" GeneratePathProperty="true" ExcludeAssets="runtime">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -78,13 +78,13 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         
-        <PackageReference Include="Lib.Harmony" Version="2.2.2">
+        <PackageReference Include="Lib.Harmony" Version="2.3.3">
             <PrivateAssets>all</PrivateAssets>
             <ExcludeAssets>runtime</ExcludeAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         
-        <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="10.0.1" ExcludeAssets="runtime">
+        <PackageReference Include="UnlimitedHugs.Rimworld.HugsLib" Version="11.0.3" ExcludeAssets="runtime">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -99,6 +99,11 @@
 
     <ItemGroup>
         <Publicize Include="Assembly-CSharp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TeleCore.Events\TeleCore.Events.csproj" />
+      <ProjectReference Include="..\TeleCore.Shared\TeleCore.Shared.csproj" />
     </ItemGroup>
     
 </Project>
