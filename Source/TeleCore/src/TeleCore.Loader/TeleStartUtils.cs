@@ -70,7 +70,9 @@ internal static class TeleStartUtils
         
         TLog.Debug("Executing Def Injectors...");
         var allDefs = LoadedModManager.RunningMods.SelectMany(s => s.AllDefs);
-
+        
+        //TODO: Use RW's UI tips during loading to show progress
+        
         foreach (var def in allDefs)
         {
             for (var i = 0; i < injectors.Length; i++)

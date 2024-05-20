@@ -25,7 +25,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
 
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4069" GeneratePathProperty="true" ExcludeAssets="runtime">
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4085" GeneratePathProperty="true" ExcludeAssets="runtime">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
