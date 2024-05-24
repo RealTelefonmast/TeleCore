@@ -41,4 +41,8 @@
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TeleCore.AssetLoader\TeleCore.AssetLoader.csproj" />
+    </ItemGroup>
 </Project>

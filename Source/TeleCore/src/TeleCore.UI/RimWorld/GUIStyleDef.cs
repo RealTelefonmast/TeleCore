@@ -10,6 +10,8 @@ public struct GUIRectOffset
     public int right;
     public int top;
     public int bottom;
+    
+    public RectOffset RectOffset => new RectOffset(left, right, top, bottom);
 }
 
 public enum GUIStyleType
