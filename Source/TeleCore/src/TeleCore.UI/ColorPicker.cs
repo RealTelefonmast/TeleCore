@@ -1,9 +1,12 @@
-﻿using TeleCore.AssetLoader;
+﻿using System;
+using HotSwap;
+using TeleCore.AssetLoader;
 using UnityEngine;
 using Verse;
 
 namespace TeleCore.UI;
 
+[HotSwappable]
 public class ColorPicker
 {
     private Material colorPickerMat;
@@ -17,12 +20,44 @@ public class ColorPicker
     
     //Current Color Working Values
     private Color _color;
-    
-    private int[] hsvVals = new int[3] ;
-    private int[] colorVals = new int[3];
+    private ColorInt _colorInt;
 
+    private Vector3 _HSVRaw;
+    private Vector3Int _HSVInt;
+
+    private static GUIStyle style;
+    private static GUIStyle sliderStyle;
+    private static GUIStyle sliderThumbStyle;
+    
+    private const string ContextSpace = "TeleColorPicker";
+
+    public Color Color
+    {
+        get => _color;
+        private set
+        {
+            _color = value;
+            ColorChanged?.Invoke(value);
+        }
+    }
+    
+    public event Action<Color> ColorChanged;
+    
     public ColorPicker()
     {
+        style = new GUIStyle(GUI.skin.textField);
+        style.normal.background = style.active.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom");
+        style.hover.background = style.focused.background = ContentFinder<Texture2D>.Get("TextFieldStyleCustom_Sel");
+        style.border = new RectOffset(2, 2, 2, 2);
+        
+        sliderStyle = new GUIStyle(GUI.skin.horizontalSlider);
+        var subSt = sliderStyle.normal;
+        subSt.background = null;
+        sliderStyle.normal = sliderStyle.active = sliderStyle.focused = sliderStyle.hover = subSt;
+        sliderThumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb);
+        var sliderTex = ContentFinder<Texture2D>.Get("HorizontalSliderThumb");
+        sliderThumbStyle.normal.background = sliderThumbStyle.active.background = sliderThumbStyle.focused.background = sliderThumbStyle.hover.background = sliderTex;
+        
         colorPickerMat = new Material(AssetBundleDB.LoadShader("ColorPickerGradient"));
         hueMat = new Material(AssetBundleDB.LoadShader("ColorPickerHue"));
         satMat = new Material(AssetBundleDB.LoadShader("ColorPickerHue"));
@@ -42,37 +77,71 @@ public class ColorPicker
         blueMat.SetInt("_Result", 2);
     }
     
-    public void Draw(Rect inRect)
+    const float padding = 5;
+    const float mid_divide = 10;
+    private static Vector2 _defaultSize;
+    
+    public static Vector2 DefaultSize => _defaultSize;
+    
+    static ColorPicker()
     {
-        //Colors
-        var color = _color;
-        var colorInt = new ColorInt(color);
-        Color.RGBToHSV(color, out var h, out var s, out var v);
+        _defaultSize = GetSize(out _, out _, 0);
+    }
+    
+    private const string string_H = "H:";
+    private const string string_S = "S:";
+    private const string string_V = "V:";
+    private const string string_R = "R:";
+    private const string string_G = "G:";
+    private const string string_B = "B:";
+
+    private static Vector2 GetSize(out float sizeSquare, out float selectorWidth, float widthOverride = 0)
+    {
+        var labelSize = Text.CalcSize(string_H);
+        var inputSize = Text.CalcSize("1000");
         
-        colorVals[0] = colorInt.r;
-        colorVals[1] = colorInt.g;
-        colorVals[2] = colorInt.b;
-        
-        hsvVals[0] = (int) (h * 360);
-        hsvVals[1] = (int) (s * 100);
-        hsvVals[2] = (int) (v * 100);
-        
-        var colorSat = Color.HSVToRGB(h, 1, 1, true);
+        sizeSquare = labelSize.y * 8 + mid_divide + padding * 7;
+        selectorWidth = Mathf.Max(labelSize.x + inputSize.x * 3 + padding + inputSize.x, widthOverride);
+        var fullWidth = sizeSquare + mid_divide + selectorWidth;
+        return new Vector2(fullWidth, sizeSquare);
+    }
+
+    private static string ToHex(Color color)
+    {
+        var r = (int)(color.r * 255);
+        var g = (int)(color.g * 255);
+        var b = (int)(color.b * 255);
+        return $"{r:X2}{g:X2}{b:X2}";
+    }
+
+    private static Color HexToColor(string hex)
+    {
+        ColorUtility.TryParseHtmlString("#" + hex, out var color);
+        return color;
+    }
+    
+    public Rect Draw(Vector2 pos, float extraWidth = 0)
+    {
+        Rect layout;
+
+        var labelSize = Text.CalcSize(string_H);
+        var partSize = labelSize.y;
         
         //Rect stuff
-        var parts = (inRect.height / 8) /2;
-        var colorSize = parts * 8 + (5 + 10 + (5*7));
-        var leftSide = inRect.LeftPartPixels(colorSize);
-        var rightSide = new Rect(leftSide.xMax + 5, leftSide.y, inRect.width / 2, inRect.height);
-        var colorPicker = leftSide.TopPartPixels(colorSize);
-
-        //RectAggregator rectA = new RectAggregator(new Rect(rightSide.position, new Vector2(rightSide.width, 0)), this.GetHashCode());
+        var size = GetSize(out var fullHeight, out var minWidth, extraWidth);
+        var colorPicker = new Rect(pos, new Vector2(fullHeight, fullHeight));
+        var rightSide = new Rect(pos.x + fullHeight + mid_divide, pos.y, minWidth, fullHeight);
+        
+        layout = new Rect(pos, new Vector2(size.x, size.y));
+        
+        //
         var div = new RectDivider(rightSide, this.GetHashCode(), new Vector2(5, 5));
-        var HSV = div.NewRow(parts);
-        var HSV_H = div.NewRow(parts);
-        var HSV_S = div.NewRow(parts);
-        var HSV_V = div.NewRow(parts, marginOverride:10);
+        var HSV = div.NewRow(partSize);
+        var HSV_H = div.NewRow(partSize);
+        var HSV_S = div.NewRow(partSize);
+        var HSV_V = div.NewRow(partSize, marginOverride:10);
         var textSize = Text.CalcSize("1000").x;
+        var HexSize = Text.CalcSize("#FFFFFF").x;
         
         var HSV_H_Label = HSV_H.NewCol(textSize/2);
         var HSV_S_Label = HSV_S.NewCol(textSize/2);
@@ -82,10 +151,10 @@ public class ColorPicker
         var HSV_S_Input = HSV_S.NewCol(textSize, HorizontalJustification.Right, 5);
         var HSV_V_Input = HSV_V.NewCol(textSize, HorizontalJustification.Right, 5);
         
-        var RGB = div.NewRow(parts);
-        var RGB_R = div.NewRow(parts);
-        var RGB_G = div.NewRow(parts);
-        var RGB_B = div.NewRow(parts);
+        var RGB_R = div.NewRow(partSize);
+        var RGB_G = div.NewRow(partSize);
+        var RGB_B = div.NewRow(partSize);
+        var RGB_HEX = div.NewRow(partSize);
         
         var RGB_R_Label = RGB_R.NewCol(textSize/2);
         var RGB_G_Label = RGB_G.NewCol(textSize/2);
@@ -94,11 +163,16 @@ public class ColorPicker
         var RGB_R_Input = RGB_R.NewCol(textSize, HorizontalJustification.Right, 5);
         var RGB_G_Input = RGB_G.NewCol(textSize, HorizontalJustification.Right, 5);
         var RGB_B_Input = RGB_B.NewCol(textSize, HorizontalJustification.Right, 5);
-        
+        var RGB_HEX_Input = RGB_HEX.NewCol(HexSize, HorizontalJustification.Right, 5);
 
-        Vector2 uvPos = new Vector2(s, 1-v);
+
+        Vector2 uvPos = new Vector2(_HSVRaw.y, 1 - _HSVRaw.z);
         
-        colorPickerMat.SetFloat("_Hue", h);
+        //Colors
+        var color = _color;
+        var colorSat = Color.HSVToRGB(_HSVRaw.x, 1, 1, true);
+        
+        colorPickerMat.SetFloat("_Hue", _HSVRaw.x);
         redMat.SetColor("_Color", color);
         greenMat.SetColor("_Color", color);
         blueMat.SetColor("_Color", color);
@@ -107,49 +181,167 @@ public class ColorPicker
         valMat.SetColor("_Color", colorSat);
         
         //Color Picker
-        Graphics.DrawTexture(colorPicker, BaseContent.BadTex, 0, 0, 0, 0, colorPickerMat);
-        
-        var posRect = new Rect(colorPicker.position + (uvPos * colorPicker.size), new Vector2(7, 7));
-        Widgets.DrawBoxSolidWithOutline(posRect, color, Color.black);
+        OnSelectingInPicker(colorPicker, uvPos, color);
         
         //RGB Group
-        //Widgets.Label(RGB, "RGB");
-        Widgets.Label(RGB, "RGB");
         
         Widgets.Label(RGB_R_Label, "R:");
         Widgets.Label(RGB_G_Label, "G:");
         Widgets.Label(RGB_B_Label, "B:");
+        Widgets.Label(RGB_HEX, "HEX:");
         
-        Graphics.DrawTexture(RGB_R, BaseContent.BadTex, 0, 0, 0, 0, redMat);
-        Graphics.DrawTexture(RGB_G, BaseContent.BadTex, 0, 0, 0, 0, greenMat);
-        Graphics.DrawTexture(RGB_B, BaseContent.BadTex, 0, 0, 0, 0, blueMat);
+        var red = _colorInt.r;
+        var green = _colorInt.g;
+        var blue = _colorInt.b;
         
-        var red = colorInt.r;
-        var green = colorInt.g;
-        var blue = colorInt.b;
-        TWidgets.Text.TextFieldNumeric(RGB_R_Input, ref red, 0, 255);
-        TWidgets.Text.TextFieldNumeric(RGB_G_Input, ref green, 0, 255);
-        TWidgets.Text.TextFieldNumeric(RGB_B_Input, ref blue, 0, 255);
+        var redF = (float)red;
+        var greenF = (float)green;
+        var blueF = (float)blue;
         
-        //TODO: Adjust HSV data based on RGB changes
+        var rSelChanged = TWidgets.Image.DrawTextureWithSlider(RGB_R, new TWidgets.UIMaterial(BaseContent.BadTex, redMat), ref redF, 0, 255);
+        var gSelChanged = TWidgets.Image.DrawTextureWithSlider(RGB_G, new TWidgets.UIMaterial(BaseContent.BadTex, greenMat), ref greenF, 0, 255);
+        var bSelChanged = TWidgets.Image.DrawTextureWithSlider(RGB_B, new TWidgets.UIMaterial(BaseContent.BadTex, blueMat), ref blueF, 0, 255);
+        
+        //UI context must be changed
+        if(rSelChanged || gSelChanged || bSelChanged)
+        {
+            red = (int)redF;
+            green = (int)greenF;
+            blue = (int)blueF;   
+            UICache.ClearContext(ContextSpace);
+        }
+
+        var oldStyle = GUI.skin.textField;
+        GUI.skin.textField = style;
+        var rChanged = TWidgets.Text.TextFieldNumeric(RGB_R_Input, ref red, 0, 255, context: ContextSpace);
+        var gChanged = TWidgets.Text.TextFieldNumeric(RGB_G_Input, ref green, 0, 255, context: ContextSpace);
+        var bChanged = TWidgets.Text.TextFieldNumeric(RGB_B_Input, ref blue, 0, 255, context: ContextSpace);
+
+        var hexString = ToHex(color);
+        var hexChanged = TWidgets.Text.TextFieldHex(RGB_HEX_Input, out string hexValue, hexString, ContextSpace);
+
+        if (hexChanged)
+        {
+            var hexColor = HexToColor(hexValue);
+            SetColor(hexColor);
+            ColorChanged?.Invoke(hexColor);
+        }
+        
+        if(rChanged || gChanged || bChanged)
+        {
+            RGBChanged(new ColorInt(red, green, blue));
+        }
         
         //HSV Group
-        Widgets.Label(HSV, "HSV");
-        var size = Text.CalcSize("HSV");
-        //Widgets.DrawLineHorizontal(HSV.Rect.x + size.x, HSV.Rect.y + HSV.Rect.height/2, HSV.Rect.width - size.x);
+        Widgets.Label(HSV, "HSV - RGB - HEX");
         
         Widgets.Label(HSV_H_Label, "H:");
         Widgets.Label(HSV_S_Label, "S:");
         Widgets.Label(HSV_V_Label, "V:");
         
-        Graphics.DrawTexture(HSV_H, BaseContent.BadTex, 0, 0, 0, 0, hueMat);
-        Graphics.DrawTexture(HSV_S, BaseContent.BadTex, 0, 0, 0, 0, satMat);
-        Graphics.DrawTexture(HSV_V, BaseContent.BadTex, 0, 0, 0, 0, valMat);
+        var hInt = _HSVInt.x;
+        var sInt = _HSVInt.y;
+        var vInt = _HSVInt.z;
 
-        TWidgets.Text.TextFieldNumeric(HSV_H_Input, ref h, 0, 360);
-        TWidgets.Text.TextFieldNumeric(HSV_S_Input, ref s, 0, 100);
-        TWidgets.Text.TextFieldNumeric(HSV_V_Input, ref v, 0, 100);
+        var hF = (float)hInt;
+        var sF = (float)sInt;
+        var vF = (float)vInt;
         
-        //TODO: Adjust color data based on HSV changes
+        var hSelChanged = TWidgets.Image.DrawTextureWithSlider(HSV_H, new TWidgets.UIMaterial(BaseContent.BadTex, hueMat), ref hF, 0, 360);
+        var sSelChanged = TWidgets.Image.DrawTextureWithSlider(HSV_S, new TWidgets.UIMaterial(BaseContent.BadTex, satMat), ref sF, 0, 100);
+        var vSelChanged = TWidgets.Image.DrawTextureWithSlider(HSV_V, new TWidgets.UIMaterial(BaseContent.BadTex, valMat), ref vF, 0, 100);
+        
+        if(hSelChanged || sSelChanged || vSelChanged)
+        {
+            hInt = (int)hF;
+            sInt = (int)sF;
+            vInt = (int)vF;
+            UICache.ClearContext(ContextSpace);
+        }
+        
+        var hChanged = TWidgets.Text.TextFieldNumeric(HSV_H_Input, ref hInt, 0, 360, context: ContextSpace);
+        var sChanged = TWidgets.Text.TextFieldNumeric(HSV_S_Input, ref sInt, 0, 100, context: ContextSpace);
+        var vChanged = TWidgets.Text.TextFieldNumeric(HSV_V_Input, ref vInt, 0, 100, context: ContextSpace);
+
+        GUI.skin.textField = oldStyle;
+        
+        if(hChanged || sChanged || vChanged)
+        {
+            HSVChanged(hInt, sInt, vInt);
+        }
+
+        return layout;
+    }
+
+    private void OnSelectingInPicker(Rect inRect, Vector2 uvPos, Color color)
+    {
+        var id = GUIUtility.GetControlID(FocusType.Passive, inRect);
+        var type = Event.current.GetTypeForControl(id);
+        switch (type)
+        {
+            case EventType.Repaint:
+            {
+                Graphics.DrawTexture(inRect, BaseContent.BadTex, 0, 0, 0, 0, colorPickerMat);
+                var pickerSize = new Vector2(7, 7);
+                var posRect = new Rect(inRect.position + (uvPos * inRect.size) - (pickerSize / 2), pickerSize);
+                Widgets.DrawBoxSolidWithOutline(posRect, color, Color.black);
+                break;
+            }
+            case EventType.MouseDown:
+            {
+                if (inRect.Contains(Event.current.mousePosition) && Event.current.button == 0)
+                    GUIUtility.hotControl = id;
+                break;
+            }
+            case EventType.MouseUp:
+            {
+                if (GUIUtility.hotControl == id)
+                    GUIUtility.hotControl = 0;
+                break;
+            }
+            case EventType.MouseDrag:
+            {
+                if (GUIUtility.hotControl == id)
+                {
+                    var newPos = new Vector2(Event.current.mousePosition.x - inRect.x, Event.current.mousePosition.y - inRect.y);
+                    var uv = new Vector2(newPos.x / inRect.width, 1 - (newPos.y / inRect.height));
+                    var uvInt = new Vector2Int((int) (uv.x * 100), (int) (uv.y * 100));
+                    HSVChanged(_HSVInt.x, uvInt.x, uvInt.y);
+                    GUI.changed = true;
+                    Event.current.Use();
+                }
+                break;
+            }
+        }
+    }
+    
+    public void SetColor(Color color)
+    {
+        Color.RGBToHSV(color, out var h, out var s, out var v);
+        
+        _color = color;
+        _colorInt = new ColorInt(color);
+        _HSVRaw = new Vector3(h, s, v);
+        _HSVInt = new Vector3Int((int) (h * 360), (int) (s * 100), (int) (v * 100));
+        UICache.ClearContext(ContextSpace);
+    }
+    
+    private void RGBChanged(ColorInt newColor)
+    {
+        Color = newColor.ToColor;
+        _colorInt = newColor;
+        Color.RGBToHSV(_color, out var h, out var s, out var v);
+        _HSVRaw = new Vector3(h, s, v);
+        _HSVInt = new Vector3Int((int) (h * 360), (int) (s * 100), (int) (v * 100));
+        UICache.ClearContext(ContextSpace);
+    }
+    
+    private void HSVChanged(int newH, int newS, int newV)
+    {
+        _HSVRaw = new Vector3(newH / 360f, newS / 100f, newV / 100f);
+        _HSVInt = new Vector3Int(newH, newS, newV);
+        Color = Color.HSVToRGB(_HSVRaw.x, _HSVRaw.y, _HSVRaw.z);
+        _colorInt = new ColorInt(_color);
+        UICache.ClearContext(ContextSpace);
     }
 }

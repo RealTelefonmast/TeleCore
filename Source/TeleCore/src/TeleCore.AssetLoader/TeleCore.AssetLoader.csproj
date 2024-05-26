@@ -9,7 +9,7 @@
         <Authors>Telefonmast (aka Maxim)</Authors>
         <Company>TeleGames</Company>
         <RootNamespace>TeleCore.AssetLoader</RootNamespace>
-        <AssemblyName>TeleCore.AssetLoader</AssemblyName>
+        <AssemblyName>0TeleCore.AssetLoader</AssemblyName>
         <Nullable>enable</Nullable>
         <Copyright>Copyright © 2023 Maxim Switenko</Copyright>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

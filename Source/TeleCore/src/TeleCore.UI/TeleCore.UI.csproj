@@ -9,7 +9,7 @@
         <Authors>Telefonmast (aka Maxim)</Authors>
         <Company>TeleGames</Company>
         <RootNamespace>TeleCore.UI</RootNamespace>
-        <AssemblyName>TeleCore.UI</AssemblyName>
+        <AssemblyName>0TeleCore.UI</AssemblyName>
         <Nullable>enable</Nullable>
         <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -44,5 +44,16 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TeleCore.AssetLoader\TeleCore.AssetLoader.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="dnlib">
+        <HintPath>..\..\..\..\Assemblies\dnlib.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
+      <Reference Include="HotSwap">
+        <HintPath>..\..\..\..\Assemblies\HotSwap.dll</HintPath>
+        <Private>False</Private>
+      </Reference>
     </ItemGroup>
 </Project>

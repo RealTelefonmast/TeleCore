@@ -7,7 +7,6 @@ using Verse;
 
 namespace TeleCore.Shared;
 
-[StaticConstructorOnStartup]
 public static class NumericLibrary<T> where T : unmanaged
 {
     public static readonly Func<T, T, T> Addition;
@@ -61,10 +60,6 @@ public static class NumericLibrary<T> where T : unmanaged
         Clamp = CreateClampFunc();
         Round = CreateRoundFunc();
         Abs = CreateAbsFunc();
-        
-        ParseHelper.Parsers<Numeric<int>>.Register(ParseInt);
-        ParseHelper.Parsers<Numeric<float>>.Register(ParseFloat);
-        ParseHelper.Parsers<Numeric<double>>.Register(ParseDouble);
     }
 
     public static Numeric<T> Zero => new(ZeroGetter());
@@ -334,26 +329,4 @@ public static class NumericLibrary<T> where T : unmanaged
         var lambda = Expression.Lambda<Func<T>>(body);
         return lambda.Compile();
     }
-
-    #region Parse Helpers
-
-    private static Numeric<double> ParseDouble(string arg)
-    {
-        var val = ParseHelper.ParseDouble(arg);
-        return new Numeric<double>(val);
-    }
-
-    private static Numeric<float> ParseFloat(string arg)
-    {
-        var val = ParseHelper.ParseFloat(arg);
-        return new Numeric<float>(val);
-    }
-
-    private static Numeric<int> ParseInt(string arg)
-    {
-        var val = ParseHelper.ParseIntPermissive(arg);
-        return new Numeric<int>(val);
-    }
-
-    #endregion
 }
