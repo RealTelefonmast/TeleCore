@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore", "src\TeleCore\TeleCore.csproj", "{E720304B-41A9-4557-BCF1-50896A31605E}"
 EndProject
@@ -28,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.RWExtensions", "src\TeleCore.RWExtensions\TeleCore.RWExtensions.csproj", "{C2677CEE-7FE2-452A-9688-61385906FA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.BuildMenu", "src\TeleCore.BuildMenu\TeleCore.BuildMenu.csproj", "{B0ABF335-973C-4CC0-B6BD-80633473546D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Patching", "src\TeleCore.Patching\TeleCore.Patching.csproj", "{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +84,10 @@ Global
 		{B0ABF335-973C-4CC0-B6BD-80633473546D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0ABF335-973C-4CC0-B6BD-80633473546D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0ABF335-973C-4CC0-B6BD-80633473546D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,5 +107,6 @@ Global
 		{00C0D1EF-53D4-4BBC-873E-0FB28A0660C0} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{C2677CEE-7FE2-452A-9688-61385906FA05} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{B0ABF335-973C-4CC0-B6BD-80633473546D} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
+		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace TeleCore.Loader.XML;
+namespace TeleCore.RWExtensions.XML;
 
 public static class TaggedDefs
 {

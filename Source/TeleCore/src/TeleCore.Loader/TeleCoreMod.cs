@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using Verse;
@@ -25,7 +26,8 @@ public class TeleCoreMod : Mod
     public TeleCoreMod(ModContentPack content) : base(content)
     {
         Mod = this;
-        TLog.Message($"[TeleCore] - Init", Color.cyan);
+        var curAss = Assembly.GetExecutingAssembly();
+        TLog.Message($"{curAss.FullName}=>[TeleCore] - Init", Color.cyan);
         modSettings = GetSettings<TeleCoreSettings>();
         
         var discoveredAssemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -35,6 +37,10 @@ public class TeleCoreMod : Mod
             Log.Message($"Discovered TeleCore assembly: {assembly.FullName}");
             HarmonyInt.PatchAll(assembly);
         }
+        
+        TLog.Debug("Type check?");
+        Type? type = typeof(DefInjectBase);
+        TLog.Debug($"DefInjectBase: {type != null} :  {type?.Assembly?.FullName} : {type?.FullName}");
     }
     
     public override string SettingsCategory()

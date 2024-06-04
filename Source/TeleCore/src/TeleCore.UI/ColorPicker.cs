@@ -1,12 +1,10 @@
 ﻿using System;
-using HotSwap;
 using TeleCore.AssetLoader;
 using UnityEngine;
 using Verse;
 
 namespace TeleCore.UI;
 
-[HotSwappable]
 public class ColorPicker
 {
     private Material colorPickerMat;

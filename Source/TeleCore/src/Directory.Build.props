@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+    <PropertyGroup>
+        <!--Author-->
+        <Authors>Telefonmast</Authors>
+        <!--<Company>TeleGames</Company>-->
+        <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
+        
+        <!--Project-->
+        <TargetFramework>net481</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <Nullable>enable</Nullable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+        <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+        <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+        
+        <!--Build-->
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <OutputPath>..\..\..\..\Assemblies</OutputPath>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Optimize>true</Optimize>
+        <OutputType>Library</OutputType>
+        
+        <!--Debug-->
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Zetrith.Prepatcher" Version="*" />
+        <PackageReference Include="Krafs.Publicizer" Version="*" />
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="*"/>
+        <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Publicize Include="Assembly-CSharp;0Harmony" IncludeVirtualMembers="false" />
+        <!-- Exclude Files That Cause Conflicts Here -->
+        <!-- Example -->
+        <DoNotPublicize Include="0Harmony:System.Memory`1" />
+    </ItemGroup>
+    
+    
+</Project>

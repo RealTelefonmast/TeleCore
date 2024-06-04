@@ -65,6 +65,11 @@ internal static class TeleStartUtils
         if (injectorTypes.NullOrEmpty()) return;
         
         var injectors = new DefInjectBase[injectorTypes.Count];
+        TLog.Debug("Found def injectors:");
+        foreach (var injectorType in injectorTypes)
+        {
+            TLog.Debug(" - " + injectorType.Name);
+        }
         for (var i = 0; i < injectorTypes.Count; i++)
             injectors[i] = (DefInjectBase)Activator.CreateInstance(injectorTypes[i]);
         

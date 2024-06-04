@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using HarmonyLib;
-using TeleCore.Loader.XML;
+using TeleCore.RWExtensions.XML;
 using Verse;
 
 namespace TeleCore.Loader;
@@ -10,7 +10,6 @@ internal static class XMLPatches
     [HarmonyPatch(typeof(DirectXmlLoader), nameof(DirectXmlLoader.DefFromNode))]
     static class DefFromNodePatch
     {
-        // ReSharper disable once InconsistentNaming
         static void Postfix(XmlNode node, Def? __result)
         {
             if(__result == null) return;

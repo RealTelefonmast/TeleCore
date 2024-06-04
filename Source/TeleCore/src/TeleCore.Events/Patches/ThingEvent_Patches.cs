@@ -35,6 +35,16 @@ internal static class ThingEvent_Patches
         }
     }
     
+    [HarmonyPatch(typeof(Thing))]
+    [HarmonyPatch(nameof(Thing.Discard))]
+    public static class Thing_DiscardPatch
+    {
+        public static void Postfix(Thing __instance)
+        {
+            GlobalEventHandler.Things.OnDiscarded(new ThingStateChangedEventArgs(ThingChangeFlag.Discarded, __instance));
+        }
+    }
+    
     [HarmonyPatch(typeof(ThingWithComps))]
     [HarmonyPatch(nameof(ThingWithComps.BroadcastCompSignal))]
     public static class ThingWithComps_BroadcastCompSignalPatch

@@ -10,6 +10,7 @@ public static class GlobalEventHandler
 {
     public static class Things
     {
+        public static event ThingDiscardedEvent? Discarded;
         public static event ThingSpawnedEvent? Spawned;
         public static event ThingDespawnedEvent? Despawning;
         public static event ThingDespawnedEvent? Despawned;
@@ -74,7 +75,20 @@ public static class GlobalEventHandler
                 TLog.Error($"Error trying to deregister despawned thing: {args.Thing}\n{ex.Message}\n{ex.StackTrace}");
             }
         }
-
+        
+        internal static void OnDiscarded(ThingStateChangedEventArgs args)
+        {
+            try
+            {
+                Discarded?.Invoke(args);
+                Terrain.OnCellChanged(new CellChangedEventArgs(args));
+            }
+            catch (Exception ex)
+            {
+                TLog.Error($"Error trying to discard thing: {args.Thing}\n{ex.Message}\n{ex.StackTrace}");
+            }
+        }
+        
         internal static void OnSentSignal(ThingStateChangedEventArgs args)
         {
             try

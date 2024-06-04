@@ -2,17 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net481</TargetFramework>
-        <LangVersion>preview</LangVersion>
-        <OutputPath>..\..\..\..\Assemblies</OutputPath>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <Authors>Telefonmast (aka Maxim)</Authors>
-        <Company>TeleGames</Company>
         <RootNamespace>TeleCore.BuildMenu</RootNamespace>
         <AssemblyName>TeleCore.BuildMenu</AssemblyName>
-        <Nullable>enable</Nullable>
-        <Copyright>Copyright © 2024 Maxim Switenko</Copyright>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,11 +31,17 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+
+        <PackageReference Update="Krafs.Publicizer" Version="2.2.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\TeleCore.Loader\TeleCore.Loader.csproj" />
       <ProjectReference Include="..\TeleCore.Shared\TeleCore.Shared.csproj" />
+      <ProjectReference Include="..\TeleCore.UI\TeleCore.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
