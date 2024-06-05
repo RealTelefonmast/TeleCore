@@ -4,6 +4,8 @@
     <PropertyGroup>
         <RootNamespace>TeleCore.Patching</RootNamespace>
         <AssemblyName>TeleCore.Patching</AssemblyName>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>TeleCore.Patching</PackageId>
     </PropertyGroup>
 
     <ItemGroup>

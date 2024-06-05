@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using TeleCore.Loader.Configs;
 using Verse;
 
 namespace TeleCore.Loader;
 
 public class TeleCoreSettings : ModSettings
 {
-    public bool enableProjectileGraphicRandomFix;
     public bool showToolsInMainMenu;
+    public AnimationConfig animationConfig;
+    public FixesConfig fixesConfig;
+    public PatchConfig patchConfig;
 
     //
     private List<string> keyList;
@@ -15,13 +18,9 @@ public class TeleCoreSettings : ModSettings
     //Tools.General
     //internal Dictionary<string, ScribeDictionary<string, bool>> DataBrowserSettings = new();
 
-    //Tools.Animation
-    private string userDefinedAnimationDefLocation;
-    private List<Dictionary<string, bool>> valueList;
-
     //Properties
-    public string SaveAnimationDefLocation => userDefinedAnimationDefLocation;
-    public bool ProjectileGraphicRandomFix => enableProjectileGraphicRandomFix;
+    public string SaveAnimationDefLocation => animationConfig.userDefinedAnimationDefLocation;
+    public bool ProjectileGraphicRandomFix => fixesConfig.enableProjectileGraphicRandomFix;
 
     //Data Notifiers
     /*
@@ -48,28 +47,14 @@ public class TeleCoreSettings : ModSettings
     }
     */
 
-    internal void SetAnimationDefLocation(string newPath, bool write = true)
-    {
-        userDefinedAnimationDefLocation = newPath;
-        if (write)
-            Write();
-    }
-
-    internal void ResetAnimationDefLocation()
-    {
-        SetAnimationDefLocation(DefaultAnimationDefLocation);
-    }
-
     public override void ExposeData()
     {
-        Scribe_Values.Look(ref enableProjectileGraphicRandomFix, "enableProjectileGraphicRandomFix");
-        Scribe_Values.Look(ref userDefinedAnimationDefLocation, "userDefinedAnimationDefLocation");
         Scribe_Values.Look(ref showToolsInMainMenu, "showToolsInMainMenu");
+        Scribe_Deep.Look(ref animationConfig, "animationConfig", this);
+        Scribe_Deep.Look(ref fixesConfig, "fixesConfig");
+        Scribe_Deep.Look(ref patchConfig, "patchConfig");
         //Scribe_Collections.Look(ref DataBrowserSettings, "DataBrowserSettings", LookMode.Value, LookMode.Deep);
-
-        //TODO: Move module specific settings to their own classes and inject
-        if (userDefinedAnimationDefLocation == null)
-            SetAnimationDefLocation(DefaultAnimationDefLocation, false);
+        
 
         /*
         if (DataBrowserSettings == null)
@@ -78,6 +63,4 @@ public class TeleCoreSettings : ModSettings
         }
         */
     }
-    
-    internal static string DefaultAnimationDefLocation = Path.Combine(GenFilePaths.FolderUnderSaveData("Animations"), "Defs");
 }

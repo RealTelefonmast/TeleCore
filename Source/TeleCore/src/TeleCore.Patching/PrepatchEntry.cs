@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using Prepatcher;
 using Mono.Cecil;
@@ -17,28 +19,42 @@ public static class PrepatchEntry
     [UsedImplicitly]
     public static void Start(ModuleDefinition module)
     {
-        Log.Message("Assembly References: ");
-        foreach (var assRef in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            Log.Message(" - " + assRef.FullName);
-        }
-        
+        //TODO: Doorstep currently doesnt load referenced assemblies without Prepatcher attached
+
         try
         {
-            //var myType = typeof(TLog);
-            //Log.Message("Tlog: " + myType?.AssemblyQualifiedName);
-            var types = typeof(TelePatch).AllSubclassesNonAbstract();
-            if (types.Count > 0)
+            StartInt(module);
+        }
+        catch (Exception ex)
+        {
+            Log.Message($"TeleCore:Prepatching Failed: {ex}");
+        }
+    }
+
+    private static void CheckLoadMissingAssemblies()
+    {
+        List<string> desired = new List<string>();
+        foreach (var mcp in LoadedModManager.runningMods)
+        {
+            var telePatchFiles = ModContentPack.GetAllFilesForModPreserveOrder(mcp, "Assemblies/", e => e.ToLower() == ".tpf");
+            foreach (var file in telePatchFiles)
             {
-                foreach (var type in types)
-                {
-                    Log.Message("Patch: " + type.FullName);
-                }
+                Log.Message("Reading From: " + file); //Read text from file
+                var lines = File.ReadAllLines(file.Item2.FullName);
+                desired.AddRange(lines);
             }
         }
-        catch (Exception e)
+    }
+
+    private static void StartInt(ModuleDefinition module)
+    {
+        var types = typeof(TelePatch).AllSubclassesNonAbstract();
+        if (types.Count > 0)
         {
-            Log.Message("Prepatcher HATES ME: " + e);
+            foreach (var type in types)
+            {
+                Log.Message("Patch: " + type.FullName);
+            }
         }
     }
 }
