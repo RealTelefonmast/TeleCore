@@ -3,12 +3,11 @@ using Verse;
 
 namespace TeleCore;
 
-public class Window_Animator : Window
+public class DevTool_Animation : Window
 {
-    //
     internal AnimationWindowContainer content;
 
-    public Window_Animator()
+    public DevTool_Animation()
     {
         forcePause = true;
         doCloseX = false;

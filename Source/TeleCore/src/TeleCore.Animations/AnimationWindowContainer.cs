@@ -20,7 +20,7 @@ namespace TeleCore;
 //              [Texture.2]
 //      [Rot.2]
 //          [Animation.0]
-internal class AnimationWindowContainer : UIElement
+internal class AnimationWindowLayout : UIElement
 {
     private readonly TextureBrowser browser;
 
@@ -38,7 +38,7 @@ internal class AnimationWindowContainer : UIElement
     private bool keepProject;
     private readonly Window parentWindow;
 
-    public AnimationWindowContainer(Window parent, Rect rect, UIElementMode mode) : base(rect, mode)
+    public AnimationWindowLayout(Window parent, Rect rect, UIElementMode mode) : base(rect, mode)
     {
         //
         //bgColor = TColor.WindowBGFillColor;
@@ -63,7 +63,6 @@ internal class AnimationWindowContainer : UIElement
         browser.SetVisibility(UIElementState.Closed);
 
         dialogFileSaveLoading = new Dialog_AnimationFileList(canvas);
-
         //
         var buttonMenus = new List<TopBarButtonMenu>();
         //File

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>TeleCore.Animations</RootNamespace>
+        <RootNamespace>TeleCore</RootNamespace>
         <AssemblyName>TeleCore.Animations</AssemblyName>
     </PropertyGroup>
 </Project>

@@ -241,30 +241,38 @@ public static class DGUI
 {
     public static void DrawElement(Rect rect)
     {
-        var el = UIElementS.Begin(rect).Draw((rect1 =>
-        {
-            
-        }))
 
     }
 
     public static void DrawTopBar(Rect rect)
     {
         UIBase menuO1B1 = UIBase.New(rect);
+        UIBase menuO1B2 = UIBase.New(rect);
         
-        UIBase menuOption1 = UIBase.New(rect).Add(menuO1B1);
-        UIBase bar = UIBase.New(rect).Add(menuOption1);
-
+        
+        UIBase menuO2B1 = UIBase.New(rect);
+        UIBase menuO2B2 = UIBase.New(rect);
+        
+        UIBase menuOption1 = UIBase.New(rect).Add(menuO1B1).Add(menuO1B2);
+        UIBase menuOption2 = UIBase.New(rect).Add(menuO2B1).Add(menuO2B2);
+        UIBase bar = UIBase.New(rect).Add(menuOption1).Add(menuOption2);
 
         bar.Draw();
     }
 
     public static class Raw
     {
+        public static UIBase ComboBox<T>(Rect rect, ICollection<T> items, ref T selItem)
+        {
+            var ui = UIBase.New().OnMouseDown(() =>
+            {
+                
+            });
+        }
+        
         public static void DrawBox(Rect rect, Color fill, Color border)
         {
-            //TODO: Add style context using here
-            using GUIStyleContext ctx = Styles.BoxContext(fill, border);
+            using var ctx = Styles.BoxContext(fill, border);
             DrawBox(rect);
         }
         
@@ -277,23 +285,14 @@ public static class DGUI
 
     public static class Styles
     {
-        public static GUIStyle Box { get; } = new GUIStyle()
-        {
-            normal = new GUIStyleState()
-            {
-                background = DGUI.Properties.BackgroundColor
-            }
-        };
-
         public static GUIStyleContext BoxContext(Color fill, Color border)
         {
-            return new GUIStyleContext(StyleContextType.Box, Content.BoxBg);
+            return new GUIStyleContext(StyleContextType.Box, BoxStyleBGStore.GetBoxStyleBG(fill, border));
         }
     }
 
     public static class Content
     {
-        public static readonly Texture2D BoxBg = SolidColorMaterials.NewSolidColorTexture(Colors.BackgroundColor); //TODO: Load colorable box bg
     }
 
     public static class Colors
@@ -303,59 +302,43 @@ public static class DGUI
 
     internal static class BoxStyleBGStore
     {
-        
-        internal static readonly Dictionary<ColorPair, Texture2D> BoxStyleBG = new Dictionary<ColorPair, Texture2D>();
+        private static readonly Dictionary<ColorPair, Texture2D> BoxStyleBG = new Dictionary<ColorPair, Texture2D>();
 
         internal static Texture2D GetBoxStyleBG(Color fill, Color border)
         {
             if (BoxStyleBG.TryGetValue(new ColorPair(fill, border), out Texture2D texture)) return texture;
-            texture = GenerateBoxStyleBG(fill, border);
+            texture = GenerateBoxStyleBg(fill, border);
             BoxStyleBG.Add(new ColorPair(fill, border), texture);
             return texture;
         }
 
-        private static unsafe Texture2D GenerateBoxStyleBG(Color fill, Color border)
+        private static  Texture2D GenerateBoxStyleBg(Color fill, Color border)
         {
-            Span<Color> colors = stackalloc Color[9];
-            colors[0] = border;
-            colors[1] = border;
-            colors[2] = border;
-            colors[3] = border;
-            colors[4] = fill;
-            colors[5] = border;
-            colors[6] = border;
-            colors[7] = border;
-            colors[8] = border;
-            
             Texture2D texture = new Texture2D(3, 3);
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    texture.SetPixel(x, y, colors[x + y * 3]);
-                }
-            }
+            texture.SetPixel(0,0, border);
+            texture.SetPixel(1,0, border);
+            texture.SetPixel(2,0, border);
+            texture.SetPixel(0,1, border);
+            texture.SetPixel(1,1, fill);
+            texture.SetPixel(2,1, border);
+            texture.SetPixel(0,2, border);
+            texture.SetPixel(1,2, border);
+            texture.SetPixel(2,2, border);
             texture.Apply();
             return texture;
         }
         
-        public readonly struct ColorPair : IEquatable<ColorPair>
+        public readonly struct ColorPair(Color color1, Color color2) : IEquatable<ColorPair>
         {
-            public readonly Color Color1;
-            public readonly Color Color2;
-
-            public ColorPair(Color color1, Color color2)
-            {
-                Color1 = color1;
-                Color2 = color2;
-            }
+            private readonly Color _color1 = color1;
+            private readonly Color _color2 = color2;
 
             public bool Equals(ColorPair other)
             {
-                return Color1.Equals(other.Color1) && Color2.Equals(other.Color2);
+                return _color1.Equals(other._color1) && _color2.Equals(other._color2);
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 return obj is ColorPair other && Equals(other);
             }
@@ -364,7 +347,7 @@ public static class DGUI
             {
                 unchecked
                 {
-                    return (Color1.GetHashCode() * 397) ^ Color2.GetHashCode();
+                    return (_color1.GetHashCode() * 397) ^ _color2.GetHashCode();
                 }
             }
         }
