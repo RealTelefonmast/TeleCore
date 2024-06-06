@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Patching", "src\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.ECS", "src\TeleCore.ECS\TeleCore.ECS.csproj", "{8F0E5215-5A76-47AD-9641-7E299D83C5A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Animations", "src\TeleCore.Animations\TeleCore.Animations.csproj", "{D7D73778-A99F-464C-A117-90CF2B737ED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{8F0E5215-5A76-47AD-9641-7E299D83C5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F0E5215-5A76-47AD-9641-7E299D83C5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F0E5215-5A76-47AD-9641-7E299D83C5A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7D73778-A99F-464C-A117-90CF2B737ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D73778-A99F-464C-A117-90CF2B737ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D73778-A99F-464C-A117-90CF2B737ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D73778-A99F-464C-A117-90CF2B737ED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,5 +121,6 @@ Global
 		{B0ABF335-973C-4CC0-B6BD-80633473546D} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{D91B2D5B-A4BA-4AD7-A5A9-C8299E23EB77} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{8F0E5215-5A76-47AD-9641-7E299D83C5A7} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
+		{D7D73778-A99F-464C-A117-90CF2B737ED6} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 	EndGlobalSection
 EndGlobal

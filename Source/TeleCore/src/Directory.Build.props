@@ -36,10 +36,11 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Publicize Include="Assembly-CSharp;0Harmony" IncludeVirtualMembers="false" />
+        <Publicize Include="Assembly-CSharp" IncludeVirtualMembers="false" />
         <!-- Exclude Files That Cause Conflicts Here -->
         <!-- Example -->
-        <DoNotPublicize Include="0Harmony:System.Memory`1" />
+        <Publicize Include="0Harmony:Mono.Cecil.ModuleDefinition" />
+        
     </ItemGroup>
     
     
