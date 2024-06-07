@@ -25,7 +25,7 @@ public struct StyleChanges
     
 }
 
-public class GUIStyleContext : IDisposable
+public struct GUIStyleContext : IDisposable
 {
     private StyleContextType _context;
     private GUIStyle _style;

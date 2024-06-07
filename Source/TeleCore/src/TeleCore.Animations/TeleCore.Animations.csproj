@@ -5,4 +5,8 @@
         <RootNamespace>TeleCore</RootNamespace>
         <AssemblyName>TeleCore.Animations</AssemblyName>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TeleCore.Lib\TeleCore.Lib.csproj" />
+    </ItemGroup>
 </Project>
