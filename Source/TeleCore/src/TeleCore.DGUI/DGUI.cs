@@ -237,7 +237,7 @@ public struct UITopBar : IUIElement, IUIReferences<UIButtonMenu>
     }
 }
 
-public static class DGUI
+public static partial class DGUI
 {
     public static void DrawElement(Rect rect)
     {

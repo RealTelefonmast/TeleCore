@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Verse;
 
@@ -9,8 +10,13 @@ public static class TeleCoreStaticStartup
 {
     public static event Action? OnStartup;
 
+    internal static Stopwatch StopWatch { get; private set; }
+    
     static TeleCoreStaticStartup()
     {
+        StopWatch = new Stopwatch();
+        TLog.Message("TeleCore: Startup");
+        
         //Init Startup types
         foreach (var type in GenTypes.AllTypesWithAttribute<TeleCoreStartupClassAttribute>())
         {
@@ -24,8 +30,7 @@ public static class TeleCoreStaticStartup
             }
         }
         
-                
-        TLog.Message("TeleCore: Startup");
+        TLog.Message($"TeleCore: Loaded Modules {StopWatch.ElapsedMilliseconds}ms");
         
         //DefID Validator
         TeleStartUtils.DefIDValidation();
