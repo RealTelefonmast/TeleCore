@@ -492,6 +492,16 @@
                 </messages>
                 <updatedAt value="2024-06-10T08:09:25.0397967" />
               </chat>
+              <chat>
+                <internalId value="1963f49c-6b1e-46fb-b6ac-aa6942c61bb5" />
+                <llm>
+                  <llm>
+                    <model value="anthropic/claude-3-opus-20240229" />
+                    <provider value="Anthropic" />
+                    <title value="Claude 3 Opus" />
+                  </llm>
+                </llm>
+              </chat>
             </list>
           </chats>
           <defaultLlm>

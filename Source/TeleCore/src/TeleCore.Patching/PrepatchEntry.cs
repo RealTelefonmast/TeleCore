@@ -20,7 +20,6 @@ public static class PrepatchEntry
     public static void Start(ModuleDefinition module)
     {
         //TODO: Doorstep currently doesnt load referenced assemblies without Prepatcher attached
-
         try
         {
             StartInt(module);
