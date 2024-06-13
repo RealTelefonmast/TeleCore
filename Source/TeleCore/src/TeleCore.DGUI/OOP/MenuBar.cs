@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace TeleCore.DGUI.OOP;
@@ -75,12 +76,35 @@ public static class Implementation
 {
     public static MenuBar bar;
 
+    //IMGUI
+    private static bool _toggle1;
+    
+    private static List<string> _options1 = new List<string>(){"New", "Open", "Save", "Save As"};
+    
     static Implementation()
     {
+        var rect = new Rect(0,0,720,40);
         bar = new MenuBar();
         bar.RegisterButton("File");
         bar.RegisterButton("Edit");
         //Etc..
+        
+        //Direct IMGUI
+        GUI.Box(rect, GUIContent.none); //Draw menu bar background
+        //Get Button Rects
+        var button1 = new Rect(0,0,100,40).ContractedBy(2);
+        var button2 = new Rect(100,0,100,40).ContractedBy(2);
+        var button3 = new Rect(200,0,100,40).ContractedBy(2);
+        //Get Toggle States (from toggle buttons)
+        var toggle1 = GUI.Toggle(button1, _toggle1, GUIContent.none);
+        if (toggle1)
+        {
+            //Draw dropdown menu
+            foreach (var option in _options1)
+            {
+                
+            }
+        }
     }
     
     public static void DrawMenuBar()
