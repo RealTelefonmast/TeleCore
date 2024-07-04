@@ -5,5 +5,9 @@
         <RootNamespace>TeleCore.Loader</RootNamespace>
         <AssemblyName>TeleCore.Loader</AssemblyName>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TeleCore.Lib\TeleCore.Lib.csproj" />
+    </ItemGroup>
     
 </Project>

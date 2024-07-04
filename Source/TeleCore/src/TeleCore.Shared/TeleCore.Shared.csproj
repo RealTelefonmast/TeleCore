@@ -22,4 +22,8 @@
         <ProjectReference Include="..\TeleCore.Loader\TeleCore.Loader.csproj" />
     </ItemGroup>
     
+    <ItemGroup>
+      <Folder Include="RimWorldExtensions\" />
+    </ItemGroup>
+    
 </Project>

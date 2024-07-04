@@ -94,43 +94,4 @@ public static class StaticData
     {
         return Find.World.GetComponent<WorldComp_TeleCore>();
     }
-
-    #region Def ID
-
-    /// <summary>
-    ///    Returns the unique Def instance of the provided ID.
-    /// </summary>
-    /// <param name="id">The ID of the Def.</param>
-    /// <typeparam name="TDef">The Def type to search through.</typeparam>
-    /// <returns>A unique Def instance as identified by the id.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TDef ToDef<TDef>(this int id)
-        where TDef : Def
-    {
-        return DefIDStack.ToDef<TDef>(id);
-        if (id > DefDatabase<TDef>.AllDefsListForReading.Count)
-        {
-            TLog.Warning(
-                $"Trying to access ID: {id} of {typeof(TDef)} with database of {DefDatabase<TDef>.AllDefsListForReading.Count} | {DefDatabase<FlowValueDef>.AllDefsListForReading.Count}");
-            return null;
-        }
-
-        return DefDatabase<TDef>.AllDefsListForReading[id]; //DefIDStack<TDef>.GetDef(id);
-    }
-
-    /// <summary>
-    ///     Returns the unique ID of the provided Def instance.
-    ///     <para>Can be used to handle Defs in a more lightweight way without assigning references to their instance.</para>
-    /// </summary>
-    /// <param name="def">The Def instance.</param>
-    /// <typeparam name="TDef">The Def type to assign the ID from.</typeparam>
-    /// <returns>A unique ID for the Def instance of the given Def type.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int ToID<TDef>(this TDef def)
-        where TDef : Def
-    {
-        return DefIDStack.ToID(def); // def.index; //DefIDStack<TDef>.GetID(def);
-    }
-
-    #endregion
 }

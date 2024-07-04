@@ -1,4 +1,5 @@
 ﻿using System;
+using TeleCore.Events.Args;
 using TeleCore.FlowCore;
 using TeleCore.Loader;
 using TeleCore.Shared;
@@ -122,23 +123,6 @@ public static partial class GlobalEventHandler
             CachingRegionStateInfoRoomUpdate = null;
             ResettingRegionStateInfoRoomUpdate = null;
             GettingRegionStateInfoRoomUpdate = null;
-        }
-    }
-
-    public static class NetworkEvents<T> where T : FlowValueDef
-    {
-        public static event NetworkVolumeStateChangedEvent<T> NetworkVolumeStateChanged;
-
-        internal static void OnVolumeStateChange(FlowVolumeBase<T> flowVolume, VolumeChangedEventArgs<T>.ChangedAction action)
-        {
-            try
-            {
-                NetworkVolumeStateChanged?.Invoke(new VolumeChangedEventArgs<T>(action, flowVolume));
-            }
-            catch (Exception ex)
-            {
-                TLog.Error($"Error trying to register volume change: {flowVolume}\n{ex.Message}\n{ex.StackTrace}");
-            }
         }
     }
 

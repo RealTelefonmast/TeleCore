@@ -39,4 +39,4 @@ using TeleCore.Loader;
 [assembly: TeleIdentifier()]
 [assembly: InternalsVisibleTo("TeleCore")]
 [assembly: InternalsVisibleTo("TeleCore.Loader")]
-[assembly: InternalsVisibleTo("TeleCore.PipeNetwork")]
+[assembly: InternalsVisibleTo("TeleCore.FlowCore")]

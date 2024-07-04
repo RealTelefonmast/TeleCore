@@ -30,6 +30,16 @@ public readonly struct DefID<TDef> where TDef : Def
     public static implicit operator int(DefID<TDef> defID) => defID.ID;
     public static implicit operator TDef(DefID<TDef> defID) => defID.Def;
 
+    public static TDef ToDef(int id)
+    {
+        return DefIDStack.ToDef<TDef>(id);
+    }
+
+    public static int ToID(TDef def)
+    {
+        return DefIDStack.ToID(def);
+    }
+    
     public override string ToString()
     {
         return $"[{typeof(TDef)}:{ID}]";

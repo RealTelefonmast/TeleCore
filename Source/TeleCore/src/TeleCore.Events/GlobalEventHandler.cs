@@ -6,7 +6,7 @@ using Verse;
 
 namespace TeleCore.Events;
 
-public static class GlobalEventHandler
+public static partial class GlobalEventHandler
 {
     public static class Things
     {

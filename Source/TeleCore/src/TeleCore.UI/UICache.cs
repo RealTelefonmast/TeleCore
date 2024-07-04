@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TeleCore.Loader;
 
-namespace TeleCore.UI;
+namespace TeleCore.TeleUI;
 
 internal static class UICache
 {

@@ -1,10 +1,9 @@
 ﻿using System;
-using LudeonTK;
 using Unity.Mathematics;
 using UnityEngine;
 using Verse;
 
-namespace TeleCore.UI;
+namespace TeleCore.TeleUI;
 
 [Flags]
 public enum BorderType : byte

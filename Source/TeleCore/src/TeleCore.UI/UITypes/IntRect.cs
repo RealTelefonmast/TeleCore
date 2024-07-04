@@ -1,7 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 
-namespace TeleCore.UI.UITypes;
+namespace TeleCore.TeleUI.UITypes;
 
 /// <summary>
 /// This Rect helps use UI by-pixel and avoid weird unrounded artifacts.

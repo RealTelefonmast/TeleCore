@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
+using TeleCore.Lib;
 using TeleCore.Shared;
 using Verse;
 

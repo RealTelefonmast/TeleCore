@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using Verse;
 
-namespace TeleCore.UI;
+namespace TeleCore.TeleUI;
 
 public class GUIFocus : IDisposable
 {

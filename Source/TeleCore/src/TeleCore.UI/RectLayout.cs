@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TeleCore.UI;
+namespace TeleCore.TeleUI;
 
 public struct RectLayout
 {

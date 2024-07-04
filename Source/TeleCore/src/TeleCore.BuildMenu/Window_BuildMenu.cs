@@ -5,7 +5,7 @@ using RimWorld;
 using TeleCore.Loader;
 using TeleCore.Shared;
 using TeleCore.Shared.RimWorldExtensions;
-using TeleCore.UI;
+using TeleCore.TeleUI;
 using UnityEngine;
 using Verse;
 

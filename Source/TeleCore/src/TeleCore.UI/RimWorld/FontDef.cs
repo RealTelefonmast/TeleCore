@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Verse;
 
-namespace TeleCore.UI;
+namespace TeleCore.TeleUI;
 
 public class FontDef : Def
 {

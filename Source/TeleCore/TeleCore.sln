@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjBuilder", "scripts\Proj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Events", "src\TeleCore.Events\TeleCore.Events.csproj", "{26736E3E-A2DB-4ADC-B7EC-1F79B9BB4318}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.PipeNetwork", "src\TeleCore.PipeNetwork\TeleCore.PipeNetwork.csproj", "{0196FE2E-C5CF-4FC9-A6F4-F0CF5DF8D8DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.FlowCore", "src\TeleCore.FlowCore\TeleCore.FlowCore.csproj", "{0196FE2E-C5CF-4FC9-A6F4-F0CF5DF8D8DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Shared", "src\TeleCore.Shared\TeleCore.Shared.csproj", "{E6A7FE34-6C55-4135-916E-617181C5A3D3}"
 EndProject
@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.RWDevTools", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.UI", "src\TeleCore.UI\TeleCore.UI.csproj", "{00C0D1EF-53D4-4BBC-873E-0FB28A0660C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.RWExtensions", "src\TeleCore.RWExtensions\TeleCore.RWExtensions.csproj", "{C2677CEE-7FE2-452A-9688-61385906FA05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.RWLib", "src\TeleCore.RWLib\TeleCore.RWLib.csproj", "{C2677CEE-7FE2-452A-9688-61385906FA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.BuildMenu", "src\TeleCore.BuildMenu\TeleCore.BuildMenu.csproj", "{B0ABF335-973C-4CC0-B6BD-80633473546D}"
 EndProject
@@ -43,6 +43,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Unsafe", "TeleCore.Unsafe\TeleCore.Unsafe.csproj", "{D62CF361-9A8A-43FA-9708-2F74CABEF95F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Lib", "src\TeleCore.Lib\TeleCore.Lib.csproj", "{96D66DB4-5A5F-40FB-8536-217190228296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleCore.Update", "src\TeleCore.Update\TeleCore.Update.csproj", "{F5D52972-E28B-4B53-9AFF-C446678E0E5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,10 @@ Global
 		{96D66DB4-5A5F-40FB-8536-217190228296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96D66DB4-5A5F-40FB-8536-217190228296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96D66DB4-5A5F-40FB-8536-217190228296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D52972-E28B-4B53-9AFF-C446678E0E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D52972-E28B-4B53-9AFF-C446678E0E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D52972-E28B-4B53-9AFF-C446678E0E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D52972-E28B-4B53-9AFF-C446678E0E5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,5 +148,6 @@ Global
 		{D7D73778-A99F-464C-A117-90CF2B737ED6} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{1B708688-B3BD-4135-9221-BE884DDE13D7} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 		{96D66DB4-5A5F-40FB-8536-217190228296} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
+		{F5D52972-E28B-4B53-9AFF-C446678E0E5E} = {6C4E35E1-5AEE-4949-8ADE-6D00B7270D5A}
 	EndGlobalSection
 EndGlobal

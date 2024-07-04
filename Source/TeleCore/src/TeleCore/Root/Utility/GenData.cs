@@ -55,23 +55,6 @@ public static class GenData
         return false;
     }
 
-    public static bool IsAnonymousType(this Type type, out bool isDisplayClass)
-    {
-        if (type == null)
-            throw new ArgumentNullException(nameof(type));
-
-        var hasCompilerGeneratedAttribute = Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false);
-        //bool isGeneric = type.IsGenericType;
-        var hasCompilerStrings = type.Name.StartsWith("<>") || type.Name.StartsWith("VB$");
-        var hasFlags = type.Attributes.HasFlag(TypeAttributes.NotPublic);
-
-        TLog.Debug(
-            $"{hasCompilerGeneratedAttribute} && {hasCompilerStrings} && {hasFlags} || {type.Name.Contains("DisplayClass")} | {type.IsGenericType}");
-        isDisplayClass = type.Name.Contains("DisplayClass");
-        ;
-        return hasCompilerGeneratedAttribute && hasCompilerStrings && hasFlags;
-    }
-
     /// <summary>
     ///     Defines whether a structure is powered by electricity and returns whether it actually uses power.
     /// </summary>

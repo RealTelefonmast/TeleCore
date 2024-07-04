@@ -1,4 +1,4 @@
-﻿namespace TeleCore.UI;
+﻿namespace TeleCore.TeleUI;
 
 public static class UIStyles
 {

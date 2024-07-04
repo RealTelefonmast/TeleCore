@@ -3,6 +3,7 @@ using System.Text;
 using RimWorld;
 using TeleCore.Generics.Container;
 using TeleCore.Network;
+using TeleCore.Types;
 using UnityEngine;
 using Verse;
 

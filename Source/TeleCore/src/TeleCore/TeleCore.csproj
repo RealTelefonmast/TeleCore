@@ -110,5 +110,9 @@
       <ProjectReference Include="..\TeleCore.Events\TeleCore.Events.csproj" />
       <ProjectReference Include="..\TeleCore.Shared\TeleCore.Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Root\Systems\PipeNetwork\" />
+    </ItemGroup>
     
 </Project>

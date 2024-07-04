@@ -2,6 +2,7 @@
 using TeleCore.Generics.Container;
 using TeleCore.Network;
 using TeleCore.Network.Flow;
+using TeleCore.Types;
 using Verse;
 using Verse.AI;
 

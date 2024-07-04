@@ -346,7 +346,7 @@ public static class TWidgets
         GUI.color = oldColor;
     }
 
-    //Texturea/Materials
+    //Textures/Materials
     public static void DrawRotatedMaterial(Rect rect, Vector2 pivot, float angle, Material material,
         Rect texCoords = default)
     {

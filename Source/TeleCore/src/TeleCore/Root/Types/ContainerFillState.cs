@@ -1,4 +1,4 @@
-﻿namespace TeleCore.Generics.Container;
+﻿namespace TeleCore.Types;
 
 public enum ContainerFillState
 {

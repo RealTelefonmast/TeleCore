@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using TeleCore.Lib.Factories;
 using Verse;
 
 namespace TeleCore.Loader;
@@ -22,14 +23,15 @@ internal static class TeleStartUtils
         {
             try
             {
-                var defDataBase_OfDef = defDataBase.MakeGenericType(defType);
-                var genericList = typeof(List<>).MakeGenericType(defType);
+                var defTypeParams = TempParams<Type>.Get(defType);
+                var defDataBase_OfDef = defDataBase.MakeGenericType(defTypeParams);
+                var genericList = typeof(List<>).MakeGenericType(defTypeParams);
                 var defDataBase_AllDefsListForReading = defDataBase_OfDef.GetProperty("AllDefsListForReading", BindingFlags.Static | BindingFlags.Public);
                 //var genericList_Count = genericList.GetProperty("Count");
 
-                var toIDMethod = is_ToID.MakeGenericMethod(defType);
-                var toDefMethod = is_ToDef.MakeGenericMethod(defType);
-                var registerNewMethod = is_RegisterNew.MakeGenericMethod(defType);
+                var toIDMethod = is_ToID.MakeGenericMethod(defTypeParams);
+                var toDefMethod = is_ToDef.MakeGenericMethod(defTypeParams);
+                var registerNewMethod = is_RegisterNew.MakeGenericMethod(defTypeParams);
 
                 var invokedData = defDataBase_AllDefsListForReading.GetValue(null, null);
                 if (invokedData is not IEnumerable data) continue;
@@ -37,12 +39,14 @@ internal static class TeleStartUtils
                 {   
                     try
                     {
-                        registerNewMethod.Invoke(null, [defObject]);
-                        var defID = (int)toIDMethod.Invoke(null, [defObject]);
-                        var defObjectFromID = toDefMethod.Invoke(null, [defID]);
+                        var defObjectParam = TempParams<object>.Get(defObject);
+                        registerNewMethod.Invoke(null, defObjectParam);
+                        var defID = (int)toIDMethod.Invoke(null, defObjectParam);
+                        // ReSharper disable once HeapView.BoxingAllocation
+                        var defObjectFromID = toDefMethod.Invoke(null, TempParams<object>.Get(defID));
                         if (defObject != defObjectFromID)
                         {
-                            var subDefID = (int)toIDMethod.Invoke(null, [defObjectFromID]);
+                            var subDefID = (int)toIDMethod.Invoke(null, TempParams<object>.Get(defObjectFromID));
                             TLog.Warning($"Checking {defObject} failed: ({defObject}){defID} != ({defObjectFromID}){subDefID}");
                         }
                     }
