@@ -6,8 +6,15 @@ using Verse;
 
 namespace TeleCore.Events;
 
+[StaticConstructorOnStartup]
 public static partial class GlobalEventHandler
 {
+    static GlobalEventHandler()
+    {
+        StaticEventHandler.ClearData += Things.Clear;
+        StaticEventHandler.ClearData += Pawns.Clear;
+    }
+    
     public static class Things
     {
         public static event ThingDiscardedEvent? Discarded;

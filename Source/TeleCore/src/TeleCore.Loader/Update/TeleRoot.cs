@@ -37,6 +37,6 @@ public class TeleRoot : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        StaticEventHandler.ApplicationQuitEvent.Invoke();
+        StaticEventHandler.OnApplicationQuit();
     }
 }

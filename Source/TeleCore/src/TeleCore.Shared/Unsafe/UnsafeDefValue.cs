@@ -21,5 +21,5 @@ public unsafe struct UnsafeDefValue<TDef, TValue>
         _value = value;
     }
 
-    public TDef Def => new DefID<TDef>().Def;
+    public TDef Def => new DefID<TDef>(defID).Def;
 }

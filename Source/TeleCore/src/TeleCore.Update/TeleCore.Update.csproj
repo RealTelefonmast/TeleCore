@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TeleCore.Loader\TeleCore.Loader.csproj" />
+        <ProjectReference Include="..\TeleCore.AssetLoader\TeleCore.AssetLoader.csproj" />
     </ItemGroup>
 
 </Project>

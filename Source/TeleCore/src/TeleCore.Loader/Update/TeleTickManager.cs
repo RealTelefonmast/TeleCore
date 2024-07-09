@@ -5,6 +5,11 @@ using Verse;
 
 namespace TeleCore;
 
+//Tick systems:
+//-tickmanager (like RW)
+//-tick with params (receives tickrate for data multiplication, instead of ticking multiple times per frame)
+//-tick job, ECS based, using Unity Job-System
+
 public class TeleTickManager
 {
     private const float _FPSLimiter = 45.4545441f;
