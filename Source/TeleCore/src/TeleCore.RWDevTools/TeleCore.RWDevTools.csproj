@@ -6,4 +6,8 @@
         <AssemblyName>TeleCore.RWDevTools</AssemblyName>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TeleCore.Shared\TeleCore.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

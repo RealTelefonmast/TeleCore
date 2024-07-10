@@ -15,7 +15,7 @@ public static class TeleCoreStaticStartup
     static TeleCoreStaticStartup()
     {
         StopWatch = new Stopwatch();
-        TLog.Message("TeleCore: Startup");
+        TLog.Message("Startup Init...");
         
         //Init Startup types
         foreach (var type in GenTypes.AllTypesWithAttribute<TeleCoreStartupClassAttribute>())
@@ -37,6 +37,21 @@ public static class TeleCoreStaticStartup
         TeleStartUtils.ExecuteDefInjectors();
         
         OnStartup?.Invoke();   
+        
+        //MP Hook
+        TLog.Message("Multiplayer: Outdated.");
+        //TLog.Message($"Multiplayer: {(MP.enabled ? "Enabled - Adding MP hooks..." : "Disabled")}");
+        // if (MP.enabled)
+        // {
+        //     try
+        //     {
+        //         MP.RegisterAll();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         TLog.Error($"Failed to register MP hooks: {ex.Message}");
+        //     }
+        // }
     }
     
 }

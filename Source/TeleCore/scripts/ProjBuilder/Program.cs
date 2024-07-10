@@ -2,6 +2,7 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using TeleCore.Lib;
 using TeleCore.Lib.Utils;
 
 [Flags]
@@ -41,16 +42,23 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        TestEnum testEnum = TestEnum.A | TestEnum.B;
-        TestEnum2 testEnum2 = TestEnum2.A | TestEnum2.B;
-        TestEnum3 testEnum3 = TestEnum3.A | TestEnum3.B;
-
-        var test1 = EnumUtils.HasFlag(TestEnum.A | TestEnum.B, TestEnum.B);
-        var test11 = EnumUtils.HasFlag(TestEnum.A | TestEnum.B, TestEnum.C);
-        var test2 = EnumUtils.HasFlag(TestEnum2.A | TestEnum2.E, TestEnum2.E);
-        var test22 = EnumUtils.HasFlag(TestEnum2.A | TestEnum2.E, TestEnum2.F);
-        var test3 = EnumUtils.HasFlag(TestEnum3.C | TestEnum3.K, TestEnum3.K);
-        var test33 = EnumUtils.HasFlag(TestEnum3.C | TestEnum3.K, TestEnum3.A);
+        // DHBGraph graph = new DHBGraph();
+        // graph.AddVertex(1);
+        // graph.AddEdge(2,1);
+        // graph.AddEdge(5,1);
+        // graph.AddEdge(6,1);
+        // graph.AddEdge(8,2);
+        var num0 = MathT.NextPowerOfTwo(5);
+        var num1 = MathT.NextPowerOfTwo(12);
+        var num2 = MathT.NextPowerOfTwo(20);
+        var num3 = MathT.NextPowerOfTwo(28);
+        var num4 = MathT.NextPowerOfTwo(48);
+        var num5 = MathT.NextPowerOfTwo(100);
+        var q = 1 + 0.04;
+        var sum = 120000;
+        var n = 6;
+        Console.WriteLine("" + sum * ((Math.Pow(q, n)*(q-1))/(Math.Pow(q,n)-1)));
+        Console.ReadKey();
     }
 }
 

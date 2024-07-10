@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TeleCore.Shared;
 using UnityEngine;
 using Verse;
 
@@ -30,7 +31,7 @@ public class Dialog_ToolSelection : Window
         var titleRect = inRect.TopPart(0.05f);
         var selectionRect = inRect.BottomPart(.95f);
         Text.Font = GameFont.Medium;
-        Widgets.Label(titleRect, StringCache.ToolSelection);
+        Widgets.Label(titleRect, RWStringCache.ToolSelection);
         Text.Font = default;
 
         Widgets.BeginGroup(selectionRect);
